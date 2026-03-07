@@ -854,14 +854,14 @@
       </p>
     </div>
     <div>
-      <form class="waitlist-form" onsubmit="handleSubmit(event)">
+      <form class="waitlist-form" action="https://formspree.io/f/REPLACE_WITH_YOUR_ID" method="POST">
         <div class="form-row">
-          <input class="form-input" type="text" placeholder="First name" required />
-          <input class="form-input" type="text" placeholder="Last name" required />
+          <input class="form-input" type="text" name="first_name" placeholder="First name" required />
+          <input class="form-input" type="text" name="last_name" placeholder="Last name" required />
         </div>
-        <input class="form-input" type="email" placeholder="Work email" required />
-        <input class="form-input" type="text" placeholder="Organization name" required />
-        <select class="form-select" required>
+        <input class="form-input" type="email" name="email" placeholder="Work email" required />
+        <input class="form-input" type="text" name="organization" placeholder="Organization name" required />
+        <select class="form-select" name="provider_type" required>
           <option value="" disabled selected>Provider type</option>
           <option>Youth / Community Outdoor Organization</option>
           <option>Commercial Guiding Company</option>
@@ -870,8 +870,6 @@
           <option>Backcountry Skiing</option>
           <option>Trekking & Expedition</option>
           <option>University / School Outdoor Program</option>
-          <option>Multi-sport / Hybrid</option>
-          <option>Resort / Ski Area</option>
           <option>Other</option>
         </select>
         <button class="form-submit" type="submit">Request Access</button>
@@ -903,11 +901,7 @@
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
   /* ── FORM SUBMIT ─────────────────────────────────────────── */
-  function handleSubmit(e) {
-    e.preventDefault();
-    e.target.style.display = 'none';
-    document.getElementById('success-msg').style.display = 'block';
-  }
+
 </script>
 </body>
 </html>
