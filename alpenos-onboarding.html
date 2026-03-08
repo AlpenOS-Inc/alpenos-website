@@ -76,7 +76,7 @@
   .sidebar-note p { font-size: 0.68rem; color: var(--mid); line-height: 1.6; }
   .sidebar-note strong { color: var(--stone); font-weight: 600; }
 
-  .content { padding: 48px 64px; max-width: 740px; }
+  .content { padding: 48px 64px; max-width: 760px; }
 
   .progress-wrap { margin-bottom: 48px; }
   .progress-track { height: 2px; background: var(--border); }
@@ -88,7 +88,7 @@
   .step-header { margin-bottom: 36px; }
   .step-tag { font-family: 'Space Mono', monospace; font-size: 0.55rem; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 10px; display: block; }
   .step-title { font-size: 2rem; font-weight: 800; line-height: 1.05; color: var(--offwhite); margin-bottom: 10px; letter-spacing: -0.03em; }
-  .step-desc { font-size: 0.85rem; color: var(--mid); line-height: 1.7; max-width: 500px; }
+  .step-desc { font-size: 0.85rem; color: var(--mid); line-height: 1.7; max-width: 520px; }
 
   .gate-screen { display: flex; flex-direction: column; justify-content: center; min-height: 55vh; }
   .gate-screen .step-title { font-size: 2.2rem; }
@@ -124,6 +124,19 @@
   .highlight-field textarea { border-color: rgba(222,176,198,0.2); background: transparent; }
   .highlight-field textarea:focus { border-color: var(--accent); }
 
+  /* V1 FLAG */
+  .v1-flag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.48rem;
+    color: var(--mid);
+    border: 1px solid var(--border);
+    padding: 2px 6px;
+    letter-spacing: 0.1em;
+    vertical-align: middle;
+    margin-left: 8px;
+  }
+
   .chip-grid { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
   .chip { display: flex; align-items: center; gap: 8px; padding: 7px 13px; border: 1px solid var(--border); background: var(--input-bg); cursor: pointer; transition: all 0.15s; font-size: 0.76rem; color: var(--stone); user-select: none; }
   .chip:hover { border-color: var(--accent); color: var(--offwhite); }
@@ -154,7 +167,7 @@
 
   .review-block { border: 1px solid var(--border); padding: 20px; margin-bottom: 12px; background: var(--panel); }
   .review-block-title { font-family: 'Space Mono', monospace; font-size: 0.55rem; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 12px; }
-  .review-grid { display: grid; grid-template-columns: 130px 1fr; gap: 6px 14px; font-size: 0.78rem; }
+  .review-grid { display: grid; grid-template-columns: 140px 1fr; gap: 6px 14px; font-size: 0.78rem; }
   .review-key { font-family: 'Space Mono', monospace; font-size: 0.55rem; color: var(--mid); padding-top: 1px; }
   .review-val { color: var(--stone); line-height: 1.5; }
   .review-val.hi { color: var(--offwhite); font-weight: 600; }
@@ -202,7 +215,7 @@
     <ul class="step-list" id="stepList">
       <li class="step-item" data-step="0"><span class="step-num">00</span><div><div class="step-name">Access</div><div class="step-sub">Gate</div></div></li>
       <li class="step-item" data-step="1"><span class="step-num">01</span><div><div class="step-name">Organization Profile</div><div class="step-sub">→ PARTNER / ORG</div><div class="step-est">~6 min</div></div></li>
-      <li class="step-item" data-step="2"><span class="step-num">02</span><div><div class="step-name">Locations & Routes</div><div class="step-sub">→ LOCATIONS / ROUTES</div><div class="step-est">~5 min</div></div></li>
+      <li class="step-item" data-step="2"><span class="step-num">02</span><div><div class="step-name">Locations & Venues</div><div class="step-sub">→ LOCATIONS / ROUTES</div><div class="step-est">~5 min</div></div></li>
       <li class="step-item" data-step="3"><span class="step-num">03</span><div><div class="step-name">Op Types</div><div class="step-sub">→ OP_TEMPLATES</div><div class="step-est">~4 min</div></div></li>
       <li class="step-item" data-step="4"><span class="step-num">04</span><div><div class="step-name">Risk & Library</div><div class="step-sub">→ TRIGGERS / LIBRARY / GEAR</div><div class="step-est">~4 min</div></div></li>
       <li class="step-item" data-step="5"><span class="step-num">05</span><div><div class="step-name">Review & Submit</div><div class="step-sub">→ Staging Queue</div><div class="step-est">~1 min</div></div></li>
@@ -221,7 +234,7 @@
       </div>
     </div>
 
-    <!-- STEP 0 -->
+    <!-- ═══════════════════════════ STEP 0 ═══════════════════════════ -->
     <div id="step-0" class="gate-screen">
       <div class="step-header">
         <span class="step-tag">// Access Required</span>
@@ -238,12 +251,12 @@
       </div>
     </div>
 
-    <!-- STEP 1 -->
+    <!-- ═══════════════════════════ STEP 1 ═══════════════════════════ -->
     <div id="step-1" class="hidden">
       <div class="step-header">
         <span class="step-tag">// Step 01 — PARTNER / ORG</span>
         <h1 class="step-title">Organization<br>Profile</h1>
-        <p class="step-desc">Identity, contact record, and operational context. This becomes the root node for your entire AlpenOS environment.</p>
+        <p class="step-desc">Identity, contact record, and operational context. This becomes the root node for your entire AlpenOS environment — every op, staff record, and participant routes through this PartnerID.</p>
       </div>
 
       <div class="highlight-field">
@@ -264,14 +277,14 @@
           <input type="text" id="orgDBA" placeholder="Summit OE">
         </div>
       </div>
+
       <div class="field-group">
         <label>Organization Type <span class="req">*</span></label>
         <div class="chip-grid">
           <label class="chip"><input type="radio" name="orgType" value="Youth / Community Org"><span class="chip-dot"></span>Youth / Community Org</label>
           <label class="chip"><input type="radio" name="orgType" value="Commercial Guiding"><span class="chip-dot"></span>Commercial Guiding</label>
-          <label class="chip"><input type="radio" name="orgType" value="Alpine / Mountaineering"><span class="chip-dot"></span>Alpine / Mountaineering</label>
           <label class="chip"><input type="radio" name="orgType" value="University / School"><span class="chip-dot"></span>University / School</label>
-          <label class="chip"><input type="radio" name="orgType" value="Multi-sport / Hybrid"><span class="chip-dot"></span>Multi-sport / Hybrid</label>
+          <label class="chip"><input type="radio" name="orgType" value="Outdoor Camp (Day &amp; Overnight)"><span class="chip-dot"></span>Outdoor Camp</label>
           <label class="chip"><input type="radio" name="orgType" value="Other"><span class="chip-dot"></span>Other</label>
         </div>
       </div>
@@ -305,6 +318,10 @@
       <div class="section-label">// Operational Context</div>
       <div class="field-row">
         <div class="field-group">
+          <label>Organization Phone</label>
+          <input type="tel" id="orgPhone" placeholder="(720) 555-0100">
+        </div>
+        <div class="field-group">
           <label>Primary State of Operations <span class="req">*</span></label>
           <select id="opState">
             <option value="">— Select —</option>
@@ -314,9 +331,25 @@
             <option>New Mexico</option><option>Arizona</option><option>Other</option>
           </select>
         </div>
+      </div>
+      <div class="field-row">
         <div class="field-group">
-          <label>Years in Operation</label>
-          <input type="number" id="yearsOp" placeholder="7" min="0">
+          <label>Geographic Scope</label>
+          <div class="chip-grid" style="margin-top:6px;">
+            <label class="chip"><input type="radio" name="geoScope" value="Local"><span class="chip-dot"></span>Local</label>
+            <label class="chip"><input type="radio" name="geoScope" value="Regional"><span class="chip-dot"></span>Regional</label>
+            <label class="chip"><input type="radio" name="geoScope" value="Multi-state"><span class="chip-dot"></span>Multi-state</label>
+            <label class="chip"><input type="radio" name="geoScope" value="National"><span class="chip-dot"></span>National</label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Annual Participant Volume</label>
+          <div class="chip-grid" style="margin-top:6px;">
+            <label class="chip"><input type="radio" name="paxVolume" value="Under 50"><span class="chip-dot"></span>Under 50</label>
+            <label class="chip"><input type="radio" name="paxVolume" value="50–200"><span class="chip-dot"></span>50–200</label>
+            <label class="chip"><input type="radio" name="paxVolume" value="200–500"><span class="chip-dot"></span>200–500</label>
+            <label class="chip"><input type="radio" name="paxVolume" value="500+"><span class="chip-dot"></span>500+</label>
+          </div>
         </div>
       </div>
       <div class="field-group">
@@ -333,37 +366,41 @@
       </div>
       <div class="field-row">
         <div class="field-group">
+          <label>Years in Operation</label>
+          <input type="number" id="yearsOp" placeholder="7" min="0">
+        </div>
+        <div class="field-group">
           <label>Primary Insurer</label>
           <input type="text" id="insurer" placeholder="Outdoor Umbrella Group">
         </div>
-        <div class="field-group">
-          <label>Website</label>
-          <input type="url" id="orgWebsite" placeholder="https://summitoe.org">
-        </div>
+      </div>
+      <div class="field-group">
+        <label>Website</label>
+        <input type="url" id="orgWebsite" placeholder="https://summitoe.org">
       </div>
 
       <div class="nav-buttons">
-        <button class="btn-primary" onclick="goToStep(2)">Next: Locations & Routes →</button>
+        <button class="btn-primary" onclick="goToStep(2)">Next: Locations & Venues →</button>
         <span class="step-counter">01 / 05</span>
       </div>
     </div>
 
-    <!-- STEP 2 -->
+    <!-- ═══════════════════════════ STEP 2 ═══════════════════════════ -->
     <div id="step-2" class="hidden">
       <div class="step-header">
         <span class="step-tag">// Step 02 — LOCATIONS / ROUTES</span>
-        <h1 class="step-title">Locations &<br>Routes</h1>
-        <p class="step-desc">Primary operating areas and named route library. These populate the Location dropdown on every Op and seed your offline-cached Area Guide.</p>
+        <h1 class="step-title">Locations &<br>Venues</h1>
+        <p class="step-desc">Primary operating areas, venues, and activity routes. These populate the Location dropdown on every Op and seed your offline-cached Area Guide. <span class="v1-flag">V1 — full terrain/venue schema split</span></p>
       </div>
 
-      <div class="section-label">// Operating Areas & Trailheads</div>
+      <div class="section-label">// Operating Areas, Trailheads & Venues</div>
       <div id="locationsContainer"></div>
-      <button class="btn-add" onclick="addLocation()">+ Add Operating Area</button>
+      <button class="btn-add" onclick="addLocation()">+ Add Location / Venue</button>
 
       <hr class="section-divider">
-      <div class="section-label">// Named Routes</div>
+      <div class="section-label">// Routes & Activity Areas</div>
       <div id="routesContainer"></div>
-      <button class="btn-add" onclick="addRoute()">+ Add Named Route</button>
+      <button class="btn-add" onclick="addRoute()">+ Add Route / Activity Area</button>
 
       <hr class="section-divider">
       <div class="section-label">// Land Management</div>
@@ -376,11 +413,13 @@
           <label class="chip"><input type="checkbox" name="lma" value="State Parks"><span class="chip-dot"></span>State Parks</label>
           <label class="chip"><input type="checkbox" name="lma" value="Private Land"><span class="chip-dot"></span>Private Land</label>
           <label class="chip"><input type="checkbox" name="lma" value="Municipality"><span class="chip-dot"></span>Municipality</label>
+          <label class="chip"><input type="checkbox" name="lma" value="Private Venue / Facility"><span class="chip-dot"></span>Private Venue / Facility</label>
+          <label class="chip"><input type="checkbox" name="lma" value="N/A"><span class="chip-dot"></span>N/A</label>
         </div>
       </div>
       <div class="field-group">
-        <label>Active Permit Numbers / Names</label>
-        <textarea id="permitNotes" placeholder="e.g. USFS Permit #CO-123, BLM SRP 2024..."></textarea>
+        <label>Active Permit Numbers / Partner Agreements</label>
+        <textarea id="permitNotes" placeholder="e.g. USFS Permit #CO-123, BLM SRP 2024, Ranch Operating Agreement..."></textarea>
       </div>
 
       <div class="nav-buttons">
@@ -390,7 +429,7 @@
       </div>
     </div>
 
-    <!-- STEP 3 -->
+    <!-- ═══════════════════════════ STEP 3 ═══════════════════════════ -->
     <div id="step-3" class="hidden">
       <div class="step-header">
         <span class="step-tag">// Step 03 — OP_TEMPLATES</span>
@@ -408,6 +447,8 @@
         <label class="chip"><input type="checkbox" name="opType" value="River / Whitewater"><span class="chip-dot"></span>River / Whitewater</label>
         <label class="chip"><input type="checkbox" name="opType" value="Avalanche Clinic"><span class="chip-dot"></span>Avalanche Clinic</label>
         <label class="chip"><input type="checkbox" name="opType" value="Trail Running"><span class="chip-dot"></span>Trail Running</label>
+        <label class="chip"><input type="checkbox" name="opType" value="Equestrian / Ranch"><span class="chip-dot"></span>Equestrian / Ranch</label>
+        <label class="chip"><input type="checkbox" name="opType" value="Aquatic / Waterpark"><span class="chip-dot"></span>Aquatic / Waterpark</label>
         <label class="chip"><input type="checkbox" name="opType" value="Urban / Transit Leg"><span class="chip-dot"></span>Urban / Transit Leg</label>
         <label class="chip"><input type="checkbox" name="opType" value="Other"><span class="chip-dot"></span>Other</label>
       </div>
@@ -416,7 +457,7 @@
       <div class="section-label">// Scale</div>
       <div class="field-row">
         <div class="field-group">
-          <label>Average Participant Count</label>
+          <label>Average Participant Count per Op</label>
           <input type="number" id="avgPax" placeholder="12" min="1">
         </div>
         <div class="field-group">
@@ -451,6 +492,7 @@
         <label class="chip"><input type="checkbox" name="accred" value="ACA"><span class="chip-dot"></span>ACA</label>
         <label class="chip"><input type="checkbox" name="accred" value="State Licensed"><span class="chip-dot"></span>State Licensed</label>
         <label class="chip"><input type="checkbox" name="accred" value="None / Independent"><span class="chip-dot"></span>None / Independent</label>
+        <label class="chip"><input type="checkbox" name="accred" value="Other"><span class="chip-dot"></span>Other</label>
       </div>
 
       <div class="nav-buttons">
@@ -460,12 +502,12 @@
       </div>
     </div>
 
-    <!-- STEP 4 -->
+    <!-- ═══════════════════════════ STEP 4 ═══════════════════════════ -->
     <div id="step-4" class="hidden">
       <div class="step-header">
         <span class="step-tag">// Step 04 — TRIGGERS / LIBRARY / GEAR</span>
         <h1 class="step-title">Risk &<br>Library Config</h1>
-        <p class="step-desc">Fast signal on your risk environment and existing documentation. Your AlpenOS advisor builds the full trigger set from this in your config call.</p>
+        <p class="step-desc">Signal on your risk environment, existing documentation, and gear inventory. Your advisor builds the full trigger set from this in your config call.</p>
       </div>
 
       <div class="section-label">// Primary Hazard Categories</div>
@@ -491,34 +533,51 @@
           <label class="chip"><input type="radio" name="hasEAP" value="No"><span class="chip-dot"></span>No</label>
         </div>
       </div>
+
       <div class="field-group">
-        <label>Documents to make available offline in the field</label>
+        <label>Documents to make available offline in the field
+          <span class="hint">Select what you already have. We'll migrate these into LIBRARY format on your config call.</span>
+        </label>
         <div class="chip-grid">
-          <label class="chip"><input type="checkbox" name="library" value="Area Guides / Beta"><span class="chip-dot"></span>Area Guides / Beta</label>
-          <label class="chip"><input type="checkbox" name="library" value="Route EAPs"><span class="chip-dot"></span>Route EAPs</label>
-          <label class="chip"><input type="checkbox" name="library" value="Medical Protocols"><span class="chip-dot"></span>Medical Protocols</label>
-          <label class="chip"><input type="checkbox" name="library" value="Gear Inspection Checklists"><span class="chip-dot"></span>Gear Inspection</label>
-          <label class="chip"><input type="checkbox" name="library" value="Participant Waivers"><span class="chip-dot"></span>Participant Waivers</label>
-          <label class="chip"><input type="checkbox" name="library" value="Staff Cert Matrix"><span class="chip-dot"></span>Staff Cert Matrix</label>
-          <label class="chip"><input type="checkbox" name="library" value="Permit Docs"><span class="chip-dot"></span>Permit Docs</label>
+          <label class="chip"><input type="checkbox" name="library" value="Emergency Action Plans (EAPs)"><span class="chip-dot"></span>Emergency Action Plans</label>
+          <label class="chip"><input type="checkbox" name="library" value="Incident &amp; Medical Forms"><span class="chip-dot"></span>Incident &amp; Medical Forms</label>
+          <label class="chip"><input type="checkbox" name="library" value="Policies &amp; Procedures"><span class="chip-dot"></span>Policies &amp; Procedures</label>
+          <label class="chip"><input type="checkbox" name="library" value="Participant Documents"><span class="chip-dot"></span>Participant Documents</label>
+          <label class="chip"><input type="checkbox" name="library" value="Route &amp; Location Plans"><span class="chip-dot"></span>Route &amp; Location Plans</label>
+          <label class="chip"><input type="checkbox" name="library" value="Decision Support Tools"><span class="chip-dot"></span>Decision Support Tools</label>
+          <label class="chip"><input type="checkbox" name="library" value="Gear &amp; Equipment Docs"><span class="chip-dot"></span>Gear &amp; Equipment Docs</label>
+          <label class="chip"><input type="checkbox" name="library" value="Staff &amp; Training Docs"><span class="chip-dot"></span>Staff &amp; Training Docs</label>
+          <label class="chip"><input type="checkbox" name="library" value="Comms &amp; Crisis Templates"><span class="chip-dot"></span>Comms &amp; Crisis Templates</label>
+          <label class="chip"><input type="checkbox" name="library" value="Day-of Operations Checklist"><span class="chip-dot"></span>Day-of Operations Checklist</label>
+          <label class="chip"><input type="checkbox" name="library" value="Permit &amp; Land Management"><span class="chip-dot"></span>Permit &amp; Land Management</label>
         </div>
       </div>
 
       <hr class="section-divider">
-      <div class="section-label">// Gear & Equipment</div>
+      <div class="section-label">// Gear & Equipment Categories</div>
       <div class="field-group">
-        <label>Gear categories you track and issue to guides</label>
+        <label>Select all categories your organization tracks and issues</label>
         <div class="chip-grid">
-          <label class="chip"><input type="checkbox" name="gear" value="Medical / First Aid"><span class="chip-dot"></span>Medical / First Aid</label>
-          <label class="chip"><input type="checkbox" name="gear" value="Comms (radios, SPOT, InReach)"><span class="chip-dot"></span>Comms</label>
-          <label class="chip"><input type="checkbox" name="gear" value="Navigation"><span class="chip-dot"></span>Navigation</label>
-          <label class="chip"><input type="checkbox" name="gear" value="Climbing / Rope Systems"><span class="chip-dot"></span>Climbing / Rope</label>
-          <label class="chip"><input type="checkbox" name="gear" value="Avalanche Gear"><span class="chip-dot"></span>Avalanche Gear</label>
-          <label class="chip"><input type="checkbox" name="gear" value="River / Water Safety"><span class="chip-dot"></span>River / Water Safety</label>
-          <label class="chip"><input type="checkbox" name="gear" value="Shelter / Bivy"><span class="chip-dot"></span>Shelter / Bivy</label>
-          <label class="chip"><input type="checkbox" name="gear" value="Participant Helmets / Harnesses"><span class="chip-dot"></span>Helmets / Harnesses</label>
+
+          <label class="chip"><input type="checkbox" name="gear" value="Medical / First Aid Kits"><span class="chip-dot"></span>Medical / First Aid</label>
+          <label class="chip"><input type="checkbox" name="gear" value="Comms (Radios, SPOT, InReach)"><span class="chip-dot"></span>Comms (Radios, SPOT, InReach)</label>
+          <label class="chip"><input type="checkbox" name="gear" value="Navigation (Maps, Compass, GPS)"><span class="chip-dot"></span>Navigation</label>
+
+          <label class="chip"><input type="checkbox" name="gear" value="Climbing &amp; Rope Systems"><span class="chip-dot"></span>Climbing &amp; Rope Systems</label>
+          <label class="chip"><input type="checkbox" name="gear" value="Avalanche Gear (Beacon, Probe, Shovel)"><span class="chip-dot"></span>Avalanche Gear</label>
+          <label class="chip"><input type="checkbox" name="gear" value="River &amp; Water Safety"><span class="chip-dot"></span>River &amp; Water Safety</label>
+
+          <label class="chip"><input type="checkbox" name="gear" value="Participant PPE (Helmets, Harnesses, PFDs)"><span class="chip-dot"></span>Participant PPE</label>
+          <label class="chip"><input type="checkbox" name="gear" value="Backpacking &amp; Shelter (Packs, Tents, Sleep Systems)"><span class="chip-dot"></span>Backpacking &amp; Shelter</label>
+          <label class="chip"><input type="checkbox" name="gear" value="Group Kitchen (Stoves, Cooksets, Water Treatment)"><span class="chip-dot"></span>Group Kitchen</label>
+
+          <label class="chip"><input type="checkbox" name="gear" value="Personal / Org-issued Gear (Layers, Rain Gear, Boots)"><span class="chip-dot"></span>Personal / Org-issued Gear</label>
+          <label class="chip"><input type="checkbox" name="gear" value="Transportation &amp; Vehicle Gear"><span class="chip-dot"></span>Transportation &amp; Vehicle</label>
+          <label class="chip"><input type="checkbox" name="gear" value="Equestrian / Animal Handling Equipment"><span class="chip-dot"></span>Equestrian / Animal Handling</label>
+          <label class="chip"><input type="checkbox" name="gear" value="Facility &amp; Venue Equipment"><span class="chip-dot"></span>Facility &amp; Venue Equipment</label>
         </div>
       </div>
+
       <div class="field-group">
         <label>Approximate gear inventory size</label>
         <div class="scale-row">
@@ -537,7 +596,7 @@
       </div>
     </div>
 
-    <!-- STEP 5 -->
+    <!-- ═══════════════════════════ STEP 5 ═══════════════════════════ -->
     <div id="step-5" class="hidden">
       <div class="step-header">
         <span class="step-tag">// Step 05 — Review</span>
@@ -556,7 +615,7 @@
       </div>
     </div>
 
-    <!-- SUCCESS -->
+    <!-- ═══════════════════════════ SUCCESS ═══════════════════════════ -->
     <div id="step-success" class="hidden">
       <div class="success-screen">
         <div class="success-mark">⬡</div>
@@ -577,7 +636,8 @@
   <input name="bot-field">
   <input name="submitted_at"><input name="org_name"><input name="org_dba"><input name="org_type">
   <input name="admin_name"><input name="admin_email"><input name="admin_phone">
-  <input name="op_state"><input name="years_op"><input name="insurer"><input name="org_website">
+  <input name="org_phone"><input name="op_state"><input name="geo_scope"><input name="pax_volume">
+  <input name="years_op"><input name="insurer"><input name="org_website">
   <input name="incident_history"><input name="biggest_gap">
   <input name="locations"><input name="routes"><input name="lma"><input name="permits">
   <input name="op_types"><input name="avg_pax"><input name="avg_ratio">
@@ -664,15 +724,41 @@
     const id = locationCount;
     const el = document.createElement('div');
     el.className = 'repeat-block'; el.id = 'loc-' + id;
-    el.innerHTML = `<div class="repeat-block-header"><span class="repeat-label">// Location ${id}</span><button class="btn-remove" onclick="removeBlock('loc-${id}')">Remove</button></div>
+    el.innerHTML = `
+      <div class="repeat-block-header">
+        <span class="repeat-label">// Location / Venue ${id}</span>
+        <button class="btn-remove" onclick="removeBlock('loc-${id}')">Remove</button>
+      </div>
       <div class="field-row">
-        <div class="field-group"><label>Area / Trailhead Name</label><input type="text" name="loc_name_${id}" placeholder="Jefferson Canyon TH"></div>
-        <div class="field-group"><label>Location Type</label><select name="loc_type_${id}"><option value="">— Type —</option><option>Trailhead</option><option>Summit / Peak</option><option>Crag / Climbing Area</option><option>River Put-in / Take-out</option><option>Basecamp / Camp</option><option>LZ / Evac Zone</option><option>Urban Meet Point</option><option>Other</option></select></div>
+        <div class="field-group"><label>Name</label><input type="text" name="loc_name_${id}" placeholder="Jefferson Canyon TH / Ridgeline Ranch"></div>
+        <div class="field-group"><label>Location / Venue Type</label>
+          <select name="loc_type_${id}">
+            <option value="">— Type —</option>
+            <optgroup label="Terrain">
+              <option>Trailhead</option>
+              <option>Summit / Peak</option>
+              <option>Crag / Climbing Area</option>
+              <option>River Put-in / Take-out</option>
+              <option>Basecamp / Camp</option>
+              <option>LZ / Evac Zone</option>
+            </optgroup>
+            <optgroup label="Venue">
+              <option>Indoor Facility</option>
+              <option>Ranch / Equestrian Facility</option>
+              <option>Aquatic / Waterpark Facility</option>
+              <option>Ropes Course / Challenge Course</option>
+              <option>Urban Meet Point</option>
+              <option>Other Venue</option>
+            </optgroup>
+          </select>
+        </div>
       </div>
       <div class="field-row-3">
         <div class="field-group"><label>Elevation (ft)</label><input type="number" name="loc_elev_${id}" placeholder="9200"></div>
         <div class="field-group"><label>Lat / Lon</label><input type="text" name="loc_coords_${id}" placeholder="39.74, -104.99"></div>
-        <div class="field-group"><label>Cell Signal</label><select name="loc_signal_${id}"><option value="">—</option><option>Good</option><option>Marginal</option><option>None</option></select></div>
+        <div class="field-group"><label>Cell Signal</label>
+          <select name="loc_signal_${id}"><option value="">—</option><option>Good</option><option>Marginal</option><option>None</option><option>N/A — Indoor</option></select>
+        </div>
       </div>
       <div class="field-group"><label>EAP / Emergency Contact</label><input type="text" name="loc_eap_${id}" placeholder="Jefferson County SAR: (303) 271-5444"></div>`;
     document.getElementById('locationsContainer').appendChild(el);
@@ -683,17 +769,36 @@
     const id = routeCount;
     const el = document.createElement('div');
     el.className = 'repeat-block'; el.id = 'route-' + id;
-    el.innerHTML = `<div class="repeat-block-header"><span class="repeat-label">// Route ${id}</span><button class="btn-remove" onclick="removeBlock('route-${id}')">Remove</button></div>
+    el.innerHTML = `
+      <div class="repeat-block-header">
+        <span class="repeat-label">// Route / Activity Area ${id}</span>
+        <button class="btn-remove" onclick="removeBlock('route-${id}')">Remove</button>
+      </div>
       <div class="field-row">
-        <div class="field-group"><label>Route Name</label><input type="text" name="route_name_${id}" placeholder="North Ridge Standard"></div>
-        <div class="field-group"><label>Associated Location</label><input type="text" name="route_loc_${id}" placeholder="Jefferson Canyon TH"></div>
+        <div class="field-group"><label>Name</label><input type="text" name="route_name_${id}" placeholder="North Ridge Standard / Barrel Racing Arena"></div>
+        <div class="field-group"><label>Associated Location / Venue</label><input type="text" name="route_loc_${id}" placeholder="Jefferson Canyon TH"></div>
       </div>
       <div class="field-row-3">
         <div class="field-group"><label>Distance (mi)</label><input type="number" name="route_dist_${id}" placeholder="6.2" step="0.1"></div>
         <div class="field-group"><label>Gain (ft)</label><input type="number" name="route_gain_${id}" placeholder="1800"></div>
-        <div class="field-group"><label>Technical Grade</label><select name="route_grade_${id}"><option value="">—</option><option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option><option>WW Class II</option><option>WW Class III</option><option>WW Class IV+</option></select></div>
+        <div class="field-group"><label>Technical Grade</label>
+          <select name="route_grade_${id}">
+            <option value="">—</option>
+            <optgroup label="Terrain">
+              <option>Class 1</option><option>Class 2</option><option>Class 3</option>
+              <option>Class 4</option><option>Class 5</option>
+              <option>WW Class II</option><option>WW Class III</option><option>WW Class IV+</option>
+            </optgroup>
+            <optgroup label="Venue / Activity">
+              <option>Low Challenge</option>
+              <option>Moderate Challenge</option>
+              <option>High Challenge</option>
+              <option>N/A — Venue Activity</option>
+            </optgroup>
+          </select>
+        </div>
       </div>
-      <div class="field-group"><label>Key Hazards / Beta Notes</label><textarea name="route_beta_${id}" placeholder="Ice on north face above 10,400 ft in shoulder season..."></textarea></div>`;
+      <div class="field-group"><label>Key Hazards / Beta / Activity Notes</label><textarea name="route_beta_${id}" placeholder="Ice on north face above 10,400 ft in shoulder season... / Arena surface condition, max 8 riders..."></textarea></div>`;
     document.getElementById('routesContainer').appendChild(el);
   }
 
@@ -716,7 +821,8 @@
         <span class="review-key">ORG</span><span class="review-val hi">${orgName}</span>
         <span class="review-key">TYPE</span><span class="review-val">${getRadioValue('orgType') || '—'}</span>
         <span class="review-key">ADMIN</span><span class="review-val">${adminEmail}</span>
-        <span class="review-key">STATE</span><span class="review-val">${document.getElementById('opState').value || '—'}</span>
+        <span class="review-key">SCOPE</span><span class="review-val">${getRadioValue('geoScope') || '—'}</span>
+        <span class="review-key">PAX VOLUME</span><span class="review-val">${getRadioValue('paxVolume') || '—'}</span>
         <span class="review-key">INCIDENTS</span><span class="review-val">${incidents}</span>
       </div></div>
       <div class="review-block"><div class="review-block-title">// Primary Gap</div>
@@ -753,7 +859,10 @@
     payload.append('admin_name', `${document.getElementById('adminFirst').value} ${document.getElementById('adminLast').value}`);
     payload.append('admin_email', document.getElementById('adminEmail').value);
     payload.append('admin_phone', document.getElementById('adminPhone').value);
+    payload.append('org_phone', document.getElementById('orgPhone').value);
     payload.append('op_state', document.getElementById('opState').value);
+    payload.append('geo_scope', getRadioValue('geoScope'));
+    payload.append('pax_volume', getRadioValue('paxVolume'));
     payload.append('years_op', document.getElementById('yearsOp').value);
     payload.append('insurer', document.getElementById('insurer').value);
     payload.append('org_website', document.getElementById('orgWebsite').value);
