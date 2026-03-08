@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AlpenOS — Onboarding Form Deployment Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;600;700;800&display=swap');
+
+  :root {
+    --black: #16181C;
+    --offwhite: #F8F9FA;
+    --stone: #c8c4b8;
+    --mid: #8B92A5;
+    --accent: #DEB0C6;
+    --accent-dim: rgba(222,176,198,0.12);
+    --danger: #8C4633;
+    --success: #2d6a4f;
+    --success-bg: rgba(45,106,79,0.1);
+    --panel: #22252B;
+    --border: #333740;
+    --code-bg: #16181C;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--black);
+    color: var(--offwhite);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.7;
+    padding-bottom: 120px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 24px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: var(--black);
+    z-index: 100;
+  }
+  .logo {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    color: var(--offwhite);
+  }
+  .logo span { color: var(--accent); }
+  .header-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--mid);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* ── LAYOUT ── */
+  .wrapper {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 48px;
+    gap: 64px;
+  }
+
+  /* ── TOC SIDEBAR ── */
+  nav.toc {
+    padding-top: 48px;
+    position: sticky;
+    top: 73px;
+    height: calc(100vh - 73px);
+    overflow-y: auto;
+  }
+  .toc-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    color: var(--mid);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .toc ul { list-style: none; }
+  .toc li { margin-bottom: 2px; }
+  .toc a {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--mid);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 8px;
+    transition: color 0.2s;
+  }
+  .toc a:hover { color: var(--accent); }
+  .toc a .toc-num { color: var(--border); min-width: 20px; }
+  .toc a:hover .toc-num { color: var(--accent-dim); }
+  .toc .phase {
+    font-size: 0.5rem;
+    letter-spacing: 0.2em;
+    color: var(--border);
+    text-transform: uppercase;
+    padding: 12px 8px 4px;
+  }
+
+  /* ── CONTENT ── */
+  article {
+    padding-top: 48px;
+    max-width: 720px;
+  }
+
+  /* ── DOC HEADER ── */
+  .doc-header { margin-bottom: 56px; }
+  .doc-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .doc-title {
+    font-size: 2.6rem;
+    font-weight: 800;
+    line-height: 1.05;
+    margin-bottom: 20px;
+    color: var(--offwhite);
+  }
+  .doc-summary {
+    font-size: 0.9rem;
+    color: var(--stone);
+    line-height: 1.8;
+    max-width: 560px;
+    border-left: 2px solid var(--accent);
+    padding-left: 20px;
+  }
+
+  /* ── PHASE HEADER ── */
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 56px 0 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .phase-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--border);
+    line-height: 1;
+  }
+  .phase-info {}
+  .phase-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .phase-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--offwhite);
+  }
+  .phase-est {
+    margin-left: auto;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--mid);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* ── STEP ── */
+  .step {
+    margin-bottom: 40px;
+    padding: 28px 28px 28px 28px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    position: relative;
+  }
+  .step::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--border);
+  }
+  .step.critical::before { background: var(--accent); }
+  .step.info::before { background: #2a4a6b; }
+  .step.warning::before { background: #6b3a2a; }
+
+  .step-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    gap: 16px;
+  }
+  .step-id {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    color: var(--mid);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .step-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--offwhite);
+  }
+  .step-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    padding: 3px 8px;
+    border: 1px solid;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .step-badge.required { border-color: var(--accent); color: var(--accent); }
+  .step-badge.once { border-color: var(--mid); color: var(--mid); }
+  .step-badge.config { border-color: #2a4a6b; color: #5a8ab0; }
+
+  .step p { font-size: 0.88rem; color: var(--stone); margin-bottom: 12px; }
+  .step p:last-child { margin-bottom: 0; }
+
+  /* ── CODE BLOCKS ── */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    padding: 16px 20px;
+    margin: 16px 0;
+    overflow-x: auto;
+  }
+  .code-block pre {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--stone);
+    line-height: 1.8;
+    white-space: pre;
+  }
+  .code-block .comment { color: var(--mid); }
+  .code-block .key { color: var(--accent); }
+  .code-block .val { color: #7ec8a0; }
+  .code-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    color: var(--mid);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    margin-top: 16px;
+  }
+
+  /* ── INLINE CODE ── */
+  code {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8em;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    color: var(--accent);
+  }
+
+  /* ── CALLOUTS ── */
+  .callout {
+    padding: 16px 20px;
+    border: 1px solid;
+    margin: 16px 0;
+    font-size: 0.82rem;
+    line-height: 1.7;
+  }
+  .callout.tip { border-color: #2a4a3a; background: rgba(45,106,79,0.06); color: var(--stone); }
+  .callout.warning { border-color: #4a2a1a; background: rgba(192,57,43,0.06); color: var(--stone); }
+  .callout.note { border-color: var(--border); background: var(--panel); color: var(--mid); }
+  .callout strong { color: var(--offwhite); }
+  .callout-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .callout.tip .callout-label { color: #2d6a4f; }
+  .callout.warning .callout-label { color: var(--danger); }
+  .callout.note .callout-label { color: var(--mid); }
+
+  /* ── NUMBERED LIST ── */
+  .step ol {
+    padding-left: 20px;
+    margin: 12px 0;
+    color: var(--stone);
+    font-size: 0.88rem;
+  }
+  .step ol li { margin-bottom: 8px; }
+  .step ul {
+    padding-left: 20px;
+    margin: 12px 0;
+    color: var(--stone);
+    font-size: 0.88rem;
+    list-style: none;
+  }
+  .step ul li::before { content: '— '; color: var(--mid); }
+  .step ul li { margin-bottom: 6px; }
+
+  /* ── FIELD MAP TABLE ── */
+  .field-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 0.78rem;
+  }
+  .field-table th {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .field-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--stone);
+    vertical-align: top;
+  }
+  .field-table td:first-child {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+  }
+  .field-table td:last-child { color: var(--mid); font-size: 0.75rem; }
+
+  /* ── COMPLETION CHECKLIST ── */
+  .checklist {
+    border: 1px solid var(--border);
+    padding: 24px;
+    margin-top: 32px;
+    background: var(--panel);
+  }
+  .checklist-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.83rem;
+    color: var(--stone);
+  }
+  .check-item:last-child { border-bottom: none; }
+  .check-box {
+    width: 16px; height: 16px;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+    margin-top: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .check-box:hover { border-color: var(--accent); }
+  .check-box.checked {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  /* ── ROUTING DIAGRAM ── */
+  .routing-diagram {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 20px 0;
+    overflow-x: auto;
+    padding: 20px;
+    background: var(--black);
+    border: 1px solid var(--border);
+  }
+  .route-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    min-width: 100px;
+  }
+  .route-icon {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.55rem;
+    color: var(--mid);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .route-box {
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--stone);
+    text-align: center;
+    white-space: nowrap;
+  }
+  .route-box.active { border-color: var(--accent); color: var(--accent); }
+  .route-arrow {
+    color: var(--mid);
+    font-size: 1rem;
+    padding: 0 8px;
+    margin-top: 14px;
+  }
+
+  /* ── SECTION DIVIDER ── */
+  .section-end {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 56px 0 0;
+  }
+
+  @media (max-width: 768px) {
+    .wrapper { grid-template-columns: 1fr; }
+    nav.toc { display: none; }
+    header, .wrapper { padding-left: 20px; padding-right: 20px; }
+    .doc-title { font-size: 1.8rem; }
+  }
+
+  @media print {
+    header { position: static; }
+    nav.toc { display: none; }
+    .wrapper { grid-template-columns: 1fr; }
+    body { background: white; color: black; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Alpen<span>/</span>OS</div>
+  <span class="header-tag">// Deployment Guide — Onboarding Form v0</span>
+</header>
+
+<div class="wrapper">
+
+  <!-- TOC -->
+  <nav class="toc">
+    <div class="toc-label">// Contents</div>
+    <ul>
+      <div class="phase">Phase 1 — File Setup</div>
+      <li><a href="#step-1-1"><span class="toc-num">1.1</span> Download the form</a></li>
+      <li><a href="#step-1-2"><span class="toc-num">1.2</span> Add to your repo</a></li>
+      <li><a href="#step-1-3"><span class="toc-num">1.3</span> Set your access codes</a></li>
+      <div class="phase">Phase 2 — Netlify</div>
+      <li><a href="#step-2-1"><span class="toc-num">2.1</span> Push & deploy</a></li>
+      <li><a href="#step-2-2"><span class="toc-num">2.2</span> Verify form detection</a></li>
+      <li><a href="#step-2-3"><span class="toc-num">2.3</span> Configure notifications</a></li>
+      <div class="phase">Phase 3 — Make.com</div>
+      <li><a href="#step-3-1"><span class="toc-num">3.1</span> Create account</a></li>
+      <li><a href="#step-3-2"><span class="toc-num">3.2</span> Build the scenario</a></li>
+      <li><a href="#step-3-3"><span class="toc-num">3.3</span> Map fields to Sheets</a></li>
+      <div class="phase">Phase 4 — Google Sheets</div>
+      <li><a href="#step-4-1"><span class="toc-num">4.1</span> Create Staging Sheet</a></li>
+      <li><a href="#step-4-2"><span class="toc-num">4.2</span> Column map</a></li>
+      <div class="phase">Phase 5 — Launch</div>
+      <li><a href="#step-5-1"><span class="toc-num">5.1</span> End-to-end test</a></li>
+      <li><a href="#step-5-2"><span class="toc-num">5.2</span> Send partner link</a></li>
+    </ul>
+  </nav>
+
+  <!-- ARTICLE -->
+  <article>
+
+    <div class="doc-header">
+      <span class="doc-eyebrow">// Internal Ops Document — AlpenOS V0</span>
+      <h1 class="doc-title">Onboarding Form<br>Deployment Guide</h1>
+      <p class="doc-summary">Step-by-step instructions for deploying the Design Partner onboarding wizard to your alpenos.io site. Covers file setup, Netlify form capture, Make.com automation, and Google Sheets staging. No coding experience required.</p>
+    </div>
+
+    <!-- ════════════════════════════════ PHASE 1 ════════════════════════════════ -->
+    <div class="phase-header">
+      <div class="phase-num">01</div>
+      <div class="phase-info">
+        <div class="phase-tag">// Phase 1</div>
+        <div class="phase-title">File Setup</div>
+      </div>
+      <div class="phase-est">~10 min</div>
+    </div>
+
+    <div class="step critical" id="step-1-1">
+      <div class="step-header">
+        <div>
+          <div class="step-id">Step 1.1</div>
+          <div class="step-title">Download the form file</div>
+        </div>
+        <span class="step-badge required">Required</span>
+      </div>
+      <p>Claude generated a file called <code>alpenos-onboarding.html</code>. Download it from the chat and save it somewhere you can find it — your Desktop is fine for now.</p>
+      <div class="callout note">
+        <span class="callout-label">// Note</span>
+        This is a single self-contained HTML file. It has no dependencies — no separate CSS or JS files needed.
+      </div>
+    </div>
+
+    <div class="step" id="step-1-2">
+      <div class="step-header">
+        <div>
+          <div class="step-id">Step 1.2</div>
+          <div class="step-title">Add the file to your GitHub repo</div>
+        </div>
+        <span class="step-badge required">Required</span>
+      </div>
+      <p>Since your Netlify site is connected to a GitHub repo, you need to put the file there. Here's exactly how:</p>
+      <ol>
+        <li>Go to <strong>github.com</strong> and open the repo connected to alpenos.io</li>
+        <li>In your repo file list, click <strong>Add file → Upload files</strong></li>
+        <li>Drag <code>alpenos-onboarding.html</code> into the upload box</li>
+        <li>Make sure the file is in the <strong>root folder</strong> of the repo (same level as your main <code>index.html</code>)</li>
+        <li>Scroll down, type a commit message like <em>"Add onboarding form"</em>, and click <strong>Commit changes</strong></li>
+      </ol>
+      <div class="callout tip">
+        <span class="callout-label">// Result</span>
+        Once committed, Netlify will automatically detect the push and redeploy your site — usually takes under 60 seconds. Your form will be live at <code>alpenos.io/alpenos-onboarding</code>
+      </div>
+    </div>
+
+    <div class="step critical" id="step-1-3">
+      <div class="step-header">
+        <div>
+          <div class="step-id">Step 1.3</div>
+          <div class="step-title">Set your partner access codes</div>
+        </div>
+        <span class="step-badge config">Config</span>
+      </div>
+      <p>Before you go live, change the default access codes to ones you control. Open <code>alpenos-onboarding.html</code> in any text editor (Notepad on Windows, TextEdit on Mac, or VS Code if you have it).</p>
+      <p>Find this line near the top of the <code>&lt;script&gt;</code> section:</p>
+      <div class="code-label">// Find this line (~line 520)</div>
+      <div class="code-block"><pre><span class="key">const</span> VALID_CODES = [<span class="val">'ALPEN-2026'</span>, <span class="val">'SUMMIT-01'</span>, <span class="val">'PILOT-001'</span>];</pre></div>
+      <p>Replace those strings with your own codes. Recommended format: one code per design partner so you can track who's onboarding.</p>
+      <div class="code-label">// Example — one code per pilot partner</div>
+      <div class="code-block"><pre><span class="key">const</span> VALID_CODES = [
+  <span class="val">'SUMMIT-OE-01'</span>,   <span class="comment">// Summit Outdoor Education</span>
+  <span class="val">'RIDGE-GUIDE-01'</span>, <span class="comment">// Ridge Line Guiding</span>
+  <span class="val">'CRESTLINE-01'</span>,   <span class="comment">// Crestline Youth Programs</span>
+];</pre></div>
+      <div class="callout warning">
+        <span class="callout-label">// Important</span>
+        <strong>Don't use codes that are easy to guess.</strong> Anyone with the URL and a valid code can submit. Keep codes to trusted partners only and rotate them if needed.
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════ PHASE 2 ════════════════════════════════ -->
+    <div class="phase-header">
+      <div class="phase-num">02</div>
+      <div class="phase-info">
+        <div class="phase-tag">// Phase 2</div>
+        <div class="phase-title">Netlify Configuration</div>
+      </div>
+      <div class="phase-est">~15 min</div>
+    </div>
+
+    <div class="step" id="step-2-1">
+      <div class="step-header">
+        <div>
+          <div class="step-id">Step 2.1</div>
+          <div class="step-title">Push to GitHub and watch Netlify deploy</div>
+        </div>
+        <span class="step-badge required">Required</span>
+      </div>
+      <p>After committing the file in Step 1.2, go to your Netlify dashboard at <strong>app.netlify.com</strong>.</p>
+      <ol>
+        <li>Click on your alpenos.io site</li>
+        <li>You'll see a <strong>Deploy log</strong> — watch for a green <em>"Published"</em> status</li>
+        <li>Once published, open a new browser tab and go to: <code>https://alpenos.io/alpenos-onboarding</code></li>
+        <li>You should see the access code gate screen</li>
+      </ol>
+      <div class="callout note">
+        <span class="callout-label">// If the page shows a 404 error</span>
+        Netlify may need the file extension in the URL. Try <code>alpenos.io/alpenos-onboarding.html</code> — or add a redirect rule (ask Claude to help with that if needed).
+      </div>
+    </div>
+
+    <div class="step critical" id="step-2-2">
+      <div class="step-header">
+        <div>
+          <div class="step-id">Step 2.2</div>
+          <div class="step-title">Verify Netlify detected the form</div>
+        </div>
+        <span class="step-badge required">Required</span>
+      </div>
+      <p>Netlify automatically scans your HTML files for forms with the <code>netlify</code> attribute. You need to confirm it detected yours.</p>
+      <ol>
+        <li>In your Netlify dashboard, go to your site</li>
+        <li>Click the <strong>Forms</strong> tab in the top navigation</li>
+        <li>You should see a form named <strong>"alpenos-onboarding"</strong> listed</li>
+      </ol>
+      <div class="callout tip">
+        <span class="callout-label">// If the form does NOT appear</span>
+        Go to <strong>Deploys</strong>, find your latest deploy, and click <strong>Clear cache and redeploy</strong>. Netlify scans for forms at deploy time — a cache-busted redeploy usually fixes it.
+      </div>
+      <div class="callout warning">
+        <span class="callout-label">// Free tier limit</span>
+        Netlify Forms free tier allows <strong>100 form submissions/month</strong>. For 6 design partners this is more than sufficient for V0. You will not need to upgrade.
+      </div>
+    </div>
+
+    <div class="step" id="step-2-3">
+      <div class="step-header">
+        <div>
+          <div class="step-id">Step 2.3</div>
+          <div class="step-title">Set up Netlify email notifications</div>
+        </div>
+        <span class="step-badge once">Set Once</span>
+      </div>
+      <p>Configure Netlify to email you every time a partner submits the form. This is your immediate alert before Make.com processes the data.</p>
+      <ol>
+        <li>In Netlify dashboard → <strong>Forms</strong></li>
+        <li>Click on <strong>alpenos-onboarding</strong></li>
+        <li>Click <strong>Form notifications</strong> or go to <strong>Site settings → Forms → Form notifications</strong></li>
+        <li>Click <strong>Add notification → Email notification</strong></li>
+        <li>Enter your email address and select the <strong>alpenos-onboarding</strong> form</li>
+        <li>Save</li>
+      </ol>
+    </div>
+
+    <!-- ════════════════════════════════ PHASE 3 ════════════════════════════════ -->
+    <div class="phase-header">
+      <div class="phase-num">03</div>
+      <div class="phase-info">
+        <div class="phase-tag">// Phase 3</div>
+        <div class="phase-title">Make.com Automation</div>
+      </div>
+      <div class="phase-est">~30 min</div>
+    </div>
+
+    <div class="step" id="step-3-1">
+      <div class="step-header">
+        <div>
+          <div class="step-id">Step 3.1</div>
+          <div class="step-title">Create your Make.com account</div>
+        </div>
+        <span class="step-badge once">Set Once</span>
+      </div>
+      <ol>
+        <li>Go to <strong>make.com</strong> and click <strong>Get started free</strong></li>
+        <li>Sign up with your AlpenOS admin email</li>
+        <li>On the free plan you get <strong>1,000 operations/month</strong> — more than enough for V0 pilot onboarding</li>
+        <li>Once logged in, you'll see the Make dashboard. Click <strong>Create a new scenario</strong></li>
+      </ol>
+      <div class="callout note">
+        <span class="callout-label">// What is Make.com?</span>
+        Make is a no-code automation tool. Think of it as the routing layer that listens for a Netlify form submission and then writes a new row into your Google Sheets staging table. No code required.
+      </div>
+    </div>
+
+    <div class="step critical" id="step-3-2">
+      <div class="step-header">
+        <div>
+          <div class="step-id">Step 3.2</div>
+          <div class="step-title">Build the Netlify → Google Sheets scenario</div>
+        </div>
+        <span class="step-badge required">Required</span>
+      </div>
+      <p>This is the core automation. Follow these steps exactly inside Make.com:</p>
+      <ol>
+        <li>In the new scenario canvas, click the <strong>large "+" circle</strong> to add your first module</li>
+        <li>Search for <strong>"Netlify"</strong> and select it</li>
+        <li>Choose the trigger: <strong>"Watch Form Submissions"</strong></li>
+        <li>Click <strong>Add</strong> to connect your Netlify account — it will ask you to log in to Netlify and authorize Make</li>
+        <li>Once connected, select your site (<strong>alpenos.io</strong>) and form (<strong>alpenos-onboarding</strong>)</li>
+        <li>Click <strong>OK</strong></li>
+      </ol>
+      <p>Now add the second module (the output):</p>
+      <ol start="7">
+        <li>Click the <strong>"+" after the Netlify module</strong> to add the next step</li>
+        <li>Search for <strong>"Google Sheets"</strong> and select it</li>
+        <li>Choose the action: <strong>"Add a Row"</strong></li>
+        <li>Connect your Google account when prompted</li>
+        <li>Select your Staging Spreadsheet (you'll create this in Phase 4 — come back to finish this step after Phase 4)</li>
+        <li>Select the correct Sheet tab (e.g. <strong>"PARTNER_STAGING"</strong>)</li>
+      </ol>
+      <div class="callout tip">
+        <span class="callout-label">// Tip</span>
+        Leave this scenario tab open while you do Phase 4. You'll come back to map the fields in Step 3.3.
+      </div>
+    </div>
+
+    <div class="step critical" id="step-3-3">
+      <div class="step-header">
+        <div>
+          <div class="step-id">Step 3.3</div>
+          <div class="step-title">Map form fields to sheet columns</div>
+        </div>
+        <span class="step-badge required">Required</span>
+      </div>
+      <p>After connecting Google Sheets in Step 3.2, Make will show you a list of columns from your sheet. You need to map each one to the corresponding field from the Netlify form submission.</p>
+      <p>In the Google Sheets "Add a Row" module, for each column, click the field and select the matching variable from the Netlify trigger on the left panel. Use this map:</p>
+
+      <table class="field-table">
+        <thead>
+          <tr>
+            <th>Sheet Column</th>
+            <th>Netlify Form Field</th>
+            <th>Maps to Schema</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>org_name</td><td>org_name</td><td>PARTNER.PartnerName</td></tr>
+          <tr><td>org_dba</td><td>org_dba</td><td>PARTNER.DBA</td></tr>
+          <tr><td>org_type</td><td>org_type</td><td>PARTNER.PartnerType</td></tr>
+          <tr><td>admin_name</td><td>admin_name</td><td>PARTNER.AdminName</td></tr>
+          <tr><td>admin_email</td><td>admin_email</td><td>PARTNER.AdminEmail ← Row Owner</td></tr>
+          <tr><td>admin_phone</td><td>admin_phone</td><td>PARTNER.Phone</td></tr>
+          <tr><td>op_state</td><td>op_state</td><td>PARTNER.State</td></tr>
+          <tr><td>insurer</td><td>insurer</td><td>PARTNER.Insurer</td></tr>
+          <tr><td>locations</td><td>locations</td><td>LOCATIONS (batch seed)</td></tr>
+          <tr><td>routes</td><td>routes</td><td>ROUTES (batch seed)</td></tr>
+          <tr><td>lma</td><td>lma</td><td>PARTNER.LandManagement</td></tr>
+          <tr><td>op_types</td><td>op_types</td><td>OP_TEMPLATES (seed)</td></tr>
+          <tr><td>hazards</td><td>hazards</td><td>TRIGGERS (seed)</td></tr>
+          <tr><td>has_eap</td><td>has_eap</td><td>LIBRARY.EAPStatus</td></tr>
+          <tr><td>gear_categories</td><td>gear_categories</td><td>GEAREQUIP (seed)</td></tr>
+          <tr><td>current_tools</td><td>current_tools</td><td>Audit / Notes</td></tr>
+          <tr><td>biggest_gap</td><td>biggest_gap</td><td>Config call prep</td></tr>
+          <tr><td>submitted_at</td><td>submitted_at</td><td>Timestamp</td></tr>
+        </tbody>
+      </table>
+
+      <p>Once all fields are mapped, click <strong>OK</strong>, then click <strong>Save</strong> (floppy disk icon, bottom left of canvas), then toggle the scenario <strong>ON</strong> using the switch at the bottom.</p>
+
+      <div class="routing-diagram">
+        <div class="route-node">
+          <div class="route-icon">Partner</div>
+          <div class="route-box active">Form Submit</div>
+        </div>
+        <div class="route-arrow">→</div>
+        <div class="route-node">
+          <div class="route-icon">Netlify</div>
+          <div class="route-box">Form Capture</div>
+        </div>
+        <div class="route-arrow">→</div>
+        <div class="route-node">
+          <div class="route-icon">Make.com</div>
+          <div class="route-box">Webhook Trigger</div>
+        </div>
+        <div class="route-arrow">→</div>
+        <div class="route-node">
+          <div class="route-icon">Google</div>
+          <div class="route-box">Sheets Row</div>
+        </div>
+        <div class="route-arrow">→</div>
+        <div class="route-node">
+          <div class="route-icon">You</div>
+          <div class="route-box active">Config Call</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════ PHASE 4 ════════════════════════════════ -->
+    <div class="phase-header">
+      <div class="phase-num">04</div>
+      <div class="phase-info">
+        <div class="phase-tag">// Phase 4</div>
+        <div class="phase-title">Google Sheets Staging</div>
+      </div>
+      <div class="phase-est">~15 min</div>
+    </div>
+
+    <div class="step" id="step-4-1">
+      <div class="step-header">
+        <div>
+          <div class="step-id">Step 4.1</div>
+          <div class="step-title">Create the Staging Sheet</div>
+        </div>
+        <span class="step-badge once">Set Once</span>
+      </div>
+      <p>This is the Airlock — raw partner data lands here first before you manually promote it into your master AlpenOS workbook.</p>
+      <ol>
+        <li>Go to <strong>sheets.google.com</strong> and create a new spreadsheet</li>
+        <li>Name it: <strong>AlpenOS — Partner Staging</strong></li>
+        <li>Rename the default tab to: <strong>PARTNER_STAGING</strong></li>
+        <li>Add the column headers in Row 1 exactly as listed in Step 4.2 below</li>
+        <li>Add two extra columns at the end: <strong>PartnerID_Assigned</strong> and <strong>Status</strong> — these you fill in manually after review</li>
+      </ol>
+    </div>
+
+    <div class="step" id="step-4-2">
+      <div class="step-header">
+        <div>
+          <div class="step-id">Step 4.2</div>
+          <div class="step-title">Column header map</div>
+        </div>
+        <span class="step-badge config">Config</span>
+      </div>
+      <p>Copy this header row exactly into Row 1 of your PARTNER_STAGING tab. Column names must match the Make.com field mapping from Step 3.3.</p>
+      <div class="code-label">// Row 1 — paste into cell A1, Tab to move across columns</div>
+      <div class="code-block"><pre><span class="val">submitted_at</span>  |  <span class="val">org_name</span>  |  <span class="val">org_dba</span>  |  <span class="val">org_type</span>  |  <span class="val">admin_name</span>
+<span class="val">admin_email</span>  |  <span class="val">admin_phone</span>  |  <span class="val">op_state</span>  |  <span class="val">years_op</span>  |  <span class="val">insurer</span>
+<span class="val">org_website</span>  |  <span class="val">locations</span>  |  <span class="val">routes</span>  |  <span class="val">lma</span>  |  <span class="val">permits</span>
+<span class="val">op_types</span>  |  <span class="val">avg_pax</span>  |  <span class="val">avg_ratio</span>  |  <span class="val">season_start</span>  |  <span class="val">season_end</span>
+<span class="val">accreditation</span>  |  <span class="val">hazards</span>  |  <span class="val">worst_case</span>  |  <span class="val">has_eap</span>  |  <span class="val">has_checklist</span>
+<span class="val">library_docs</span>  |  <span class="val">gear_categories</span>  |  <span class="val">gear_scale</span>  |  <span class="val">current_tools</span>
+<span class="val">biggest_gap</span>  |  <span class="val">final_notes</span>
+<span class="comment">── Admin columns (you fill these in) ──</span>
+<span class="key">PartnerID_Assigned</span>  |  <span class="key">Status</span>  |  <span class="key">ConfigCallDate</span>  |  <span class="key">Notes</span></pre></div>
+      <div class="callout tip">
+        <span class="callout-label">// Workflow after a submission lands</span>
+        1. Row appears in PARTNER_STAGING automatically via Make.com<br>
+        2. You review it, assign a PartnerID (e.g. <code>P-001</code>)<br>
+        3. Manually promote relevant rows into your master OPS workbook tables<br>
+        4. Send individual Team invite links to their staff<br>
+        5. Schedule config call
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════ PHASE 5 ════════════════════════════════ -->
+    <div class="phase-header">
+      <div class="phase-num">05</div>
+      <div class="phase-info">
+        <div class="phase-tag">// Phase 5</div>
+        <div class="phase-title">Launch & Test</div>
+      </div>
+      <div class="phase-est">~20 min</div>
+    </div>
+
+    <div class="step critical" id="step-5-1">
+      <div class="step-header">
+        <div>
+          <div class="step-id">Step 5.1</div>
+          <div class="step-title">End-to-end test before sending to partners</div>
+        </div>
+        <span class="step-badge required">Required — Do this first</span>
+      </div>
+      <p>Do a full test submission yourself before handing the link to any design partner. This catches broken field mapping before it matters.</p>
+      <ol>
+        <li>Go to <code>alpenos.io/alpenos-onboarding</code></li>
+        <li>Enter one of your access codes</li>
+        <li>Fill out all 5 steps with fake but realistic data</li>
+        <li>Submit</li>
+        <li>Check: <strong>Netlify Forms</strong> — does the submission appear under the alpenos-onboarding form?</li>
+        <li>Check: <strong>Make.com</strong> — did the scenario trigger? (Check the scenario run history)</li>
+        <li>Check: <strong>Google Sheets PARTNER_STAGING</strong> — did a new row appear with all fields populated?</li>
+        <li>Check: <strong>Your email</strong> — did you receive the Netlify notification?</li>
+      </ol>
+      <div class="callout warning">
+        <span class="callout-label">// Common issue</span>
+        If Make.com didn't trigger, the scenario may be set to run on a schedule instead of instantly. In Make.com, open your scenario, click <strong>Scheduling</strong>, and set it to <strong>"Immediately as data arrives"</strong>.
+      </div>
+    </div>
+
+    <div class="step" id="step-5-2">
+      <div class="step-header">
+        <div>
+          <div class="step-id">Step 5.2</div>
+          <div class="step-title">Send the partner link</div>
+        </div>
+        <span class="step-badge required">Required</span>
+      </div>
+      <p>Once the test passes, you're ready. Send each design partner their unique access code with the link. Recommended message format:</p>
+      <div class="code-label">// Partner outreach template</div>
+      <div class="code-block"><pre><span class="comment">Subject: Your AlpenOS Onboarding Portal is Ready</span>
+
+Hey [Name],
+
+Your AlpenOS design partner onboarding portal is live.
+
+<span class="val">Link:</span> https://alpenos.io/alpenos-onboarding
+<span class="val">Access Code:</span> [THEIR-CODE]
+
+The form takes about 10–15 minutes. It covers your org
+profile, operating areas, op types, and risk configuration
+— everything we need to build your V0 environment.
+
+Once you submit, I'll follow up within 24 hours to schedule
+your config call and send individual invite links to your
+team members.
+
+—[Your name]</pre></div>
+      <div class="callout tip">
+        <span class="callout-label">// White glove touch</span>
+        Offer to do a screen-share walkthrough with your first 1–2 partners. The form is intuitive but your first design partners are also your first feedback loop. Their friction points on the form = friction points in the product.
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════ CHECKLIST ════════════════════════════════ -->
+    <hr class="section-end">
+    <div class="checklist">
+      <div class="checklist-title">// Deployment Completion Checklist</div>
+      <div class="check-item" onclick="this.querySelector('.check-box').classList.toggle('checked')">
+        <div class="check-box"></div>
+        <span>Access codes updated in <code>alpenos-onboarding.html</code></span>
+      </div>
+      <div class="check-item" onclick="this.querySelector('.check-box').classList.toggle('checked')">
+        <div class="check-box"></div>
+        <span>File committed to GitHub repo in root directory</span>
+      </div>
+      <div class="check-item" onclick="this.querySelector('.check-box').classList.toggle('checked')">
+        <div class="check-box"></div>
+        <span>Netlify deploy shows green "Published" status</span>
+      </div>
+      <div class="check-item" onclick="this.querySelector('.check-box').classList.toggle('checked')">
+        <div class="check-box"></div>
+        <span>Netlify Forms tab shows "alpenos-onboarding" form detected</span>
+      </div>
+      <div class="check-item" onclick="this.querySelector('.check-box').classList.toggle('checked')">
+        <div class="check-box"></div>
+        <span>Netlify email notification configured</span>
+      </div>
+      <div class="check-item" onclick="this.querySelector('.check-box').classList.toggle('checked')">
+        <div class="check-box"></div>
+        <span>Make.com account created</span>
+      </div>
+      <div class="check-item" onclick="this.querySelector('.check-box').classList.toggle('checked')">
+        <div class="check-box"></div>
+        <span>Make.com scenario built: Netlify trigger → Google Sheets Add Row</span>
+      </div>
+      <div class="check-item" onclick="this.querySelector('.check-box').classList.toggle('checked')">
+        <div class="check-box"></div>
+        <span>All form fields mapped to sheet columns in Make.com</span>
+      </div>
+      <div class="check-item" onclick="this.querySelector('.check-box').classList.toggle('checked')">
+        <div class="check-box"></div>
+        <span>Make.com scenario toggled ON</span>
+      </div>
+      <div class="check-item" onclick="this.querySelector('.check-box').classList.toggle('checked')">
+        <div class="check-box"></div>
+        <span>Google Sheets PARTNER_STAGING created with correct column headers</span>
+      </div>
+      <div class="check-item" onclick="this.querySelector('.check-box').classList.toggle('checked')">
+        <div class="check-box"></div>
+        <span>Full end-to-end test completed — row appeared in Sheets</span>
+      </div>
+      <div class="check-item" onclick="this.querySelector('.check-box').classList.toggle('checked')">
+        <div class="check-box"></div>
+        <span>Partner outreach sent with link and access code</span>
+      </div>
+    </div>
+
+    <div style="margin-top: 48px; padding: 24px; border: 1px solid var(--border); background: var(--panel);">
+      <div style="font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--accent);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:12px;">// Next Step After Onboarding Completes</div>
+      <p style="font-size:0.85rem;color:var(--stone);line-height:1.8;">Once a partner submission lands in PARTNER_STAGING: assign their PartnerID, promote their data into the master OPS workbook, and send individual TEAM invite links. The Team onboarding form (separate, per-staff-member) is the next build item.</p>
+    </div>
+
+  </article>
+</div>
+
+</body>
+</html>
