@@ -818,7 +818,7 @@
   <input name="org_phone"><input name="op_state"><input name="geo_scope"><input name="pax_volume">
   <input name="years_op"><input name="insurer"><input name="org_website">
   <input name="incident_history"><input name="biggest_gap_category"><input name="biggest_gap_detail">
-  <input name="locations"><input name="routes"><input name="lma"><input name="permits">
+  <input name="locations"><input name="location_addresses"><input name="location_maps"><input name="routes"><input name="route_maps"><input name="lma"><input name="permits">
   <input name="op_types"><input name="avg_pax"><input name="avg_ratio">
   <input name="season_start"><input name="season_end"><input name="accreditation">
   <input name="hazards"><input name="has_eap">
@@ -1006,6 +1006,10 @@
         <div class="field-group"><label>Lat / Lon</label><input type="text" name="loc_coords_${id}" placeholder="39.74, -104.99" oninput="autoSave()"></div>
         <div class="field-group"><label>Cell Signal</label><select name="loc_signal_${id}" onchange="autoSave()"><option value="">—</option><option>Good</option><option>Marginal</option><option>None</option><option>N/A — Indoor</option></select></div>
       </div>
+      <div class="field-row">
+        <div class="field-group"><label>Street / Mailing Address<span class="hint" style="font-family:Inter,sans-serif;font-size:0.68rem;color:var(--mid);text-transform:none;letter-spacing:0;display:block;margin-top:3px;">Primarily for venues &amp; facilities</span></label><input type="text" name="loc_address_${id}" placeholder="1234 Trail Rd, Evergreen, CO 80439" oninput="autoSave()"></div>
+        <div class="field-group"><label>Map Link<span class="hint" style="font-family:Inter,sans-serif;font-size:0.68rem;color:var(--mid);text-transform:none;letter-spacing:0;display:block;margin-top:3px;">Google Maps, CalTopo, Gaia, AllTrails</span></label><input type="url" name="loc_map_${id}" placeholder="https://maps.google.com/..." oninput="autoSave()"></div>
+      </div>
       <div class="field-group"><label>EAP / Emergency Contact</label><input type="text" name="loc_eap_${id}" placeholder="Jefferson County SAR: (303) 271-5444" oninput="autoSave()"></div>`;
     document.getElementById('locationsContainer').appendChild(el);
     autoSave();
@@ -1036,6 +1040,7 @@
           </select>
         </div>
       </div>
+      <div class="field-group"><label>Map Link<span class="hint" style="font-family:Inter,sans-serif;font-size:0.68rem;color:var(--mid);text-transform:none;letter-spacing:0;display:block;margin-top:3px;">CalTopo, Gaia, AllTrails, Google Maps</span></label><input type="url" name="route_map_${id}" placeholder="https://caltopo.com/..." oninput="autoSave()"></div>
       <div class="field-group"><label>Key Hazards / Beta / Activity Notes</label><textarea name="route_beta_${id}" placeholder="Ice on north face above 10,400 ft..." oninput="autoSave()"></textarea></div>`;
     document.getElementById('routesContainer').appendChild(el);
     autoSave();
@@ -1051,8 +1056,11 @@
   // ── HELPERS ──────────────────────────────────────────────
   function getRadioValue(name) { const el = document.querySelector(`input[name="${name}"]:checked`); return el ? el.value : ''; }
   function getCheckboxValues(name) { return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(el => el.value); }
-  function collectLocations() { return Array.from(document.querySelectorAll('[id^="loc-"]')).map(b => { const id = b.id.split('-')[1]; return b.querySelector(`[name="loc_name_${id}"]`)?.value; }).filter(Boolean).join('; '); }
-  function collectRoutes() { return Array.from(document.querySelectorAll('[id^="route-"]')).map(b => { const id = b.id.split('-')[1]; return b.querySelector(`[name="route_name_${id}"]`)?.value; }).filter(Boolean).join('; '); }
+  function collectLocations() { return Array.from(document.querySelectorAll("[id^='loc-']")).map(b => { const id = b.id.split("-")[1]; return b.querySelector("[name='loc_name_"+id+"']")?.value; }).filter(Boolean).join("; "); }
+  function collectLocationAddresses() { return Array.from(document.querySelectorAll("[id^='loc-']")).map(b => { const id = b.id.split("-")[1]; const name = b.querySelector("[name='loc_name_"+id+"']")?.value; const addr = b.querySelector("[name='loc_address_"+id+"']")?.value; return (name && addr) ? name+": "+addr : null; }).filter(Boolean).join("; "); }
+  function collectLocationMaps() { return Array.from(document.querySelectorAll("[id^='loc-']")).map(b => { const id = b.id.split("-")[1]; const name = b.querySelector("[name='loc_name_"+id+"']")?.value; const map = b.querySelector("[name='loc_map_"+id+"']")?.value; return (name && map) ? name+": "+map : null; }).filter(Boolean).join("; "); }
+  function collectRoutes() { return Array.from(document.querySelectorAll("[id^='route-']")).map(b => { const id = b.id.split("-")[1]; return b.querySelector("[name='route_name_"+id+"']")?.value; }).filter(Boolean).join("; "); }
+  function collectRouteMaps() { return Array.from(document.querySelectorAll("[id^='route-']")).map(b => { const id = b.id.split("-")[1]; const name = b.querySelector("[name='route_name_"+id+"']")?.value; const map = b.querySelector("[name='route_map_"+id+"']")?.value; return (name && map) ? name+": "+map : null; }).filter(Boolean).join("; "); }
 
   // ── AUTO SAVE ─────────────────────────────────────────────
   let saveTimer;
@@ -1259,7 +1267,10 @@
     payload.append('biggest_gap_category', getCheckboxValues('gapCategory').join(', '));
     payload.append('biggest_gap_detail', document.getElementById('biggestGapDetail').value);
     payload.append('locations', collectLocations());
+    payload.append('location_addresses', collectLocationAddresses());
+    payload.append('location_maps', collectLocationMaps());
     payload.append('routes', collectRoutes());
+    payload.append('route_maps', collectRouteMaps());
     payload.append('lma', getCheckboxValues('lma').join(', '));
     payload.append('permits', document.getElementById('permitNotes').value);
     payload.append('op_types', getCheckboxValues('opType').join(', '));
