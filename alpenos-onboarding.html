@@ -15,9 +15,11 @@
     --accent: #DEB0C6;
     --accent-dim: rgba(222,176,198,0.12);
     --danger: #8C4633;
+    --danger-bg: rgba(140,70,51,0.08);
     --panel: #22252B;
     --border: #333740;
     --input-bg: #22252B;
+    --success: #2d6a4f;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -31,8 +33,9 @@
     flex-direction: column;
   }
 
+  /* ── NAV ── */
   nav {
-    padding: 20px 40px;
+    padding: 22px 48px;
     border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
@@ -42,159 +45,279 @@
     background: var(--black);
     z-index: 50;
   }
-  .logo { font-family: 'Space Mono', monospace; font-size: 1rem; letter-spacing: 0.05em; color: var(--offwhite); text-decoration: none; }
+  .logo { font-family: 'Space Mono', monospace; font-size: 1.05rem; letter-spacing: 0.05em; color: var(--offwhite); text-decoration: none; }
   .logo span { color: var(--accent); }
-  .nav-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--mid); letter-spacing: 0.15em; text-transform: uppercase; }
-  .nav-timer { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--mid); }
-  .nav-timer span { color: var(--accent); }
+  .nav-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--mid); letter-spacing: 0.15em; text-transform: uppercase; }
+  .nav-save {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem;
+    color: var(--mid);
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .save-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: background 0.3s;
+  }
+  .save-dot.saved { background: #2d6a4f; }
 
-  main { flex: 1; display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 61px); }
+  /* ── LAYOUT ── */
+  main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    min-height: calc(100vh - 65px);
+  }
 
+  /* ── SIDEBAR ── */
   aside {
     border-right: 1px solid var(--border);
-    padding: 40px 28px;
+    padding: 48px 32px;
     position: sticky;
-    top: 61px;
-    height: calc(100vh - 61px);
+    top: 65px;
+    height: calc(100vh - 65px);
     overflow-y: auto;
   }
-  .sidebar-title { font-family: 'Space Mono', monospace; font-size: 0.55rem; letter-spacing: 0.2em; color: var(--mid); text-transform: uppercase; margin-bottom: 24px; }
-  .step-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
-  .step-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px; border-left: 2px solid transparent; transition: background 0.2s; }
+  .sidebar-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--mid);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .step-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .step-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 12px 12px;
+    border-left: 2px solid transparent;
+    transition: background 0.2s;
+    cursor: default;
+  }
   .step-item.active { background: var(--panel); border-left-color: var(--accent); }
-  .step-item.complete { opacity: 0.45; }
-  .step-num { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--mid); min-width: 20px; padding-top: 2px; }
+  .step-item.complete { opacity: 0.5; }
+  .step-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--mid);
+    min-width: 22px;
+    padding-top: 2px;
+    flex-shrink: 0;
+  }
   .step-item.active .step-num { color: var(--accent); }
-  .step-name { font-size: 0.78rem; font-weight: 600; color: var(--stone); line-height: 1.3; }
+  .step-name { font-size: 0.88rem; font-weight: 600; color: var(--stone); line-height: 1.3; }
   .step-item.active .step-name { color: var(--offwhite); }
-  .step-sub { font-family: 'Space Mono', monospace; font-size: 0.52rem; color: var(--mid); margin-top: 3px; }
+  .step-sub { font-family: 'Space Mono', monospace; font-size: 0.58rem; color: var(--mid); margin-top: 4px; }
   .step-item.active .step-sub { color: rgba(222,176,198,0.6); }
-  .step-est { font-family: 'Space Mono', monospace; font-size: 0.5rem; color: var(--border); margin-top: 2px; }
+  .step-est { font-family: 'Space Mono', monospace; font-size: 0.55rem; color: var(--border); margin-top: 3px; }
   .step-item.active .step-est { color: var(--mid); }
+  .step-check {
+    width: 14px; height: 14px;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+    margin-top: 3px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.55rem;
+    color: transparent;
+  }
+  .step-item.complete .step-check { border-color: var(--accent); color: var(--accent); background: rgba(222,176,198,0.1); }
 
-  .sidebar-note { margin-top: 40px; padding: 14px 16px; border: 1px solid var(--border); border-left: 2px solid var(--accent); background: var(--panel); }
-  .sidebar-note p { font-size: 0.68rem; color: var(--mid); line-height: 1.6; }
+  .sidebar-note {
+    margin-top: 48px;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--accent);
+    background: var(--panel);
+  }
+  .sidebar-note p { font-size: 0.75rem; color: var(--mid); line-height: 1.7; }
   .sidebar-note strong { color: var(--stone); font-weight: 600; }
 
-  .content { padding: 48px 64px; max-width: 760px; }
+  /* ── CONTENT ── */
+  .content-outer {
+    display: flex;
+    justify-content: center;
+    padding: 56px 48px;
+    overflow-y: auto;
+  }
+  .content {
+    width: 100%;
+    max-width: 680px;
+  }
 
-  .progress-wrap { margin-bottom: 48px; }
+  /* ── PROGRESS ── */
+  .progress-wrap { margin-bottom: 52px; }
   .progress-track { height: 2px; background: var(--border); }
   .progress-fill { height: 100%; background: var(--accent); transition: width 0.4s ease; }
-  .progress-label { display: flex; justify-content: space-between; margin-top: 8px; }
-  .progress-label span { font-family: 'Space Mono', monospace; font-size: 0.55rem; color: var(--mid); letter-spacing: 0.1em; }
+  .progress-label { display: flex; justify-content: space-between; margin-top: 10px; }
+  .progress-label span { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--mid); letter-spacing: 0.1em; }
   .progress-label .pct { color: var(--accent); }
 
-  .step-header { margin-bottom: 36px; }
-  .step-tag { font-family: 'Space Mono', monospace; font-size: 0.55rem; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 10px; display: block; }
-  .step-title { font-size: 2rem; font-weight: 800; line-height: 1.05; color: var(--offwhite); margin-bottom: 10px; letter-spacing: -0.03em; }
-  .step-desc { font-size: 0.85rem; color: var(--mid); line-height: 1.7; max-width: 520px; }
+  /* ── STEP HEADER ── */
+  .step-header { margin-bottom: 40px; }
+  .step-tag { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 12px; display: block; }
+  .step-title { font-size: 2.4rem; font-weight: 800; line-height: 1.0; color: var(--offwhite); margin-bottom: 12px; letter-spacing: -0.03em; }
+  .step-desc { font-size: 0.92rem; color: var(--mid); line-height: 1.75; max-width: 520px; }
 
-  .gate-screen { display: flex; flex-direction: column; justify-content: center; min-height: 55vh; }
-  .gate-screen .step-title { font-size: 2.2rem; }
-  .gate-input-wrap { display: flex; margin-top: 8px; max-width: 380px; }
-  .gate-input-wrap input { flex: 1; font-family: 'Space Mono', monospace; letter-spacing: 0.2em; font-size: 0.95rem; text-transform: uppercase; }
-  .gate-input-wrap button { padding: 12px 22px; background: var(--accent); color: var(--black); font-family: 'Space Mono', monospace; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; border: none; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+  /* ── GATE ── */
+  .gate-screen { display: flex; flex-direction: column; justify-content: center; min-height: 50vh; }
+  .gate-screen .step-title { font-size: 2.6rem; }
+  .gate-input-wrap { display: flex; margin-top: 10px; max-width: 400px; }
+  .gate-input-wrap input { flex: 1; font-family: 'Space Mono', monospace; letter-spacing: 0.2em; font-size: 1rem; text-transform: uppercase; }
+  .gate-input-wrap button { padding: 13px 24px; background: var(--accent); color: var(--black); font-family: 'Space Mono', monospace; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; border: none; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
   .gate-input-wrap button:hover { background: #ecc4d8; }
-  .gate-error { font-family: 'Space Mono', monospace; font-size: 0.58rem; color: var(--danger); margin-top: 8px; display: none; }
+  .gate-error { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--danger); margin-top: 10px; display: none; }
 
-  .field-group { margin-bottom: 24px; }
-  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  /* ── FORM ELEMENTS ── */
+  .field-group { margin-bottom: 28px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
 
-  label { display: block; font-family: 'Space Mono', monospace; font-size: 0.58rem; color: var(--stone); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 7px; }
+  label {
+    display: block;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--stone);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
   label .req { color: var(--accent); margin-left: 2px; }
-  label .hint { display: block; font-size: 0.68rem; color: var(--mid); letter-spacing: 0; text-transform: none; margin-top: 3px; font-family: 'Inter', sans-serif; font-weight: 400; }
+  label .hint { display: block; font-size: 0.74rem; color: var(--mid); letter-spacing: 0; text-transform: none; margin-top: 4px; font-family: 'Inter', sans-serif; font-weight: 400; line-height: 1.5; }
 
-  input[type="text"], input[type="email"], input[type="tel"], input[type="number"], input[type="url"], input[type="password"], select, textarea {
-    width: 100%; background: var(--input-bg); border: 1px solid var(--border); color: var(--offwhite);
-    font-family: 'Inter', sans-serif; font-size: 0.88rem; padding: 11px 13px; outline: none;
-    transition: border-color 0.2s; appearance: none; border-radius: 0;
+  input[type="text"], input[type="email"], input[type="tel"],
+  input[type="number"], input[type="url"], input[type="password"],
+  select, textarea {
+    width: 100%; background: var(--input-bg); border: 1px solid var(--border);
+    color: var(--offwhite); font-family: 'Inter', sans-serif; font-size: 0.92rem;
+    padding: 12px 14px; outline: none; transition: border-color 0.2s;
+    appearance: none; border-radius: 0;
   }
   input:focus, select:focus, textarea:focus { border-color: var(--accent); }
   input::placeholder, textarea::placeholder { color: var(--mid); }
-  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238B92A5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 13px center; padding-right: 34px; }
-  textarea { resize: vertical; min-height: 80px; }
+  select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238B92A5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+  textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
 
-  .section-divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
-  .section-label { font-family: 'Space Mono', monospace; font-size: 0.55rem; color: var(--mid); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 18px; margin-top: 28px; }
-
-  .highlight-field { border: 1px solid rgba(222,176,198,0.4); padding: 20px; background: rgba(222,176,198,0.04); margin-bottom: 24px; }
-  .highlight-field label { color: var(--accent); }
-  .highlight-field textarea { border-color: rgba(222,176,198,0.2); background: transparent; }
-  .highlight-field textarea:focus { border-color: var(--accent); }
-
-  /* V1 FLAG */
-  .v1-flag {
-    display: inline-block;
+  /* ── VALIDATION ── */
+  .field-error {
     font-family: 'Space Mono', monospace;
-    font-size: 0.48rem;
-    color: var(--mid);
-    border: 1px solid var(--border);
-    padding: 2px 6px;
-    letter-spacing: 0.1em;
-    vertical-align: middle;
-    margin-left: 8px;
+    font-size: 0.58rem;
+    color: var(--danger);
+    margin-top: 6px;
+    display: none;
+    letter-spacing: 0.05em;
   }
+  .field-error.visible { display: block; }
+  input.invalid, select.invalid, textarea.invalid { border-color: var(--danger) !important; }
+  .step-error-banner {
+    background: var(--danger-bg);
+    border: 1px solid var(--danger);
+    padding: 12px 16px;
+    margin-bottom: 24px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--danger);
+    letter-spacing: 0.05em;
+    display: none;
+  }
+  .step-error-banner.visible { display: block; }
 
-  .chip-grid { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
-  .chip { display: flex; align-items: center; gap: 8px; padding: 7px 13px; border: 1px solid var(--border); background: var(--input-bg); cursor: pointer; transition: all 0.15s; font-size: 0.76rem; color: var(--stone); user-select: none; }
+  /* ── SECTIONS ── */
+  .section-divider { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+  .section-label { font-family: 'Space Mono', monospace; font-size: 0.58rem; color: var(--mid); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 20px; margin-top: 32px; }
+
+  /* ── HIGHLIGHT FIELD ── */
+  .highlight-field { border: 1px solid rgba(222,176,198,0.4); padding: 24px; background: rgba(222,176,198,0.04); margin-bottom: 28px; }
+  .highlight-field > label { color: var(--accent); font-size: 0.65rem; }
+
+  /* ── GAP FOLLOW-UP ── */
+  .gap-followup { margin-top: 16px; display: none; }
+  .gap-followup.visible { display: block; }
+  .gap-followup textarea { border-color: rgba(222,176,198,0.2); background: rgba(222,176,198,0.03); }
+  .gap-followup textarea:focus { border-color: var(--accent); }
+
+  /* ── CHIPS ── */
+  .chip-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .chip {
+    display: flex; align-items: center; gap: 9px;
+    padding: 8px 14px; border: 1px solid var(--border);
+    background: var(--input-bg); cursor: pointer;
+    transition: all 0.15s; font-size: 0.8rem;
+    color: var(--stone); user-select: none;
+  }
   .chip:hover { border-color: var(--accent); color: var(--offwhite); }
   .chip.selected { border-color: var(--accent); background: rgba(222,176,198,0.1); color: var(--offwhite); }
   .chip input[type="checkbox"], .chip input[type="radio"] { display: none; }
   .chip-dot { width: 7px; height: 7px; border: 1px solid var(--mid); flex-shrink: 0; transition: all 0.15s; }
   .chip.selected .chip-dot { background: var(--accent); border-color: var(--accent); }
 
-  .scale-row { display: flex; gap: 6px; margin-top: 4px; }
-  .scale-btn { flex: 1; padding: 10px 4px; border: 1px solid var(--border); background: var(--input-bg); color: var(--mid); font-family: 'Space Mono', monospace; font-size: 0.58rem; text-align: center; cursor: pointer; transition: all 0.15s; text-transform: uppercase; letter-spacing: 0.05em; }
+  /* ── SCALE ── */
+  .scale-row { display: flex; gap: 6px; margin-top: 6px; }
+  .scale-btn { flex: 1; padding: 11px 4px; border: 1px solid var(--border); background: var(--input-bg); color: var(--mid); font-family: 'Space Mono', monospace; font-size: 0.6rem; text-align: center; cursor: pointer; transition: all 0.15s; text-transform: uppercase; letter-spacing: 0.05em; }
   .scale-btn:hover { border-color: var(--stone); color: var(--stone); }
   .scale-btn.active { border-color: var(--accent); background: rgba(222,176,198,0.1); color: var(--accent); }
 
-  .repeat-block { border: 1px solid var(--border); padding: 22px; margin-bottom: 14px; background: var(--panel); }
-  .repeat-block-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-  .repeat-label { font-family: 'Space Mono', monospace; font-size: 0.58rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; }
-  .btn-remove { background: none; border: 1px solid var(--border); color: var(--mid); font-family: 'Space Mono', monospace; font-size: 0.52rem; padding: 4px 9px; cursor: pointer; letter-spacing: 0.1em; text-transform: uppercase; transition: all 0.15s; }
+  /* ── REPEAT BLOCKS ── */
+  .repeat-block { border: 1px solid var(--border); padding: 24px; margin-bottom: 16px; background: var(--panel); }
+  .repeat-block-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .repeat-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; }
+  .btn-remove { background: none; border: 1px solid var(--border); color: var(--mid); font-family: 'Space Mono', monospace; font-size: 0.55rem; padding: 5px 10px; cursor: pointer; letter-spacing: 0.1em; text-transform: uppercase; transition: all 0.15s; }
   .btn-remove:hover { border-color: var(--danger); color: var(--danger); }
-  .btn-add { display: flex; align-items: center; gap: 8px; background: none; border: 1px dashed var(--border); color: var(--mid); font-family: 'Space Mono', monospace; font-size: 0.58rem; padding: 11px 18px; cursor: pointer; letter-spacing: 0.1em; text-transform: uppercase; width: 100%; margin-top: 4px; transition: all 0.2s; }
+  .btn-add { display: flex; align-items: center; gap: 8px; background: none; border: 1px dashed var(--border); color: var(--mid); font-family: 'Space Mono', monospace; font-size: 0.6rem; padding: 12px 20px; cursor: pointer; letter-spacing: 0.1em; text-transform: uppercase; width: 100%; margin-top: 6px; transition: all 0.2s; }
   .btn-add:hover { border-color: var(--accent); color: var(--accent); }
 
-  .nav-buttons { display: flex; gap: 14px; margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--border); align-items: center; }
-  .btn-primary { padding: 13px 30px; background: var(--accent); color: var(--black); font-family: 'Space Mono', monospace; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border: none; cursor: pointer; transition: background 0.2s; }
+  /* ── NAV BUTTONS ── */
+  .nav-buttons { display: flex; gap: 16px; margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border); align-items: center; }
+  .btn-primary { padding: 14px 32px; background: var(--accent); color: var(--black); font-family: 'Space Mono', monospace; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; border: none; cursor: pointer; transition: background 0.2s; }
   .btn-primary:hover { background: #ecc4d8; }
-  .btn-secondary { padding: 13px 26px; background: none; color: var(--mid); font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; }
+  .btn-secondary { padding: 14px 28px; background: none; color: var(--mid); font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; }
   .btn-secondary:hover { border-color: var(--stone); color: var(--stone); }
-  .step-counter { margin-left: auto; font-family: 'Space Mono', monospace; font-size: 0.58rem; color: var(--mid); }
+  .step-counter { margin-left: auto; font-family: 'Space Mono', monospace; font-size: 0.62rem; color: var(--mid); }
 
-  .review-block { border: 1px solid var(--border); padding: 20px; margin-bottom: 12px; background: var(--panel); }
-  .review-block-title { font-family: 'Space Mono', monospace; font-size: 0.55rem; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 12px; }
-  .review-grid { display: grid; grid-template-columns: 140px 1fr; gap: 6px 14px; font-size: 0.78rem; }
-  .review-key { font-family: 'Space Mono', monospace; font-size: 0.55rem; color: var(--mid); padding-top: 1px; }
+  /* ── REVIEW ── */
+  .review-block { border: 1px solid var(--border); padding: 22px; margin-bottom: 14px; background: var(--panel); }
+  .review-block-title { font-family: 'Space Mono', monospace; font-size: 0.58rem; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 14px; }
+  .review-grid { display: grid; grid-template-columns: 150px 1fr; gap: 8px 16px; font-size: 0.82rem; }
+  .review-key { font-family: 'Space Mono', monospace; font-size: 0.58rem; color: var(--mid); padding-top: 2px; }
   .review-val { color: var(--stone); line-height: 1.5; }
   .review-val.hi { color: var(--offwhite); font-weight: 600; }
 
-  .routing-box { border: 1px solid var(--border); padding: 14px 18px; margin-top: 14px; display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
-  .route-node { font-family: 'Space Mono', monospace; font-size: 0.58rem; color: var(--mid); white-space: nowrap; }
-  .route-node.active { color: var(--accent); }
-  .route-arrow { color: var(--border); margin: 0 6px; }
+  /* ── WHAT HAPPENS NEXT ── */
+  .next-steps-box { border: 1px solid var(--border); padding: 22px; margin-top: 16px; background: var(--panel); }
+  .next-steps-title { font-family: 'Space Mono', monospace; font-size: 0.58rem; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 16px; }
+  .next-step-row { display: flex; align-items: flex-start; gap: 14px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .next-step-row:last-child { border-bottom: none; }
+  .next-step-num { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--accent); min-width: 20px; padding-top: 2px; }
+  .next-step-text { font-size: 0.82rem; color: var(--stone); line-height: 1.5; }
+  .next-step-text strong { color: var(--offwhite); font-weight: 600; display: block; margin-bottom: 2px; }
 
+  /* ── SUCCESS ── */
   .success-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; text-align: center; padding: 40px; }
-  .success-mark { width: 48px; height: 48px; border: 1px solid var(--accent); display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: 1.2rem; color: var(--accent); margin-bottom: 28px; }
-  .success-title { font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 12px; }
-  .success-desc { font-size: 0.85rem; color: var(--mid); line-height: 1.7; max-width: 380px; margin-bottom: 32px; }
-  .success-detail { font-family: 'Space Mono', monospace; font-size: 0.65rem; border: 1px solid var(--border); padding: 20px; max-width: 420px; width: 100%; text-align: left; background: var(--panel); }
-  .success-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid var(--border); }
+  .success-mark { width: 52px; height: 52px; border: 1px solid var(--accent); display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: 1.3rem; color: var(--accent); margin-bottom: 32px; }
+  .success-title { font-size: 2.2rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 14px; }
+  .success-desc { font-size: 0.9rem; color: var(--mid); line-height: 1.75; max-width: 400px; margin-bottom: 36px; }
+  .success-detail { font-family: 'Space Mono', monospace; font-size: 0.68rem; border: 1px solid var(--border); padding: 22px; max-width: 440px; width: 100%; text-align: left; background: var(--panel); }
+  .success-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); }
   .success-row:last-child { border-bottom: none; }
   .success-row .k { color: var(--mid); }
   .success-row .v { color: var(--accent); }
 
-  @media (max-width: 768px) {
+  /* ── V1 FLAG ── */
+  .v1-flag { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.5rem; color: var(--mid); border: 1px solid var(--border); padding: 2px 7px; letter-spacing: 0.1em; vertical-align: middle; margin-left: 8px; }
+
+  @media (max-width: 900px) {
     main { grid-template-columns: 1fr; }
     aside { display: none; }
-    .content { padding: 28px 20px; }
+    .content-outer { padding: 28px 20px; }
     .field-row, .field-row-3 { grid-template-columns: 1fr; }
-    .step-title { font-size: 1.6rem; }
-    nav { padding: 14px 20px; }
-    .nav-timer { display: none; }
+    .step-title { font-size: 1.8rem; }
+    nav { padding: 16px 20px; }
+    .nav-label { display: none; }
   }
 
   .hidden { display: none !important; }
@@ -206,428 +329,484 @@
 <nav>
   <a href="https://alpenos.io" class="logo">Alpen<span>/</span>OS</a>
   <span class="nav-label">Design Partner Onboarding</span>
-  <span class="nav-timer">Est. <span>~20 min</span></span>
+  <div class="nav-save">
+    <div class="save-dot" id="saveDot"></div>
+    <span id="saveLabel">Progress saves automatically</span>
+  </div>
 </nav>
 
 <main>
+  <!-- SIDEBAR -->
   <aside>
     <div class="sidebar-title">// Configuration Steps</div>
     <ul class="step-list" id="stepList">
-      <li class="step-item" data-step="0"><span class="step-num">00</span><div><div class="step-name">Access</div><div class="step-sub">Gate</div></div></li>
-      <li class="step-item" data-step="1"><span class="step-num">01</span><div><div class="step-name">Organization Profile</div><div class="step-sub">→ PARTNER / ORG</div><div class="step-est">~6 min</div></div></li>
-      <li class="step-item" data-step="2"><span class="step-num">02</span><div><div class="step-name">Locations & Venues</div><div class="step-sub">→ LOCATIONS / ROUTES</div><div class="step-est">~5 min</div></div></li>
-      <li class="step-item" data-step="3"><span class="step-num">03</span><div><div class="step-name">Op Types</div><div class="step-sub">→ OP_TEMPLATES</div><div class="step-est">~4 min</div></div></li>
-      <li class="step-item" data-step="4"><span class="step-num">04</span><div><div class="step-name">Risk & Library</div><div class="step-sub">→ TRIGGERS / LIBRARY / GEAR</div><div class="step-est">~4 min</div></div></li>
-      <li class="step-item" data-step="5"><span class="step-num">05</span><div><div class="step-name">Review & Submit</div><div class="step-sub">→ Staging Queue</div><div class="step-est">~1 min</div></div></li>
+      <li class="step-item" data-step="0">
+        <div class="step-check">✓</div>
+        <span class="step-num">00</span>
+        <div><div class="step-name">Access</div><div class="step-sub">Gate</div></div>
+      </li>
+      <li class="step-item" data-step="1">
+        <div class="step-check">✓</div>
+        <span class="step-num">01</span>
+        <div><div class="step-name">Organization Profile</div><div class="step-sub">→ PARTNER / ORG</div><div class="step-est">~6 min</div></div>
+      </li>
+      <li class="step-item" data-step="2">
+        <div class="step-check">✓</div>
+        <span class="step-num">02</span>
+        <div><div class="step-name">Locations & Venues</div><div class="step-sub">→ LOCATIONS / ROUTES</div><div class="step-est">~5 min</div></div>
+      </li>
+      <li class="step-item" data-step="3">
+        <div class="step-check">✓</div>
+        <span class="step-num">03</span>
+        <div><div class="step-name">Op Types</div><div class="step-sub">→ OP_TEMPLATES</div><div class="step-est">~4 min</div></div>
+      </li>
+      <li class="step-item" data-step="4">
+        <div class="step-check">✓</div>
+        <span class="step-num">04</span>
+        <div><div class="step-name">Risk & Library</div><div class="step-sub">→ TRIGGERS / LIBRARY / GEAR</div><div class="step-est">~4 min</div></div>
+      </li>
+      <li class="step-item" data-step="5">
+        <div class="step-check">✓</div>
+        <span class="step-num">05</span>
+        <div><div class="step-name">Review & Submit</div><div class="step-sub">→ Staging Queue</div><div class="step-est">~1 min</div></div>
+      </li>
     </ul>
     <div class="sidebar-note">
       <p><strong>Note on staff:</strong> Guide and instructor profiles are collected separately via individual invite links after this submission. Each team member completes their own TEAM record.</p>
     </div>
   </aside>
 
-  <div class="content">
-    <div class="progress-wrap">
-      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-      <div class="progress-label">
-        <span id="progressStepLabel">Access</span>
-        <span class="pct" id="progressPct">0%</span>
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════ STEP 0 ═══════════════════════════ -->
-    <div id="step-0" class="gate-screen">
-      <div class="step-header">
-        <span class="step-tag">// Access Required</span>
-        <h1 class="step-title">Design Partner<br>Configuration</h1>
-        <p class="step-desc">This portal is for AlpenOS design partners. Enter your access code to begin building your operational environment. Contact your AlpenOS advisor if you need a code.</p>
-      </div>
-      <div class="field-group" style="max-width:400px;">
-        <label>Access Code <span class="req">*</span></label>
-        <div class="gate-input-wrap">
-          <input type="password" id="accessCode" placeholder="XXXX-XXXX" autocomplete="off">
-          <button onclick="checkCode()">Unlock →</button>
-        </div>
-        <div class="gate-error" id="gateError">Invalid code. Contact your AlpenOS advisor.</div>
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════ STEP 1 ═══════════════════════════ -->
-    <div id="step-1" class="hidden">
-      <div class="step-header">
-        <span class="step-tag">// Step 01 — PARTNER / ORG</span>
-        <h1 class="step-title">Organization<br>Profile</h1>
-        <p class="step-desc">Identity, contact record, and operational context. This becomes the root node for your entire AlpenOS environment — every op, staff record, and participant routes through this PartnerID.</p>
-      </div>
-
-      <div class="highlight-field">
-        <label>Primary operational gap AlpenOS needs to solve first <span class="req">*</span>
-          <span class="hint">Be direct. This shapes your V0 configuration and sets the agenda for your config call.</span>
-        </label>
-        <textarea id="biggestGap" placeholder="e.g. No system for field incident documentation — guides text me and I transcribe it the next day. We've had two near-miss events with no formal record..."></textarea>
-      </div>
-
-      <div class="section-label">// Identity</div>
-      <div class="field-row">
-        <div class="field-group">
-          <label>Organization Name <span class="req">*</span></label>
-          <input type="text" id="orgName" placeholder="Summit Outdoor Education">
-        </div>
-        <div class="field-group">
-          <label>Operating DBA (if different)</label>
-          <input type="text" id="orgDBA" placeholder="Summit OE">
+  <!-- CONTENT -->
+  <div class="content-outer">
+    <div class="content">
+      <div class="progress-wrap">
+        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        <div class="progress-label">
+          <span id="progressStepLabel">Access</span>
+          <span class="pct" id="progressPct">0%</span>
         </div>
       </div>
 
-      <div class="field-group">
-        <label>Organization Type <span class="req">*</span></label>
-        <div class="chip-grid">
-          <label class="chip"><input type="radio" name="orgType" value="Youth / Community Org"><span class="chip-dot"></span>Youth / Community Org</label>
-          <label class="chip"><input type="radio" name="orgType" value="Commercial Guiding"><span class="chip-dot"></span>Commercial Guiding</label>
-          <label class="chip"><input type="radio" name="orgType" value="University / School"><span class="chip-dot"></span>University / School</label>
-          <label class="chip"><input type="radio" name="orgType" value="Outdoor Camp (Day &amp; Overnight)"><span class="chip-dot"></span>Outdoor Camp</label>
-          <label class="chip"><input type="radio" name="orgType" value="Other"><span class="chip-dot"></span>Other</label>
+      <!-- ══ STEP 0: GATE ══ -->
+      <div id="step-0" class="gate-screen">
+        <div class="step-header">
+          <span class="step-tag">// Access Required</span>
+          <h1 class="step-title">Design Partner<br>Configuration</h1>
+          <p class="step-desc">This portal is for AlpenOS design partners. Enter your access code to begin. Contact your AlpenOS advisor if you need a code.</p>
+        </div>
+        <div class="field-group" style="max-width:420px;">
+          <label>Access Code <span class="req">*</span></label>
+          <div class="gate-input-wrap">
+            <input type="password" id="accessCode" placeholder="XXXX-XXXX" autocomplete="off">
+            <button onclick="checkCode()">Unlock →</button>
+          </div>
+          <div class="gate-error" id="gateError">Invalid code. Contact your AlpenOS advisor.</div>
         </div>
       </div>
 
-      <hr class="section-divider">
-      <div class="section-label">// Admin Contact — Primary Row Owner</div>
-      <div class="field-row">
-        <div class="field-group">
-          <label>First Name <span class="req">*</span></label>
-          <input type="text" id="adminFirst" placeholder="Jordan">
+      <!-- ══ STEP 1: ORG PROFILE ══ -->
+      <div id="step-1" class="hidden">
+        <div class="step-header">
+          <span class="step-tag">// Step 01 — PARTNER / ORG</span>
+          <h1 class="step-title">Organization<br>Profile</h1>
+          <p class="step-desc">Identity, contact record, and operational context. This becomes the root node for your entire AlpenOS environment.</p>
         </div>
-        <div class="field-group">
-          <label>Last Name <span class="req">*</span></label>
-          <input type="text" id="adminLast" placeholder="Mitchell">
-        </div>
-      </div>
-      <div class="field-row">
-        <div class="field-group">
-          <label>Admin Email <span class="req">*</span>
-            <span class="hint">Becomes your Glide Row Owner key — keep accurate</span>
+
+        <div class="step-error-banner" id="err-1">Complete the required fields before continuing.</div>
+
+        <!-- GAP — structured -->
+        <div class="highlight-field">
+          <label>What best describes your primary operational gap? <span class="req">*</span>
+            <span class="hint">Select all that apply — this shapes your entire V0 configuration.</span>
           </label>
-          <input type="email" id="adminEmail" placeholder="jordan@summitoe.org">
-        </div>
-        <div class="field-group">
-          <label>Admin Phone</label>
-          <input type="tel" id="adminPhone" placeholder="(720) 555-0190">
-        </div>
-      </div>
+          <div class="chip-grid" id="gapChips">
+            <label class="chip"><input type="checkbox" name="gapCategory" value="Incident Documentation"><span class="chip-dot"></span>Incident Documentation</label>
+            <label class="chip"><input type="checkbox" name="gapCategory" value="Pre-trip Compliance"><span class="chip-dot"></span>Pre-trip Compliance</label>
+            <label class="chip"><input type="checkbox" name="gapCategory" value="Staff Communication"><span class="chip-dot"></span>Staff Communication</label>
+            <label class="chip"><input type="checkbox" name="gapCategory" value="Participant Medical Tracking"><span class="chip-dot"></span>Participant Medical Tracking</label>
+            <label class="chip"><input type="checkbox" name="gapCategory" value="Gear Management"><span class="chip-dot"></span>Gear Management</label>
+            <label class="chip"><input type="checkbox" name="gapCategory" value="Post-incident Review"><span class="chip-dot"></span>Post-incident Review</label>
+            <label class="chip"><input type="checkbox" name="gapCategory" value="Reporting & Liability"><span class="chip-dot"></span>Reporting &amp; Liability</label>
+            <label class="chip"><input type="checkbox" name="gapCategory" value="Other"><span class="chip-dot"></span>Other</label>
+          </div>
+          <div class="field-error" id="err-gapCategory">Select at least one gap category.</div>
 
-      <hr class="section-divider">
-      <div class="section-label">// Operational Context</div>
-      <div class="field-row">
-        <div class="field-group">
-          <label>Organization Phone</label>
-          <input type="tel" id="orgPhone" placeholder="(720) 555-0100">
+          <div class="gap-followup" id="gapFollowup">
+            <label style="margin-top:16px;">Describe what this looks like on a typical op day. <span class="req">*</span>
+              <span class="hint">A sentence or two is enough. Be direct.</span>
+            </label>
+            <textarea id="biggestGapDetail" placeholder="e.g. Guides text me incident details after the fact and I transcribe them the next day. We've had two near-misses with no formal record..."></textarea>
+            <div class="field-error" id="err-gapDetail">Please describe the gap briefly.</div>
+          </div>
         </div>
-        <div class="field-group">
-          <label>Primary State of Operations <span class="req">*</span></label>
-          <select id="opState">
-            <option value="">— Select —</option>
-            <option>Colorado</option><option>Utah</option><option>Wyoming</option>
-            <option>Montana</option><option>Idaho</option><option>Washington</option>
-            <option>Oregon</option><option>California</option><option>Alaska</option>
-            <option>New Mexico</option><option>Arizona</option><option>Other</option>
-          </select>
-        </div>
-      </div>
-      <div class="field-row">
-        <div class="field-group">
-          <label>Geographic Scope</label>
-          <div class="chip-grid" style="margin-top:6px;">
-            <label class="chip"><input type="radio" name="geoScope" value="Local"><span class="chip-dot"></span>Local</label>
-            <label class="chip"><input type="radio" name="geoScope" value="Regional"><span class="chip-dot"></span>Regional</label>
-            <label class="chip"><input type="radio" name="geoScope" value="Multi-state"><span class="chip-dot"></span>Multi-state</label>
-            <label class="chip"><input type="radio" name="geoScope" value="National"><span class="chip-dot"></span>National</label>
+
+        <div class="section-label">// Identity</div>
+        <div class="field-row">
+          <div class="field-group">
+            <label>Organization Name <span class="req">*</span></label>
+            <input type="text" id="orgName" placeholder="Summit Outdoor Education">
+            <div class="field-error" id="err-orgName">Organization name is required.</div>
+          </div>
+          <div class="field-group">
+            <label>Operating DBA (if different)</label>
+            <input type="text" id="orgDBA" placeholder="Summit OE">
           </div>
         </div>
         <div class="field-group">
-          <label>Annual Participant Volume</label>
-          <div class="chip-grid" style="margin-top:6px;">
-            <label class="chip"><input type="radio" name="paxVolume" value="Under 50"><span class="chip-dot"></span>Under 50</label>
-            <label class="chip"><input type="radio" name="paxVolume" value="50–200"><span class="chip-dot"></span>50–200</label>
-            <label class="chip"><input type="radio" name="paxVolume" value="200–500"><span class="chip-dot"></span>200–500</label>
-            <label class="chip"><input type="radio" name="paxVolume" value="500+"><span class="chip-dot"></span>500+</label>
+          <label>Organization Type <span class="req">*</span></label>
+          <div class="chip-grid" id="orgTypeChips">
+            <label class="chip"><input type="radio" name="orgType" value="Youth / Community Org"><span class="chip-dot"></span>Youth / Community Org</label>
+            <label class="chip"><input type="radio" name="orgType" value="Commercial Guiding"><span class="chip-dot"></span>Commercial Guiding</label>
+            <label class="chip"><input type="radio" name="orgType" value="University / School"><span class="chip-dot"></span>University / School</label>
+            <label class="chip"><input type="radio" name="orgType" value="Outdoor Camp (Day & Overnight)"><span class="chip-dot"></span>Outdoor Camp</label>
+            <label class="chip"><input type="radio" name="orgType" value="Other"><span class="chip-dot"></span>Other</label>
+          </div>
+          <div class="field-error" id="err-orgType">Select an organization type.</div>
+        </div>
+
+        <hr class="section-divider">
+        <div class="section-label">// Admin Contact — Primary Row Owner</div>
+        <div class="field-row">
+          <div class="field-group">
+            <label>First Name <span class="req">*</span></label>
+            <input type="text" id="adminFirst" placeholder="Jordan">
+            <div class="field-error" id="err-adminFirst">First name is required.</div>
+          </div>
+          <div class="field-group">
+            <label>Last Name <span class="req">*</span></label>
+            <input type="text" id="adminLast" placeholder="Mitchell">
+            <div class="field-error" id="err-adminLast">Last name is required.</div>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label>Admin Email <span class="req">*</span>
+              <span class="hint">Becomes your Glide Row Owner key — keep accurate</span>
+            </label>
+            <input type="email" id="adminEmail" placeholder="jordan@summitoe.org">
+            <div class="field-error" id="err-adminEmail">A valid email address is required.</div>
+          </div>
+          <div class="field-group">
+            <label>Admin Phone</label>
+            <input type="tel" id="adminPhone" placeholder="(720) 555-0190">
+          </div>
+        </div>
+
+        <hr class="section-divider">
+        <div class="section-label">// Operational Context</div>
+        <div class="field-row">
+          <div class="field-group">
+            <label>Organization Phone</label>
+            <input type="tel" id="orgPhone" placeholder="(720) 555-0100">
+          </div>
+          <div class="field-group">
+            <label>Primary State of Operations <span class="req">*</span></label>
+            <select id="opState">
+              <option value="">— Select —</option>
+              <option>Colorado</option><option>Utah</option><option>Wyoming</option>
+              <option>Montana</option><option>Idaho</option><option>Washington</option>
+              <option>Oregon</option><option>California</option><option>Alaska</option>
+              <option>New Mexico</option><option>Arizona</option><option>Other</option>
+            </select>
+            <div class="field-error" id="err-opState">Select a state.</div>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label>Geographic Scope</label>
+            <div class="chip-grid" style="margin-top:6px;">
+              <label class="chip"><input type="radio" name="geoScope" value="Local"><span class="chip-dot"></span>Local</label>
+              <label class="chip"><input type="radio" name="geoScope" value="Regional"><span class="chip-dot"></span>Regional</label>
+              <label class="chip"><input type="radio" name="geoScope" value="Multi-state"><span class="chip-dot"></span>Multi-state</label>
+              <label class="chip"><input type="radio" name="geoScope" value="National"><span class="chip-dot"></span>National</label>
+            </div>
+          </div>
+          <div class="field-group">
+            <label>Annual Participant Volume</label>
+            <div class="chip-grid" style="margin-top:6px;">
+              <label class="chip"><input type="radio" name="paxVolume" value="Under 50"><span class="chip-dot"></span>Under 50</label>
+              <label class="chip"><input type="radio" name="paxVolume" value="50–200"><span class="chip-dot"></span>50–200</label>
+              <label class="chip"><input type="radio" name="paxVolume" value="200–500"><span class="chip-dot"></span>200–500</label>
+              <label class="chip"><input type="radio" name="paxVolume" value="500+"><span class="chip-dot"></span>500+</label>
+            </div>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Documented incidents or near-misses — last 2 seasons
+            <span class="hint">Rough estimate. Calibrates trigger severity in your configuration.</span>
+          </label>
+          <div class="scale-row">
+            <button class="scale-btn" onclick="selectScale('incident', this, 'None')">None</button>
+            <button class="scale-btn" onclick="selectScale('incident', this, '1–5')">1–5</button>
+            <button class="scale-btn" onclick="selectScale('incident', this, '6–15')">6–15</button>
+            <button class="scale-btn" onclick="selectScale('incident', this, '15+')">15+</button>
+          </div>
+          <input type="hidden" id="incidentScaleValue">
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label>Years in Operation</label>
+            <input type="number" id="yearsOp" placeholder="7" min="0">
+          </div>
+          <div class="field-group">
+            <label>Primary Insurer</label>
+            <input type="text" id="insurer" placeholder="Outdoor Umbrella Group">
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Website</label>
+          <input type="url" id="orgWebsite" placeholder="https://summitoe.org">
+        </div>
+
+        <div class="nav-buttons">
+          <button class="btn-primary" onclick="goToStep(2)">Next: Locations & Venues →</button>
+          <span class="step-counter">01 / 05</span>
+        </div>
+      </div>
+
+      <!-- ══ STEP 2: LOCATIONS ══ -->
+      <div id="step-2" class="hidden">
+        <div class="step-header">
+          <span class="step-tag">// Step 02 — LOCATIONS / ROUTES</span>
+          <h1 class="step-title">Locations &<br>Venues</h1>
+          <p class="step-desc">Primary operating areas, venues, and activity routes. These populate the Location dropdown on every Op and seed your offline-cached Area Guide. <span class="v1-flag">V1 terrain/venue schema split</span></p>
+        </div>
+        <div class="step-error-banner" id="err-2">Add at least one location or venue before continuing.</div>
+
+        <div class="section-label">// Operating Areas, Trailheads & Venues</div>
+        <div id="locationsContainer"></div>
+        <button class="btn-add" onclick="addLocation()">+ Add Location / Venue</button>
+
+        <hr class="section-divider">
+        <div class="section-label">// Routes & Activity Areas</div>
+        <div id="routesContainer"></div>
+        <button class="btn-add" onclick="addRoute()">+ Add Route / Activity Area</button>
+
+        <hr class="section-divider">
+        <div class="section-label">// Land Management</div>
+        <div class="field-group">
+          <label>Primary Land Management Agencies</label>
+          <div class="chip-grid">
+            <label class="chip"><input type="checkbox" name="lma" value="USFS"><span class="chip-dot"></span>USFS</label>
+            <label class="chip"><input type="checkbox" name="lma" value="BLM"><span class="chip-dot"></span>BLM</label>
+            <label class="chip"><input type="checkbox" name="lma" value="NPS"><span class="chip-dot"></span>NPS</label>
+            <label class="chip"><input type="checkbox" name="lma" value="State Parks"><span class="chip-dot"></span>State Parks</label>
+            <label class="chip"><input type="checkbox" name="lma" value="Private Land"><span class="chip-dot"></span>Private Land</label>
+            <label class="chip"><input type="checkbox" name="lma" value="Municipality"><span class="chip-dot"></span>Municipality</label>
+            <label class="chip"><input type="checkbox" name="lma" value="Private Venue / Facility"><span class="chip-dot"></span>Private Venue / Facility</label>
+            <label class="chip"><input type="checkbox" name="lma" value="N/A"><span class="chip-dot"></span>N/A</label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Active Permit Numbers / Partner Agreements</label>
+          <textarea id="permitNotes" placeholder="e.g. USFS Permit #CO-123, Ranch Operating Agreement..."></textarea>
+        </div>
+
+        <div class="nav-buttons">
+          <button class="btn-secondary" onclick="goToStep(1)">← Back</button>
+          <button class="btn-primary" onclick="goToStep(3)">Next: Op Types →</button>
+          <span class="step-counter">02 / 05</span>
+        </div>
+      </div>
+
+      <!-- ══ STEP 3: OP TYPES ══ -->
+      <div id="step-3" class="hidden">
+        <div class="step-header">
+          <span class="step-tag">// Step 03 — OP_TEMPLATES</span>
+          <h1 class="step-title">Op Types &<br>Templates</h1>
+          <p class="step-desc">Select every operation type your program runs. Each generates a default ReadyState trigger set — your starting compliance checklist for that op type.</p>
+        </div>
+        <div class="step-error-banner" id="err-3">Select at least one operation type before continuing.</div>
+
+        <div class="section-label">// Operation Types — select all that apply</div>
+        <div class="chip-grid">
+          <label class="chip"><input type="checkbox" name="opType" value="Day Trip"><span class="chip-dot"></span>Day Trip</label>
+          <label class="chip"><input type="checkbox" name="opType" value="Overnight / Backpacking"><span class="chip-dot"></span>Overnight / Backpacking</label>
+          <label class="chip"><input type="checkbox" name="opType" value="Multi-day Expedition"><span class="chip-dot"></span>Multi-day Expedition</label>
+          <label class="chip"><input type="checkbox" name="opType" value="Climbing / Ropes Course"><span class="chip-dot"></span>Climbing / Ropes Course</label>
+          <label class="chip"><input type="checkbox" name="opType" value="Backcountry Ski / Snowshoe"><span class="chip-dot"></span>Backcountry Ski / Snowshoe</label>
+          <label class="chip"><input type="checkbox" name="opType" value="River / Whitewater"><span class="chip-dot"></span>River / Whitewater</label>
+          <label class="chip"><input type="checkbox" name="opType" value="Avalanche Clinic"><span class="chip-dot"></span>Avalanche Clinic</label>
+          <label class="chip"><input type="checkbox" name="opType" value="Trail Running"><span class="chip-dot"></span>Trail Running</label>
+          <label class="chip"><input type="checkbox" name="opType" value="Equestrian / Ranch"><span class="chip-dot"></span>Equestrian / Ranch</label>
+          <label class="chip"><input type="checkbox" name="opType" value="Aquatic / Waterpark"><span class="chip-dot"></span>Aquatic / Waterpark</label>
+          <label class="chip"><input type="checkbox" name="opType" value="Urban / Transit Leg"><span class="chip-dot"></span>Urban / Transit Leg</label>
+          <label class="chip"><input type="checkbox" name="opType" value="Other"><span class="chip-dot"></span>Other</label>
+        </div>
+        <div class="field-error" id="err-opType" style="margin-top:8px;">Select at least one operation type.</div>
+
+        <hr class="section-divider">
+        <div class="section-label">// Scale</div>
+        <div class="field-row">
+          <div class="field-group">
+            <label>Average Participant Count per Op</label>
+            <input type="number" id="avgPax" placeholder="12" min="1">
+          </div>
+          <div class="field-group">
+            <label>Staff-to-Participant Ratio</label>
+            <input type="text" id="avgRatio" placeholder="1:6">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label>Season Start</label>
+            <select id="seasonStart">
+              <option value="">— Month —</option>
+              <option>January</option><option>February</option><option>March</option><option>April</option><option>May</option><option>June</option><option>July</option><option>August</option><option>September</option><option>October</option><option>November</option><option>December</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label>Season End</label>
+            <select id="seasonEnd">
+              <option value="">— Month —</option>
+              <option>January</option><option>February</option><option>March</option><option>April</option><option>May</option><option>June</option><option>July</option><option>August</option><option>September</option><option>October</option><option>November</option><option>December</option>
+            </select>
+          </div>
+        </div>
+
+        <hr class="section-divider">
+        <div class="section-label">// Compliance Frameworks</div>
+        <div class="chip-grid">
+          <label class="chip"><input type="checkbox" name="accred" value="AMGA"><span class="chip-dot"></span>AMGA</label>
+          <label class="chip"><input type="checkbox" name="accred" value="AEE"><span class="chip-dot"></span>AEE</label>
+          <label class="chip"><input type="checkbox" name="accred" value="ACCT"><span class="chip-dot"></span>ACCT</label>
+          <label class="chip"><input type="checkbox" name="accred" value="Viristar"><span class="chip-dot"></span>Viristar</label>
+          <label class="chip"><input type="checkbox" name="accred" value="ACA"><span class="chip-dot"></span>ACA</label>
+          <label class="chip"><input type="checkbox" name="accred" value="State Licensed"><span class="chip-dot"></span>State Licensed</label>
+          <label class="chip"><input type="checkbox" name="accred" value="None / Independent"><span class="chip-dot"></span>None / Independent</label>
+          <label class="chip"><input type="checkbox" name="accred" value="Other"><span class="chip-dot"></span>Other</label>
+        </div>
+
+        <div class="nav-buttons">
+          <button class="btn-secondary" onclick="goToStep(2)">← Back</button>
+          <button class="btn-primary" onclick="goToStep(4)">Next: Risk & Library →</button>
+          <span class="step-counter">03 / 05</span>
+        </div>
+      </div>
+
+      <!-- ══ STEP 4: RISK & LIBRARY ══ -->
+      <div id="step-4" class="hidden">
+        <div class="step-header">
+          <span class="step-tag">// Step 04 — TRIGGERS / LIBRARY / GEAR</span>
+          <h1 class="step-title">Risk &<br>Library Config</h1>
+          <p class="step-desc">Signal on your risk environment, existing documentation, and gear inventory. Your advisor builds the full trigger set from this in your config call.</p>
+        </div>
+        <div class="step-error-banner" id="err-4">Select at least one hazard category before continuing.</div>
+
+        <div class="section-label">// Primary Hazard Categories</div>
+        <div class="chip-grid">
+          <label class="chip"><input type="checkbox" name="hazard" value="Weather / Lightning"><span class="chip-dot"></span>Weather / Lightning</label>
+          <label class="chip"><input type="checkbox" name="hazard" value="Avalanche / Snow"><span class="chip-dot"></span>Avalanche / Snow</label>
+          <label class="chip"><input type="checkbox" name="hazard" value="Technical Terrain / Fall Risk"><span class="chip-dot"></span>Technical Terrain</label>
+          <label class="chip"><input type="checkbox" name="hazard" value="Water / Flood"><span class="chip-dot"></span>Water / Flood</label>
+          <label class="chip"><input type="checkbox" name="hazard" value="Participant Medical"><span class="chip-dot"></span>Participant Medical</label>
+          <label class="chip"><input type="checkbox" name="hazard" value="Transportation"><span class="chip-dot"></span>Transportation</label>
+          <label class="chip"><input type="checkbox" name="hazard" value="Wildlife"><span class="chip-dot"></span>Wildlife</label>
+          <label class="chip"><input type="checkbox" name="hazard" value="Heat / Altitude"><span class="chip-dot"></span>Heat / Altitude</label>
+        </div>
+        <div class="field-error" id="err-hazard" style="margin-top:8px;">Select at least one hazard category.</div>
+
+        <hr class="section-divider">
+        <div class="section-label">// Existing Documentation</div>
+        <div class="field-group">
+          <label>Emergency Action Plans (EAPs)</label>
+          <div class="chip-grid">
+            <label class="chip"><input type="radio" name="hasEAP" value="Yes — route-specific"><span class="chip-dot"></span>Yes — route-specific</label>
+            <label class="chip"><input type="radio" name="hasEAP" value="Yes — general only"><span class="chip-dot"></span>Yes — general only</label>
+            <label class="chip"><input type="radio" name="hasEAP" value="In progress"><span class="chip-dot"></span>In progress</label>
+            <label class="chip"><input type="radio" name="hasEAP" value="No"><span class="chip-dot"></span>No</label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Documents to make available offline in the field
+            <span class="hint">Select what you already have. We'll migrate these into your LIBRARY on the config call.</span>
+          </label>
+          <div class="chip-grid">
+            <label class="chip"><input type="checkbox" name="library" value="Emergency Action Plans (EAPs)"><span class="chip-dot"></span>Emergency Action Plans</label>
+            <label class="chip"><input type="checkbox" name="library" value="Incident & Medical Forms"><span class="chip-dot"></span>Incident &amp; Medical Forms</label>
+            <label class="chip"><input type="checkbox" name="library" value="Policies & Procedures"><span class="chip-dot"></span>Policies &amp; Procedures</label>
+            <label class="chip"><input type="checkbox" name="library" value="Participant Documents"><span class="chip-dot"></span>Participant Documents</label>
+            <label class="chip"><input type="checkbox" name="library" value="Route & Location Plans"><span class="chip-dot"></span>Route &amp; Location Plans</label>
+            <label class="chip"><input type="checkbox" name="library" value="Decision Support Tools"><span class="chip-dot"></span>Decision Support Tools</label>
+            <label class="chip"><input type="checkbox" name="library" value="Gear & Equipment Docs"><span class="chip-dot"></span>Gear &amp; Equipment Docs</label>
+            <label class="chip"><input type="checkbox" name="library" value="Staff & Training Docs"><span class="chip-dot"></span>Staff &amp; Training Docs</label>
+            <label class="chip"><input type="checkbox" name="library" value="Comms & Crisis Templates"><span class="chip-dot"></span>Comms &amp; Crisis Templates</label>
+            <label class="chip"><input type="checkbox" name="library" value="Day-of Operations Checklist"><span class="chip-dot"></span>Day-of Operations Checklist</label>
+            <label class="chip"><input type="checkbox" name="library" value="Permit & Land Management"><span class="chip-dot"></span>Permit &amp; Land Management</label>
+          </div>
+        </div>
+
+        <hr class="section-divider">
+        <div class="section-label">// Gear & Equipment Categories</div>
+        <div class="field-group">
+          <label>Select all categories your organization tracks and issues</label>
+          <div class="chip-grid">
+            <label class="chip"><input type="checkbox" name="gear" value="Medical / First Aid Kits"><span class="chip-dot"></span>Medical / First Aid</label>
+            <label class="chip"><input type="checkbox" name="gear" value="Comms (Radios, SPOT, InReach)"><span class="chip-dot"></span>Comms (Radios, SPOT, InReach)</label>
+            <label class="chip"><input type="checkbox" name="gear" value="Navigation (Maps, Compass, GPS)"><span class="chip-dot"></span>Navigation</label>
+            <label class="chip"><input type="checkbox" name="gear" value="Climbing & Rope Systems"><span class="chip-dot"></span>Climbing &amp; Rope Systems</label>
+            <label class="chip"><input type="checkbox" name="gear" value="Avalanche Gear (Beacon, Probe, Shovel)"><span class="chip-dot"></span>Avalanche Gear</label>
+            <label class="chip"><input type="checkbox" name="gear" value="River & Water Safety"><span class="chip-dot"></span>River &amp; Water Safety</label>
+            <label class="chip"><input type="checkbox" name="gear" value="Participant PPE (Helmets, Harnesses, PFDs)"><span class="chip-dot"></span>Participant PPE</label>
+            <label class="chip"><input type="checkbox" name="gear" value="Backpacking & Shelter (Packs, Tents, Sleep Systems)"><span class="chip-dot"></span>Backpacking &amp; Shelter</label>
+            <label class="chip"><input type="checkbox" name="gear" value="Group Kitchen (Stoves, Cooksets, Water Treatment)"><span class="chip-dot"></span>Group Kitchen</label>
+            <label class="chip"><input type="checkbox" name="gear" value="Personal / Org-issued Gear (Layers, Rain Gear, Boots)"><span class="chip-dot"></span>Personal / Org-issued Gear</label>
+            <label class="chip"><input type="checkbox" name="gear" value="Transportation & Vehicle Gear"><span class="chip-dot"></span>Transportation &amp; Vehicle</label>
+            <label class="chip"><input type="checkbox" name="gear" value="Equestrian / Animal Handling Equipment"><span class="chip-dot"></span>Equestrian / Animal Handling</label>
+            <label class="chip"><input type="checkbox" name="gear" value="Facility & Venue Equipment"><span class="chip-dot"></span>Facility &amp; Venue Equipment</label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Approximate gear inventory size</label>
+          <div class="scale-row">
+            <button class="scale-btn" onclick="selectScale('gear', this, 'Under 20')">Under 20</button>
+            <button class="scale-btn" onclick="selectScale('gear', this, '20–50')">20–50</button>
+            <button class="scale-btn" onclick="selectScale('gear', this, '50–150')">50–150</button>
+            <button class="scale-btn" onclick="selectScale('gear', this, '150+')">150+</button>
+          </div>
+          <input type="hidden" id="gearScaleValue">
+        </div>
+
+        <div class="nav-buttons">
+          <button class="btn-secondary" onclick="goToStep(3)">← Back</button>
+          <button class="btn-primary" onclick="goToStep(5)">Review & Submit →</button>
+          <span class="step-counter">04 / 05</span>
+        </div>
+      </div>
+
+      <!-- ══ STEP 5: REVIEW ══ -->
+      <div id="step-5" class="hidden">
+        <div class="step-header">
+          <span class="step-tag">// Step 05 — Review</span>
+          <h1 class="step-title">Review &<br>Submit</h1>
+          <p class="step-desc">Confirm your information before we start your build. Your advisor reviews this within 24 hours.</p>
+        </div>
+        <div id="reviewSummary"></div>
+        <div class="field-group" style="margin-top:24px;">
+          <label>Anything else for your AlpenOS advisor?</label>
+          <textarea id="finalNotes" placeholder="Context, questions, timeline constraints..."></textarea>
+        </div>
+        <div class="nav-buttons">
+          <button class="btn-secondary" onclick="goToStep(4)">← Back</button>
+          <button class="btn-primary" id="submitBtn" onclick="submitForm()">Submit Configuration →</button>
+          <span class="step-counter">05 / 05</span>
+        </div>
+      </div>
+
+      <!-- ══ SUCCESS ══ -->
+      <div id="step-success" class="hidden">
+        <div class="success-screen">
+          <div class="success-mark">⬡</div>
+          <h1 class="success-title">Configuration<br>Received.</h1>
+          <p class="success-desc">Your operational profile is in the AlpenOS staging queue. Expect to hear from your advisor within 24 hours to schedule your configuration call.</p>
+          <div class="success-detail" id="successDetail"></div>
+          <div style="margin-top:32px;">
+            <a href="https://alpenos.io" style="font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--accent);text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;">← Return to AlpenOS</a>
           </div>
         </div>
       </div>
-      <div class="field-group">
-        <label>Documented incidents or near-misses — last 2 seasons
-          <span class="hint">Rough estimate. Calibrates trigger severity in your configuration.</span>
-        </label>
-        <div class="scale-row">
-          <button class="scale-btn" onclick="selectScale('incident', this, 'None')">None</button>
-          <button class="scale-btn" onclick="selectScale('incident', this, '1–5')">1–5</button>
-          <button class="scale-btn" onclick="selectScale('incident', this, '6–15')">6–15</button>
-          <button class="scale-btn" onclick="selectScale('incident', this, '15+')">15+</button>
-        </div>
-        <input type="hidden" id="incidentScaleValue">
-      </div>
-      <div class="field-row">
-        <div class="field-group">
-          <label>Years in Operation</label>
-          <input type="number" id="yearsOp" placeholder="7" min="0">
-        </div>
-        <div class="field-group">
-          <label>Primary Insurer</label>
-          <input type="text" id="insurer" placeholder="Outdoor Umbrella Group">
-        </div>
-      </div>
-      <div class="field-group">
-        <label>Website</label>
-        <input type="url" id="orgWebsite" placeholder="https://summitoe.org">
-      </div>
 
-      <div class="nav-buttons">
-        <button class="btn-primary" onclick="goToStep(2)">Next: Locations & Venues →</button>
-        <span class="step-counter">01 / 05</span>
-      </div>
     </div>
-
-    <!-- ═══════════════════════════ STEP 2 ═══════════════════════════ -->
-    <div id="step-2" class="hidden">
-      <div class="step-header">
-        <span class="step-tag">// Step 02 — LOCATIONS / ROUTES</span>
-        <h1 class="step-title">Locations &<br>Venues</h1>
-        <p class="step-desc">Primary operating areas, venues, and activity routes. These populate the Location dropdown on every Op and seed your offline-cached Area Guide. <span class="v1-flag">V1 — full terrain/venue schema split</span></p>
-      </div>
-
-      <div class="section-label">// Operating Areas, Trailheads & Venues</div>
-      <div id="locationsContainer"></div>
-      <button class="btn-add" onclick="addLocation()">+ Add Location / Venue</button>
-
-      <hr class="section-divider">
-      <div class="section-label">// Routes & Activity Areas</div>
-      <div id="routesContainer"></div>
-      <button class="btn-add" onclick="addRoute()">+ Add Route / Activity Area</button>
-
-      <hr class="section-divider">
-      <div class="section-label">// Land Management</div>
-      <div class="field-group">
-        <label>Primary Land Management Agencies</label>
-        <div class="chip-grid">
-          <label class="chip"><input type="checkbox" name="lma" value="USFS"><span class="chip-dot"></span>USFS</label>
-          <label class="chip"><input type="checkbox" name="lma" value="BLM"><span class="chip-dot"></span>BLM</label>
-          <label class="chip"><input type="checkbox" name="lma" value="NPS"><span class="chip-dot"></span>NPS</label>
-          <label class="chip"><input type="checkbox" name="lma" value="State Parks"><span class="chip-dot"></span>State Parks</label>
-          <label class="chip"><input type="checkbox" name="lma" value="Private Land"><span class="chip-dot"></span>Private Land</label>
-          <label class="chip"><input type="checkbox" name="lma" value="Municipality"><span class="chip-dot"></span>Municipality</label>
-          <label class="chip"><input type="checkbox" name="lma" value="Private Venue / Facility"><span class="chip-dot"></span>Private Venue / Facility</label>
-          <label class="chip"><input type="checkbox" name="lma" value="N/A"><span class="chip-dot"></span>N/A</label>
-        </div>
-      </div>
-      <div class="field-group">
-        <label>Active Permit Numbers / Partner Agreements</label>
-        <textarea id="permitNotes" placeholder="e.g. USFS Permit #CO-123, BLM SRP 2024, Ranch Operating Agreement..."></textarea>
-      </div>
-
-      <div class="nav-buttons">
-        <button class="btn-secondary" onclick="goToStep(1)">← Back</button>
-        <button class="btn-primary" onclick="goToStep(3)">Next: Op Types →</button>
-        <span class="step-counter">02 / 05</span>
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════ STEP 3 ═══════════════════════════ -->
-    <div id="step-3" class="hidden">
-      <div class="step-header">
-        <span class="step-tag">// Step 03 — OP_TEMPLATES</span>
-        <h1 class="step-title">Op Types &<br>Templates</h1>
-        <p class="step-desc">Select every operation type your program runs. Each generates a default ReadyState trigger set — your starting compliance checklist for that op type.</p>
-      </div>
-
-      <div class="section-label">// Operation Types — select all that apply</div>
-      <div class="chip-grid">
-        <label class="chip"><input type="checkbox" name="opType" value="Day Trip"><span class="chip-dot"></span>Day Trip</label>
-        <label class="chip"><input type="checkbox" name="opType" value="Overnight / Backpacking"><span class="chip-dot"></span>Overnight / Backpacking</label>
-        <label class="chip"><input type="checkbox" name="opType" value="Multi-day Expedition"><span class="chip-dot"></span>Multi-day Expedition</label>
-        <label class="chip"><input type="checkbox" name="opType" value="Climbing / Ropes Course"><span class="chip-dot"></span>Climbing / Ropes Course</label>
-        <label class="chip"><input type="checkbox" name="opType" value="Backcountry Ski / Snowshoe"><span class="chip-dot"></span>Backcountry Ski / Snowshoe</label>
-        <label class="chip"><input type="checkbox" name="opType" value="River / Whitewater"><span class="chip-dot"></span>River / Whitewater</label>
-        <label class="chip"><input type="checkbox" name="opType" value="Avalanche Clinic"><span class="chip-dot"></span>Avalanche Clinic</label>
-        <label class="chip"><input type="checkbox" name="opType" value="Trail Running"><span class="chip-dot"></span>Trail Running</label>
-        <label class="chip"><input type="checkbox" name="opType" value="Equestrian / Ranch"><span class="chip-dot"></span>Equestrian / Ranch</label>
-        <label class="chip"><input type="checkbox" name="opType" value="Aquatic / Waterpark"><span class="chip-dot"></span>Aquatic / Waterpark</label>
-        <label class="chip"><input type="checkbox" name="opType" value="Urban / Transit Leg"><span class="chip-dot"></span>Urban / Transit Leg</label>
-        <label class="chip"><input type="checkbox" name="opType" value="Other"><span class="chip-dot"></span>Other</label>
-      </div>
-
-      <hr class="section-divider">
-      <div class="section-label">// Scale</div>
-      <div class="field-row">
-        <div class="field-group">
-          <label>Average Participant Count per Op</label>
-          <input type="number" id="avgPax" placeholder="12" min="1">
-        </div>
-        <div class="field-group">
-          <label>Staff-to-Participant Ratio</label>
-          <input type="text" id="avgRatio" placeholder="1:6">
-        </div>
-      </div>
-      <div class="field-row">
-        <div class="field-group">
-          <label>Season Start</label>
-          <select id="seasonStart">
-            <option value="">— Month —</option>
-            <option>January</option><option>February</option><option>March</option><option>April</option><option>May</option><option>June</option><option>July</option><option>August</option><option>September</option><option>October</option><option>November</option><option>December</option>
-          </select>
-        </div>
-        <div class="field-group">
-          <label>Season End</label>
-          <select id="seasonEnd">
-            <option value="">— Month —</option>
-            <option>January</option><option>February</option><option>March</option><option>April</option><option>May</option><option>June</option><option>July</option><option>August</option><option>September</option><option>October</option><option>November</option><option>December</option>
-          </select>
-        </div>
-      </div>
-
-      <hr class="section-divider">
-      <div class="section-label">// Compliance Frameworks</div>
-      <div class="chip-grid">
-        <label class="chip"><input type="checkbox" name="accred" value="AMGA"><span class="chip-dot"></span>AMGA</label>
-        <label class="chip"><input type="checkbox" name="accred" value="AEE"><span class="chip-dot"></span>AEE</label>
-        <label class="chip"><input type="checkbox" name="accred" value="ACCT"><span class="chip-dot"></span>ACCT</label>
-        <label class="chip"><input type="checkbox" name="accred" value="Viristar"><span class="chip-dot"></span>Viristar</label>
-        <label class="chip"><input type="checkbox" name="accred" value="ACA"><span class="chip-dot"></span>ACA</label>
-        <label class="chip"><input type="checkbox" name="accred" value="State Licensed"><span class="chip-dot"></span>State Licensed</label>
-        <label class="chip"><input type="checkbox" name="accred" value="None / Independent"><span class="chip-dot"></span>None / Independent</label>
-        <label class="chip"><input type="checkbox" name="accred" value="Other"><span class="chip-dot"></span>Other</label>
-      </div>
-
-      <div class="nav-buttons">
-        <button class="btn-secondary" onclick="goToStep(2)">← Back</button>
-        <button class="btn-primary" onclick="goToStep(4)">Next: Risk & Library →</button>
-        <span class="step-counter">03 / 05</span>
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════ STEP 4 ═══════════════════════════ -->
-    <div id="step-4" class="hidden">
-      <div class="step-header">
-        <span class="step-tag">// Step 04 — TRIGGERS / LIBRARY / GEAR</span>
-        <h1 class="step-title">Risk &<br>Library Config</h1>
-        <p class="step-desc">Signal on your risk environment, existing documentation, and gear inventory. Your advisor builds the full trigger set from this in your config call.</p>
-      </div>
-
-      <div class="section-label">// Primary Hazard Categories</div>
-      <div class="chip-grid">
-        <label class="chip"><input type="checkbox" name="hazard" value="Weather / Lightning"><span class="chip-dot"></span>Weather / Lightning</label>
-        <label class="chip"><input type="checkbox" name="hazard" value="Avalanche / Snow"><span class="chip-dot"></span>Avalanche / Snow</label>
-        <label class="chip"><input type="checkbox" name="hazard" value="Technical Terrain / Fall Risk"><span class="chip-dot"></span>Technical Terrain</label>
-        <label class="chip"><input type="checkbox" name="hazard" value="Water / Flood"><span class="chip-dot"></span>Water / Flood</label>
-        <label class="chip"><input type="checkbox" name="hazard" value="Participant Medical"><span class="chip-dot"></span>Participant Medical</label>
-        <label class="chip"><input type="checkbox" name="hazard" value="Transportation"><span class="chip-dot"></span>Transportation</label>
-        <label class="chip"><input type="checkbox" name="hazard" value="Wildlife"><span class="chip-dot"></span>Wildlife</label>
-        <label class="chip"><input type="checkbox" name="hazard" value="Heat / Altitude"><span class="chip-dot"></span>Heat / Altitude</label>
-      </div>
-
-      <hr class="section-divider">
-      <div class="section-label">// Existing Documentation</div>
-      <div class="field-group">
-        <label>Emergency Action Plans (EAPs)</label>
-        <div class="chip-grid">
-          <label class="chip"><input type="radio" name="hasEAP" value="Yes — route-specific"><span class="chip-dot"></span>Yes — route-specific</label>
-          <label class="chip"><input type="radio" name="hasEAP" value="Yes — general only"><span class="chip-dot"></span>Yes — general only</label>
-          <label class="chip"><input type="radio" name="hasEAP" value="In progress"><span class="chip-dot"></span>In progress</label>
-          <label class="chip"><input type="radio" name="hasEAP" value="No"><span class="chip-dot"></span>No</label>
-        </div>
-      </div>
-
-      <div class="field-group">
-        <label>Documents to make available offline in the field
-          <span class="hint">Select what you already have. We'll migrate these into LIBRARY format on your config call.</span>
-        </label>
-        <div class="chip-grid">
-          <label class="chip"><input type="checkbox" name="library" value="Emergency Action Plans (EAPs)"><span class="chip-dot"></span>Emergency Action Plans</label>
-          <label class="chip"><input type="checkbox" name="library" value="Incident &amp; Medical Forms"><span class="chip-dot"></span>Incident &amp; Medical Forms</label>
-          <label class="chip"><input type="checkbox" name="library" value="Policies &amp; Procedures"><span class="chip-dot"></span>Policies &amp; Procedures</label>
-          <label class="chip"><input type="checkbox" name="library" value="Participant Documents"><span class="chip-dot"></span>Participant Documents</label>
-          <label class="chip"><input type="checkbox" name="library" value="Route &amp; Location Plans"><span class="chip-dot"></span>Route &amp; Location Plans</label>
-          <label class="chip"><input type="checkbox" name="library" value="Decision Support Tools"><span class="chip-dot"></span>Decision Support Tools</label>
-          <label class="chip"><input type="checkbox" name="library" value="Gear &amp; Equipment Docs"><span class="chip-dot"></span>Gear &amp; Equipment Docs</label>
-          <label class="chip"><input type="checkbox" name="library" value="Staff &amp; Training Docs"><span class="chip-dot"></span>Staff &amp; Training Docs</label>
-          <label class="chip"><input type="checkbox" name="library" value="Comms &amp; Crisis Templates"><span class="chip-dot"></span>Comms &amp; Crisis Templates</label>
-          <label class="chip"><input type="checkbox" name="library" value="Day-of Operations Checklist"><span class="chip-dot"></span>Day-of Operations Checklist</label>
-          <label class="chip"><input type="checkbox" name="library" value="Permit &amp; Land Management"><span class="chip-dot"></span>Permit &amp; Land Management</label>
-        </div>
-      </div>
-
-      <hr class="section-divider">
-      <div class="section-label">// Gear & Equipment Categories</div>
-      <div class="field-group">
-        <label>Select all categories your organization tracks and issues</label>
-        <div class="chip-grid">
-
-          <label class="chip"><input type="checkbox" name="gear" value="Medical / First Aid Kits"><span class="chip-dot"></span>Medical / First Aid</label>
-          <label class="chip"><input type="checkbox" name="gear" value="Comms (Radios, SPOT, InReach)"><span class="chip-dot"></span>Comms (Radios, SPOT, InReach)</label>
-          <label class="chip"><input type="checkbox" name="gear" value="Navigation (Maps, Compass, GPS)"><span class="chip-dot"></span>Navigation</label>
-
-          <label class="chip"><input type="checkbox" name="gear" value="Climbing &amp; Rope Systems"><span class="chip-dot"></span>Climbing &amp; Rope Systems</label>
-          <label class="chip"><input type="checkbox" name="gear" value="Avalanche Gear (Beacon, Probe, Shovel)"><span class="chip-dot"></span>Avalanche Gear</label>
-          <label class="chip"><input type="checkbox" name="gear" value="River &amp; Water Safety"><span class="chip-dot"></span>River &amp; Water Safety</label>
-
-          <label class="chip"><input type="checkbox" name="gear" value="Participant PPE (Helmets, Harnesses, PFDs)"><span class="chip-dot"></span>Participant PPE</label>
-          <label class="chip"><input type="checkbox" name="gear" value="Backpacking &amp; Shelter (Packs, Tents, Sleep Systems)"><span class="chip-dot"></span>Backpacking &amp; Shelter</label>
-          <label class="chip"><input type="checkbox" name="gear" value="Group Kitchen (Stoves, Cooksets, Water Treatment)"><span class="chip-dot"></span>Group Kitchen</label>
-
-          <label class="chip"><input type="checkbox" name="gear" value="Personal / Org-issued Gear (Layers, Rain Gear, Boots)"><span class="chip-dot"></span>Personal / Org-issued Gear</label>
-          <label class="chip"><input type="checkbox" name="gear" value="Transportation &amp; Vehicle Gear"><span class="chip-dot"></span>Transportation &amp; Vehicle</label>
-          <label class="chip"><input type="checkbox" name="gear" value="Equestrian / Animal Handling Equipment"><span class="chip-dot"></span>Equestrian / Animal Handling</label>
-          <label class="chip"><input type="checkbox" name="gear" value="Facility &amp; Venue Equipment"><span class="chip-dot"></span>Facility &amp; Venue Equipment</label>
-        </div>
-      </div>
-
-      <div class="field-group">
-        <label>Approximate gear inventory size</label>
-        <div class="scale-row">
-          <button class="scale-btn" onclick="selectScale('gear', this, 'Under 20')">Under 20</button>
-          <button class="scale-btn" onclick="selectScale('gear', this, '20–50')">20–50</button>
-          <button class="scale-btn" onclick="selectScale('gear', this, '50–150')">50–150</button>
-          <button class="scale-btn" onclick="selectScale('gear', this, '150+')">150+</button>
-        </div>
-        <input type="hidden" id="gearScaleValue">
-      </div>
-
-      <div class="nav-buttons">
-        <button class="btn-secondary" onclick="goToStep(3)">← Back</button>
-        <button class="btn-primary" onclick="goToStep(5)">Review & Submit →</button>
-        <span class="step-counter">04 / 05</span>
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════ STEP 5 ═══════════════════════════ -->
-    <div id="step-5" class="hidden">
-      <div class="step-header">
-        <span class="step-tag">// Step 05 — Review</span>
-        <h1 class="step-title">Review &<br>Submit</h1>
-        <p class="step-desc">Confirm before we build your environment. Your advisor reviews this within 24 hours and will schedule your config call.</p>
-      </div>
-      <div id="reviewSummary"></div>
-      <div class="field-group" style="margin-top:24px;">
-        <label>Anything else for your AlpenOS advisor?</label>
-        <textarea id="finalNotes" placeholder="Context, questions, timeline constraints..."></textarea>
-      </div>
-      <div class="nav-buttons">
-        <button class="btn-secondary" onclick="goToStep(4)">← Back</button>
-        <button class="btn-primary" id="submitBtn" onclick="submitForm()">Submit Configuration →</button>
-        <span class="step-counter">05 / 05</span>
-      </div>
-    </div>
-
-    <!-- ═══════════════════════════ SUCCESS ═══════════════════════════ -->
-    <div id="step-success" class="hidden">
-      <div class="success-screen">
-        <div class="success-mark">⬡</div>
-        <h1 class="success-title">Configuration<br>Received.</h1>
-        <p class="success-desc">Your operational profile is in the AlpenOS staging queue. Your advisor will confirm within 24 hours and schedule your config call.</p>
-        <div class="success-detail" id="successDetail"></div>
-        <div style="margin-top:28px;">
-          <a href="https://alpenos.io" style="font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--accent);text-decoration:none;letter-spacing:0.1em;text-transform:uppercase;">← Return to AlpenOS</a>
-        </div>
-      </div>
-    </div>
-
   </div>
 </main>
 
@@ -638,7 +817,7 @@
   <input name="admin_name"><input name="admin_email"><input name="admin_phone">
   <input name="org_phone"><input name="op_state"><input name="geo_scope"><input name="pax_volume">
   <input name="years_op"><input name="insurer"><input name="org_website">
-  <input name="incident_history"><input name="biggest_gap">
+  <input name="incident_history"><input name="biggest_gap_category"><input name="biggest_gap_detail">
   <input name="locations"><input name="routes"><input name="lma"><input name="permits">
   <input name="op_types"><input name="avg_pax"><input name="avg_ratio">
   <input name="season_start"><input name="season_end"><input name="accreditation">
@@ -649,12 +828,13 @@
 
 <script>
   const VALID_CODES = ['ALPEN-2026', 'SUMMIT-01', 'PILOT-001'];
+  const LS_KEY = 'alpenos_onboarding_v4';
   let currentStep = 0;
   const TOTAL_STEPS = 5;
   let locationCount = 0;
   let routeCount = 0;
 
-  // Chip interaction — event delegation covers all steps including hidden ones
+  // ── CHIP INTERACTION (event delegation) ──────────────────
   document.addEventListener('click', (e) => {
     const chip = e.target.closest('.chip');
     if (!chip) return;
@@ -673,15 +853,24 @@
       chip.classList.toggle('selected');
       input.checked = !input.checked;
     }
+    // show gap followup if any gap chip selected
+    if (input.name === 'gapCategory') {
+      const anySelected = getCheckboxValues('gapCategory').length > 0;
+      document.getElementById('gapFollowup').classList.toggle('visible', anySelected);
+    }
+    autoSave();
   });
 
+  // ── SCALE ────────────────────────────────────────────────
   function selectScale(key, btn, value) {
     btn.closest('.scale-row').querySelectorAll('.scale-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     const el = document.getElementById(key + 'ScaleValue');
     if (el) el.value = value;
+    autoSave();
   }
 
+  // ── GATE ─────────────────────────────────────────────────
   function checkCode() {
     const val = document.getElementById('accessCode').value.trim().toUpperCase();
     if (VALID_CODES.map(c => c.toUpperCase()).includes(val)) {
@@ -693,14 +882,86 @@
   }
   document.getElementById('accessCode').addEventListener('keydown', e => { if (e.key === 'Enter') checkCode(); });
 
-  function goToStep(n) {
+  // ── VALIDATION ───────────────────────────────────────────
+  function showErr(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.add('visible');
+  }
+  function hideErr(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('visible');
+  }
+  function markInvalid(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.add('invalid');
+  }
+  function clearInvalid(id) {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('invalid');
+  }
+
+  function validateStep(n) {
+    let valid = true;
+
+    if (n === 1) {
+      hideErr('err-1');
+      // gap category
+      if (getCheckboxValues('gapCategory').length === 0) { showErr('err-gapCategory'); valid = false; } else { hideErr('err-gapCategory'); }
+      // gap detail (only if followup visible)
+      if (document.getElementById('gapFollowup').classList.contains('visible')) {
+        const gd = document.getElementById('biggestGapDetail').value.trim();
+        if (!gd) { showErr('err-gapDetail'); markInvalid('biggestGapDetail'); valid = false; } else { hideErr('err-gapDetail'); clearInvalid('biggestGapDetail'); }
+      }
+      // org name
+      if (!document.getElementById('orgName').value.trim()) { showErr('err-orgName'); markInvalid('orgName'); valid = false; } else { hideErr('err-orgName'); clearInvalid('orgName'); }
+      // org type
+      if (!getRadioValue('orgType')) { showErr('err-orgType'); valid = false; } else { hideErr('err-orgType'); }
+      // admin first
+      if (!document.getElementById('adminFirst').value.trim()) { showErr('err-adminFirst'); markInvalid('adminFirst'); valid = false; } else { hideErr('err-adminFirst'); clearInvalid('adminFirst'); }
+      // admin last
+      if (!document.getElementById('adminLast').value.trim()) { showErr('err-adminLast'); markInvalid('adminLast'); valid = false; } else { hideErr('err-adminLast'); clearInvalid('adminLast'); }
+      // admin email
+      const email = document.getElementById('adminEmail').value.trim();
+      if (!email || !email.includes('@')) { showErr('err-adminEmail'); markInvalid('adminEmail'); valid = false; } else { hideErr('err-adminEmail'); clearInvalid('adminEmail'); }
+      // state
+      if (!document.getElementById('opState').value) { showErr('err-opState'); markInvalid('opState'); valid = false; } else { hideErr('err-opState'); clearInvalid('opState'); }
+      if (!valid) showErr('err-1');
+    }
+
+    if (n === 2) {
+      hideErr('err-2');
+      if (locationCount === 0) { showErr('err-2'); valid = false; }
+    }
+
+    if (n === 3) {
+      hideErr('err-3');
+      if (getCheckboxValues('opType').length === 0) { showErr('err-3'); showErr('err-opType'); valid = false; } else { hideErr('err-opType'); }
+    }
+
+    if (n === 4) {
+      hideErr('err-4');
+      if (getCheckboxValues('hazard').length === 0) { showErr('err-4'); showErr('err-hazard'); valid = false; } else { hideErr('err-hazard'); }
+    }
+
+    return valid;
+  }
+
+  // ── NAVIGATION ───────────────────────────────────────────
+  function goToStep(n, skipValidation = false) {
+    if (!skipValidation && n > currentStep && currentStep > 0) {
+      if (!validateStep(currentStep)) {
+        window.scrollTo(0, 0);
+        return;
+      }
+    }
     document.querySelectorAll('[id^="step-"]').forEach(el => el.classList.add('hidden'));
     const t = document.getElementById('step-' + n);
-    if (t) { t.classList.remove('hidden'); window.scrollTo(0,0); }
+    if (t) { t.classList.remove('hidden'); window.scrollTo(0, 0); }
     currentStep = n;
     updateProgress();
     updateSidebar();
     if (n === 5) buildReview();
+    autoSave();
   }
 
   function updateProgress() {
@@ -713,12 +974,13 @@
   function updateSidebar() {
     document.querySelectorAll('.step-item').forEach(item => {
       const s = parseInt(item.dataset.step);
-      item.classList.remove('active','complete');
+      item.classList.remove('active', 'complete');
       if (s === currentStep) item.classList.add('active');
       else if (s < currentStep) item.classList.add('complete');
     });
   }
 
+  // ── LOCATIONS ────────────────────────────────────────────
   function addLocation() {
     locationCount++;
     const id = locationCount;
@@ -727,41 +989,26 @@
     el.innerHTML = `
       <div class="repeat-block-header">
         <span class="repeat-label">// Location / Venue ${id}</span>
-        <button class="btn-remove" onclick="removeBlock('loc-${id}')">Remove</button>
+        <button class="btn-remove" onclick="removeBlock('loc-${id}', 'loc')">Remove</button>
       </div>
       <div class="field-row">
-        <div class="field-group"><label>Name</label><input type="text" name="loc_name_${id}" placeholder="Jefferson Canyon TH / Ridgeline Ranch"></div>
+        <div class="field-group"><label>Name</label><input type="text" name="loc_name_${id}" placeholder="Jefferson Canyon TH / Ridgeline Ranch" oninput="autoSave()"></div>
         <div class="field-group"><label>Location / Venue Type</label>
-          <select name="loc_type_${id}">
+          <select name="loc_type_${id}" onchange="autoSave()">
             <option value="">— Type —</option>
-            <optgroup label="Terrain">
-              <option>Trailhead</option>
-              <option>Summit / Peak</option>
-              <option>Crag / Climbing Area</option>
-              <option>River Put-in / Take-out</option>
-              <option>Basecamp / Camp</option>
-              <option>LZ / Evac Zone</option>
-            </optgroup>
-            <optgroup label="Venue">
-              <option>Indoor Facility</option>
-              <option>Ranch / Equestrian Facility</option>
-              <option>Aquatic / Waterpark Facility</option>
-              <option>Ropes Course / Challenge Course</option>
-              <option>Urban Meet Point</option>
-              <option>Other Venue</option>
-            </optgroup>
+            <optgroup label="Terrain"><option>Trailhead</option><option>Summit / Peak</option><option>Crag / Climbing Area</option><option>River Put-in / Take-out</option><option>Basecamp / Camp</option><option>LZ / Evac Zone</option></optgroup>
+            <optgroup label="Venue"><option>Indoor Facility</option><option>Ranch / Equestrian Facility</option><option>Aquatic / Waterpark Facility</option><option>Ropes Course / Challenge Course</option><option>Urban Meet Point</option><option>Other Venue</option></optgroup>
           </select>
         </div>
       </div>
       <div class="field-row-3">
-        <div class="field-group"><label>Elevation (ft)</label><input type="number" name="loc_elev_${id}" placeholder="9200"></div>
-        <div class="field-group"><label>Lat / Lon</label><input type="text" name="loc_coords_${id}" placeholder="39.74, -104.99"></div>
-        <div class="field-group"><label>Cell Signal</label>
-          <select name="loc_signal_${id}"><option value="">—</option><option>Good</option><option>Marginal</option><option>None</option><option>N/A — Indoor</option></select>
-        </div>
+        <div class="field-group"><label>Elevation (ft)</label><input type="number" name="loc_elev_${id}" placeholder="9200" oninput="autoSave()"></div>
+        <div class="field-group"><label>Lat / Lon</label><input type="text" name="loc_coords_${id}" placeholder="39.74, -104.99" oninput="autoSave()"></div>
+        <div class="field-group"><label>Cell Signal</label><select name="loc_signal_${id}" onchange="autoSave()"><option value="">—</option><option>Good</option><option>Marginal</option><option>None</option><option>N/A — Indoor</option></select></div>
       </div>
-      <div class="field-group"><label>EAP / Emergency Contact</label><input type="text" name="loc_eap_${id}" placeholder="Jefferson County SAR: (303) 271-5444"></div>`;
+      <div class="field-group"><label>EAP / Emergency Contact</label><input type="text" name="loc_eap_${id}" placeholder="Jefferson County SAR: (303) 271-5444" oninput="autoSave()"></div>`;
     document.getElementById('locationsContainer').appendChild(el);
+    autoSave();
   }
 
   function addRoute() {
@@ -772,50 +1019,189 @@
     el.innerHTML = `
       <div class="repeat-block-header">
         <span class="repeat-label">// Route / Activity Area ${id}</span>
-        <button class="btn-remove" onclick="removeBlock('route-${id}')">Remove</button>
+        <button class="btn-remove" onclick="removeBlock('route-${id}', 'route')">Remove</button>
       </div>
       <div class="field-row">
-        <div class="field-group"><label>Name</label><input type="text" name="route_name_${id}" placeholder="North Ridge Standard / Barrel Racing Arena"></div>
-        <div class="field-group"><label>Associated Location / Venue</label><input type="text" name="route_loc_${id}" placeholder="Jefferson Canyon TH"></div>
+        <div class="field-group"><label>Name</label><input type="text" name="route_name_${id}" placeholder="North Ridge Standard / Barrel Racing Arena" oninput="autoSave()"></div>
+        <div class="field-group"><label>Associated Location / Venue</label><input type="text" name="route_loc_${id}" placeholder="Jefferson Canyon TH" oninput="autoSave()"></div>
       </div>
       <div class="field-row-3">
-        <div class="field-group"><label>Distance (mi)</label><input type="number" name="route_dist_${id}" placeholder="6.2" step="0.1"></div>
-        <div class="field-group"><label>Gain (ft)</label><input type="number" name="route_gain_${id}" placeholder="1800"></div>
+        <div class="field-group"><label>Distance (mi)</label><input type="number" name="route_dist_${id}" placeholder="6.2" step="0.1" oninput="autoSave()"></div>
+        <div class="field-group"><label>Gain (ft)</label><input type="number" name="route_gain_${id}" placeholder="1800" oninput="autoSave()"></div>
         <div class="field-group"><label>Technical Grade</label>
-          <select name="route_grade_${id}">
+          <select name="route_grade_${id}" onchange="autoSave()">
             <option value="">—</option>
-            <optgroup label="Terrain">
-              <option>Class 1</option><option>Class 2</option><option>Class 3</option>
-              <option>Class 4</option><option>Class 5</option>
-              <option>WW Class II</option><option>WW Class III</option><option>WW Class IV+</option>
-            </optgroup>
-            <optgroup label="Venue / Activity">
-              <option>Low Challenge</option>
-              <option>Moderate Challenge</option>
-              <option>High Challenge</option>
-              <option>N/A — Venue Activity</option>
-            </optgroup>
+            <optgroup label="Terrain"><option>Class 1</option><option>Class 2</option><option>Class 3</option><option>Class 4</option><option>Class 5</option><option>WW Class II</option><option>WW Class III</option><option>WW Class IV+</option></optgroup>
+            <optgroup label="Venue / Activity"><option>Low Challenge</option><option>Moderate Challenge</option><option>High Challenge</option><option>N/A — Venue Activity</option></optgroup>
           </select>
         </div>
       </div>
-      <div class="field-group"><label>Key Hazards / Beta / Activity Notes</label><textarea name="route_beta_${id}" placeholder="Ice on north face above 10,400 ft in shoulder season... / Arena surface condition, max 8 riders..."></textarea></div>`;
+      <div class="field-group"><label>Key Hazards / Beta / Activity Notes</label><textarea name="route_beta_${id}" placeholder="Ice on north face above 10,400 ft..." oninput="autoSave()"></textarea></div>`;
     document.getElementById('routesContainer').appendChild(el);
+    autoSave();
   }
 
-  function removeBlock(id) { const el = document.getElementById(id); if (el) el.remove(); }
+  function removeBlock(id, type) {
+    const el = document.getElementById(id);
+    if (el) { el.remove(); }
+    if (type === 'loc') locationCount = Math.max(0, locationCount - 1);
+    autoSave();
+  }
 
+  // ── HELPERS ──────────────────────────────────────────────
   function getRadioValue(name) { const el = document.querySelector(`input[name="${name}"]:checked`); return el ? el.value : ''; }
   function getCheckboxValues(name) { return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(el => el.value); }
   function collectLocations() { return Array.from(document.querySelectorAll('[id^="loc-"]')).map(b => { const id = b.id.split('-')[1]; return b.querySelector(`[name="loc_name_${id}"]`)?.value; }).filter(Boolean).join('; '); }
   function collectRoutes() { return Array.from(document.querySelectorAll('[id^="route-"]')).map(b => { const id = b.id.split('-')[1]; return b.querySelector(`[name="route_name_${id}"]`)?.value; }).filter(Boolean).join('; '); }
 
+  // ── AUTO SAVE ─────────────────────────────────────────────
+  let saveTimer;
+  function autoSave() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      try {
+        const state = {
+          step: currentStep,
+          gapCategories: getCheckboxValues('gapCategory'),
+          gapDetail: document.getElementById('biggestGapDetail')?.value || '',
+          orgName: document.getElementById('orgName')?.value || '',
+          orgDBA: document.getElementById('orgDBA')?.value || '',
+          orgType: getRadioValue('orgType'),
+          adminFirst: document.getElementById('adminFirst')?.value || '',
+          adminLast: document.getElementById('adminLast')?.value || '',
+          adminEmail: document.getElementById('adminEmail')?.value || '',
+          adminPhone: document.getElementById('adminPhone')?.value || '',
+          orgPhone: document.getElementById('orgPhone')?.value || '',
+          opState: document.getElementById('opState')?.value || '',
+          geoScope: getRadioValue('geoScope'),
+          paxVolume: getRadioValue('paxVolume'),
+          incidentHistory: document.getElementById('incidentScaleValue')?.value || '',
+          yearsOp: document.getElementById('yearsOp')?.value || '',
+          insurer: document.getElementById('insurer')?.value || '',
+          orgWebsite: document.getElementById('orgWebsite')?.value || '',
+          lma: getCheckboxValues('lma'),
+          permits: document.getElementById('permitNotes')?.value || '',
+          opTypes: getCheckboxValues('opType'),
+          avgPax: document.getElementById('avgPax')?.value || '',
+          avgRatio: document.getElementById('avgRatio')?.value || '',
+          seasonStart: document.getElementById('seasonStart')?.value || '',
+          seasonEnd: document.getElementById('seasonEnd')?.value || '',
+          accreditation: getCheckboxValues('accred'),
+          hazards: getCheckboxValues('hazard'),
+          hasEAP: getRadioValue('hasEAP'),
+          libraryDocs: getCheckboxValues('library'),
+          gearCategories: getCheckboxValues('gear'),
+          gearScale: document.getElementById('gearScaleValue')?.value || '',
+          finalNotes: document.getElementById('finalNotes')?.value || '',
+          locationCount,
+          routeCount,
+          savedAt: new Date().toISOString()
+        };
+        localStorage.setItem(LS_KEY, JSON.stringify(state));
+        // update save indicator
+        const dot = document.getElementById('saveDot');
+        const label = document.getElementById('saveLabel');
+        dot.classList.add('saved');
+        label.textContent = 'Saved';
+        setTimeout(() => { dot.classList.remove('saved'); label.textContent = 'Progress saves automatically'; }, 2000);
+      } catch(e) {}
+    }, 800);
+  }
+
+  // ── RESTORE FROM LOCALSTORAGE ────────────────────────────
+  function restoreState() {
+    try {
+      const raw = localStorage.getItem(LS_KEY);
+      if (!raw) return;
+      const s = JSON.parse(raw);
+      if (!s || !s.savedAt) return;
+
+      // Text fields
+      const setVal = (id, val) => { const el = document.getElementById(id); if (el && val) el.value = val; };
+      setVal('biggestGapDetail', s.gapDetail);
+      setVal('orgName', s.orgName);
+      setVal('orgDBA', s.orgDBA);
+      setVal('adminFirst', s.adminFirst);
+      setVal('adminLast', s.adminLast);
+      setVal('adminEmail', s.adminEmail);
+      setVal('adminPhone', s.adminPhone);
+      setVal('orgPhone', s.orgPhone);
+      setVal('opState', s.opState);
+      setVal('yearsOp', s.yearsOp);
+      setVal('insurer', s.insurer);
+      setVal('orgWebsite', s.orgWebsite);
+      setVal('permitNotes', s.permits);
+      setVal('avgPax', s.avgPax);
+      setVal('avgRatio', s.avgRatio);
+      setVal('seasonStart', s.seasonStart);
+      setVal('seasonEnd', s.seasonEnd);
+      setVal('finalNotes', s.finalNotes);
+      setVal('incidentScaleValue', s.incidentHistory);
+      setVal('gearScaleValue', s.gearScale);
+
+      // Restore scale button visuals
+      if (s.incidentHistory) {
+        document.querySelectorAll('#step-1 .scale-row .scale-btn').forEach(btn => {
+          if (btn.textContent.trim() === s.incidentHistory) btn.classList.add('active');
+        });
+      }
+      if (s.gearScale) {
+        document.querySelectorAll('#step-4 .scale-row .scale-btn').forEach(btn => {
+          if (btn.textContent.trim() === s.gearScale) btn.classList.add('active');
+        });
+      }
+
+      // Checkboxes & radios
+      const restoreCheckboxes = (name, vals) => {
+        if (!vals || !vals.length) return;
+        document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
+          if (vals.includes(input.value)) {
+            input.checked = true;
+            input.closest('.chip')?.classList.add('selected');
+          }
+        });
+      };
+      const restoreRadio = (name, val) => {
+        if (!val) return;
+        const input = document.querySelector(`input[name="${name}"][value="${val}"]`);
+        if (input) { input.checked = true; input.closest('.chip')?.classList.add('selected'); }
+      };
+
+      restoreCheckboxes('gapCategory', s.gapCategories);
+      restoreRadio('orgType', s.orgType);
+      restoreRadio('geoScope', s.geoScope);
+      restoreRadio('paxVolume', s.paxVolume);
+      restoreCheckboxes('lma', s.lma);
+      restoreCheckboxes('opType', s.opTypes);
+      restoreCheckboxes('accred', s.accreditation);
+      restoreCheckboxes('hazard', s.hazards);
+      restoreRadio('hasEAP', s.hasEAP);
+      restoreCheckboxes('library', s.libraryDocs);
+      restoreCheckboxes('gear', s.gearCategories);
+
+      // Show gap followup if categories were selected
+      if (s.gapCategories && s.gapCategories.length > 0) {
+        document.getElementById('gapFollowup').classList.add('visible');
+      }
+
+      // Restore step (skip back to step 1 minimum after gate)
+      if (s.step && s.step >= 1) {
+        goToStep(s.step, true);
+      }
+
+    } catch(e) {}
+  }
+
+  // ── REVIEW ───────────────────────────────────────────────
   function buildReview() {
     const orgName = document.getElementById('orgName').value || '—';
     const adminEmail = document.getElementById('adminEmail').value || '—';
-    const biggestGap = document.getElementById('biggestGap').value || '—';
+    const gapCats = getCheckboxValues('gapCategory');
+    const gapDetail = document.getElementById('biggestGapDetail').value || '—';
     const incidents = document.getElementById('incidentScaleValue').value || '—';
     const opTypes = getCheckboxValues('opType');
     const hazards = getCheckboxValues('hazard');
+
     document.getElementById('reviewSummary').innerHTML = `
       <div class="review-block"><div class="review-block-title">// Organization</div><div class="review-grid">
         <span class="review-key">ORG</span><span class="review-val hi">${orgName}</span>
@@ -825,31 +1211,34 @@
         <span class="review-key">PAX VOLUME</span><span class="review-val">${getRadioValue('paxVolume') || '—'}</span>
         <span class="review-key">INCIDENTS</span><span class="review-val">${incidents}</span>
       </div></div>
-      <div class="review-block"><div class="review-block-title">// Primary Gap</div>
-        <div style="font-size:0.82rem;color:var(--offwhite);line-height:1.6;">${biggestGap}</div>
-      </div>
+      <div class="review-block"><div class="review-block-title">// Primary Gap</div><div class="review-grid">
+        <span class="review-key">CATEGORIES</span><span class="review-val">${gapCats.length ? gapCats.join(', ') : '—'}</span>
+        <span class="review-key">DETAIL</span><span class="review-val">${gapDetail}</span>
+      </div></div>
       <div class="review-block"><div class="review-block-title">// Locations & Routes</div><div class="review-grid">
-        <span class="review-key">LOCATIONS</span><span class="review-val">${locationCount} added</span>
-        <span class="review-key">ROUTES</span><span class="review-val">${routeCount} added</span>
+        <span class="review-key">LOCATIONS</span><span class="review-val">${document.querySelectorAll('[id^="loc-"]').length} added</span>
+        <span class="review-key">ROUTES</span><span class="review-val">${document.querySelectorAll('[id^="route-"]').length} added</span>
       </div></div>
       <div class="review-block"><div class="review-block-title">// Op Types & Risk</div><div class="review-grid">
         <span class="review-key">OP TYPES</span><span class="review-val">${opTypes.length ? opTypes.join(', ') : '—'}</span>
         <span class="review-key">HAZARDS</span><span class="review-val">${hazards.length ? hazards.join(', ') : '—'}</span>
         <span class="review-key">EAP STATUS</span><span class="review-val">${getRadioValue('hasEAP') || '—'}</span>
       </div></div>
-      <div class="routing-box">
-        <span class="route-node active">Submit</span><span class="route-arrow">→</span>
-        <span class="route-node">Netlify</span><span class="route-arrow">→</span>
-        <span class="route-node">Make.com</span><span class="route-arrow">→</span>
-        <span class="route-node">PARTNER_STAGING</span><span class="route-arrow">→</span>
-        <span class="route-node active">Config Call</span>
+      <div class="next-steps-box">
+        <div class="next-steps-title">// What Happens Next</div>
+        <div class="next-step-row"><span class="next-step-num">01</span><div class="next-step-text"><strong>Advisor Review — within 24 hours</strong>Your AlpenOS advisor reviews your configuration and confirms receipt.</div></div>
+        <div class="next-step-row"><span class="next-step-num">02</span><div class="next-step-text"><strong>Configuration Call Scheduled</strong>A 60-minute call to build out your trigger set, library, and operational environment.</div></div>
+        <div class="next-step-row"><span class="next-step-num">03</span><div class="next-step-text"><strong>Staff Invite Links Sent</strong>Individual invite links go to each guide and instructor after the config call. Each team member completes their own profile.</div></div>
+        <div class="next-step-row"><span class="next-step-num">04</span><div class="next-step-text"><strong>Environment Live</strong>Your AlpenOS platform is ready for a guided walkthrough with your team.</div></div>
       </div>`;
   }
 
+  // ── SUBMIT ───────────────────────────────────────────────
   async function submitForm() {
     const btn = document.getElementById('submitBtn');
     btn.textContent = 'Submitting...';
     btn.disabled = true;
+
     const payload = new FormData();
     payload.append('form-name', 'alpenos-onboarding');
     payload.append('submitted_at', new Date().toISOString());
@@ -867,7 +1256,8 @@
     payload.append('insurer', document.getElementById('insurer').value);
     payload.append('org_website', document.getElementById('orgWebsite').value);
     payload.append('incident_history', document.getElementById('incidentScaleValue').value);
-    payload.append('biggest_gap', document.getElementById('biggestGap').value);
+    payload.append('biggest_gap_category', getCheckboxValues('gapCategory').join(', '));
+    payload.append('biggest_gap_detail', document.getElementById('biggestGapDetail').value);
     payload.append('locations', collectLocations());
     payload.append('routes', collectRoutes());
     payload.append('lma', getCheckboxValues('lma').join(', '));
@@ -884,6 +1274,7 @@
     payload.append('gear_categories', getCheckboxValues('gear').join(', '));
     payload.append('gear_scale', document.getElementById('gearScaleValue').value);
     payload.append('final_notes', document.getElementById('finalNotes').value);
+
     try {
       const res = await fetch('/', { method: 'POST', body: payload });
       if (res.ok) { showSuccess(); } else { throw new Error(); }
@@ -901,15 +1292,29 @@
       <div class="success-row"><span class="k">ORG</span><span class="v">${orgName}</span></div>
       <div class="success-row"><span class="k">CONTACT</span><span class="v">${adminEmail}</span></div>
       <div class="success-row"><span class="k">STATUS</span><span class="v">Staging Queue</span></div>
-      <div class="success-row"><span class="k">NEXT</span><span class="v">Config call within 24h</span></div>
+      <div class="success-row"><span class="k">NEXT</span><span class="v">Advisor review within 24h</span></div>
       <div class="success-row"><span class="k">TEAM INVITES</span><span class="v">Sent post config call</span></div>`;
     document.querySelectorAll('.step-item').forEach(i => i.classList.add('complete'));
-    window.scrollTo(0,0);
+    try { localStorage.removeItem(LS_KEY); } catch(e) {}
+    window.scrollTo(0, 0);
   }
 
+  // ── INIT ─────────────────────────────────────────────────
   updateSidebar();
-  addLocation();
-  addRoute();
+
+  // Auto-save on text input
+  document.addEventListener('input', (e) => {
+    if (e.target.matches('input, textarea, select')) autoSave();
+  });
+
+  // Restore saved state
+  restoreState();
+
+  // If no saved state, pre-add one location/route block
+  if (!localStorage.getItem(LS_KEY)) {
+    addLocation();
+    addRoute();
+  }
 </script>
 </body>
 </html>
