@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Legal · Alpen/OS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --granite:    #16181C;
+      --elevation:  #22252B;
+      --crevasse:   #333740;
+      --scree:      #B8B0A4;
+      --overcast:   #8B92A5;
+      --mauve:      #DEB0C6;
+      --snowblind:  #F8F9FA;
+      --iron:       #8C4633;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--granite);
+      color: var(--snowblind);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(22, 24, 28, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--crevasse);
+      padding: 0 48px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .wordmark {
+      font-family: 'DM Mono', monospace;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--snowblind);
+      text-decoration: none;
+    }
+    .wordmark .slash { color: var(--mauve); }
+
+    .header-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--overcast);
+      text-transform: uppercase;
+    }
+
+    /* ── LAYOUT ── */
+    .page-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 48px 120px;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 0 64px;
+      align-items: start;
+    }
+
+    /* ── SIDEBAR NAV ── */
+    .sidebar {
+      position: sticky;
+      top: 88px;
+    }
+
+    .sidebar-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      color: var(--overcast);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .nav-group { margin-bottom: 28px; }
+
+    .nav-group-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--mauve);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .nav-link {
+      display: block;
+      font-size: 13px;
+      color: var(--overcast);
+      text-decoration: none;
+      padding: 4px 0;
+      border-left: 2px solid transparent;
+      padding-left: 12px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .nav-link:hover {
+      color: var(--snowblind);
+      border-left-color: var(--mauve);
+    }
+
+    .sidebar-divider {
+      border: none;
+      border-top: 1px solid var(--crevasse);
+      margin: 24px 0;
+    }
+
+    .sidebar-effective {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--overcast);
+      letter-spacing: 0.08em;
+      line-height: 1.6;
+    }
+
+    /* ── MAIN CONTENT ── */
+    .content {}
+
+    /* hero strip */
+    .content-hero {
+      border: 1px solid var(--crevasse);
+      border-radius: 4px;
+      background: var(--elevation);
+      padding: 40px 48px;
+      margin-bottom: 64px;
+    }
+
+    .content-hero .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      color: var(--mauve);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .content-hero h1 {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 26px;
+      letter-spacing: -0.03em;
+      color: var(--snowblind);
+      margin-bottom: 16px;
+    }
+
+    .content-hero p {
+      font-size: 14px;
+      color: var(--overcast);
+      max-width: 580px;
+      line-height: 1.7;
+    }
+
+    .content-hero .disclaimer-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 24px;
+      padding: 8px 14px;
+      border: 1px solid var(--iron);
+      border-radius: 3px;
+      background: rgba(140, 70, 51, 0.08);
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: #c97a62;
+      letter-spacing: 0.06em;
+    }
+    .disclaimer-badge::before {
+      content: '⚑';
+      color: var(--iron);
+    }
+
+    /* section blocks */
+    .doc-section {
+      margin-bottom: 72px;
+      padding-top: 16px;
+      border-top: 1px solid var(--crevasse);
+    }
+
+    .doc-section:first-of-type { border-top: none; }
+
+    .section-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      color: var(--mauve);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .doc-section h2 {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+      color: var(--snowblind);
+      margin-bottom: 24px;
+    }
+
+    .doc-section h3 {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--snowblind);
+      margin: 28px 0 10px;
+      letter-spacing: -0.01em;
+    }
+
+    .doc-section p {
+      font-size: 14px;
+      color: #c4c9d4;
+      margin-bottom: 14px;
+      line-height: 1.8;
+    }
+
+    .doc-section ul, .doc-section ol {
+      padding-left: 20px;
+      margin-bottom: 14px;
+    }
+
+    .doc-section li {
+      font-size: 14px;
+      color: #c4c9d4;
+      margin-bottom: 6px;
+      line-height: 1.75;
+    }
+
+    .doc-section a {
+      color: var(--mauve);
+      text-decoration: none;
+    }
+    .doc-section a:hover { text-decoration: underline; }
+
+    /* divider between ToS and Privacy */
+    .doc-divider {
+      border: none;
+      border-top: 1px solid var(--crevasse);
+      margin: 80px 0;
+      position: relative;
+    }
+    .doc-divider::after {
+      content: '§';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: var(--granite);
+      padding: 0 16px;
+      font-family: 'DM Mono', monospace;
+      color: var(--crevasse);
+      font-size: 18px;
+    }
+
+    /* contact block */
+    .contact-block {
+      background: var(--elevation);
+      border: 1px solid var(--crevasse);
+      border-radius: 4px;
+      padding: 28px 32px;
+      margin-top: 32px;
+    }
+    .contact-block .contact-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: var(--overcast);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .contact-block p {
+      font-size: 13px;
+      color: var(--scree);
+      margin: 0;
+    }
+    .contact-block a {
+      color: var(--mauve);
+      text-decoration: none;
+    }
+
+    /* footer */
+    footer {
+      border-top: 1px solid var(--crevasse);
+      padding: 28px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    footer .footer-copy {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--overcast);
+      letter-spacing: 0.06em;
+    }
+    footer .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+    footer .footer-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--overcast);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+    }
+    footer .footer-links a:hover { color: var(--snowblind); }
+
+    /* responsive */
+    @media (max-width: 768px) {
+      header { padding: 0 24px; }
+      .page-wrap {
+        grid-template-columns: 1fr;
+        padding: 48px 24px 80px;
+        gap: 0;
+      }
+      .sidebar {
+        position: static;
+        margin-bottom: 48px;
+        padding-bottom: 32px;
+        border-bottom: 1px solid var(--crevasse);
+      }
+      .content-hero { padding: 28px 24px; }
+      footer { flex-direction: column; gap: 16px; padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <a href="https://alpenos.io" class="wordmark">Alpen<span class="slash">/</span>OS</a>
+    <span class="header-meta">Legal · alpenos.io</span>
+  </header>
+
+  <!-- PAGE BODY -->
+  <div class="page-wrap">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <p class="sidebar-label">On This Page</p>
+
+      <div class="nav-group">
+        <p class="nav-group-title">Terms of Service</p>
+        <a class="nav-link" href="#tos-acceptance">Acceptance</a>
+        <a class="nav-link" href="#tos-services">Services</a>
+        <a class="nav-link" href="#tos-accounts">Accounts</a>
+        <a class="nav-link" href="#tos-payment">Payment & Billing</a>
+        <a class="nav-link" href="#tos-acceptable-use">Acceptable Use</a>
+        <a class="nav-link" href="#tos-ip">Intellectual Property</a>
+        <a class="nav-link" href="#tos-data">Customer Data</a>
+        <a class="nav-link" href="#tos-confidentiality">Confidentiality</a>
+        <a class="nav-link" href="#tos-warranty">Warranty Disclaimer</a>
+        <a class="nav-link" href="#tos-liability">Limitation of Liability</a>
+        <a class="nav-link" href="#tos-termination">Termination</a>
+        <a class="nav-link" href="#tos-governing-law">Governing Law</a>
+        <a class="nav-link" href="#tos-changes">Changes to Terms</a>
+      </div>
+
+      <div class="nav-group">
+        <p class="nav-group-title">Privacy Policy</p>
+        <a class="nav-link" href="#pp-overview">Overview</a>
+        <a class="nav-link" href="#pp-data-collected">Data We Collect</a>
+        <a class="nav-link" href="#pp-use">How We Use Data</a>
+        <a class="nav-link" href="#pp-processor">Data Processor Role</a>
+        <a class="nav-link" href="#pp-sharing">Data Sharing</a>
+        <a class="nav-link" href="#pp-stripe">Stripe & Payments</a>
+        <a class="nav-link" href="#pp-retention">Retention</a>
+        <a class="nav-link" href="#pp-security">Security</a>
+        <a class="nav-link" href="#pp-rights">Your Rights</a>
+        <a class="nav-link" href="#pp-contact">Contact</a>
+      </div>
+
+      <hr class="sidebar-divider" />
+
+      <p class="sidebar-effective">
+        Effective Date<br />
+        July 1, 2025<br /><br />
+        Last Revised<br />
+        [DATE]<br /><br />
+        AlpenOS, Inc.<br />
+        Delaware C-Corp
+      </p>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="content">
+
+      <!-- Hero strip -->
+      <div class="content-hero">
+        <p class="eyebrow">Legal Documentation</p>
+        <h1>Terms of Service &amp; Privacy Policy</h1>
+        <p>
+          This page governs your use of the Alpen/OS platform and services operated by AlpenOS, Inc., a Delaware corporation. Please read both documents carefully before accessing or using the platform.
+        </p>
+        <div class="disclaimer-badge">
+          NOT LEGAL ADVICE — Review with qualified counsel before relying on these terms in a binding context.
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!--   TERMS OF SERVICE                          -->
+      <!-- ═══════════════════════════════════════════ -->
+
+      <div class="doc-section" id="tos-acceptance">
+        <p class="section-tag">Terms of Service · §01</p>
+        <h2>Terms of Service</h2>
+        <h3>1. Acceptance of Terms</h3>
+        <p>
+          By creating an account, accessing the Alpen/OS platform, or using any services provided by AlpenOS, Inc. ("Alpen/OS," "we," "us," or "our"), you ("Customer," "you," or "your") agree to be bound by these Terms of Service ("Terms"). If you are accepting on behalf of an organization, you represent that you have authority to bind that organization to these Terms.
+        </p>
+        <p>
+          If you do not agree to these Terms, do not access or use the platform.
+        </p>
+      </div>
+
+      <div class="doc-section" id="tos-services">
+        <p class="section-tag">Terms of Service · §02</p>
+        <h3>2. Description of Services</h3>
+        <p>
+          Alpen/OS provides a field operations management platform ("Platform") designed for professional outdoor providers, including guiding outfits, university outdoor programs, and institutional outdoor education organizations. The Platform includes tools for trip operations management, compliance documentation, incident logging, participant tracking, staff coordination, and related field operations workflows.
+        </p>
+        <p>
+          Alpen/OS reserves the right to modify, suspend, or discontinue any feature of the Platform with reasonable notice. Material changes affecting core functionality will be communicated via the email address associated with your account.
+        </p>
+      </div>
+
+      <div class="doc-section" id="tos-accounts">
+        <p class="section-tag">Terms of Service · §03</p>
+        <h3>3. Accounts & Access</h3>
+        <p>
+          You must provide accurate, current, and complete information during registration and keep your account information updated. You are responsible for maintaining the confidentiality of your login credentials and for all activity that occurs under your account.
+        </p>
+        <p>
+          You may not share login credentials across multiple individuals. Each seat or user within your organization must have a unique account as configured under your subscription tier. You agree to notify us immediately at <a href="mailto:support@alpenos.io">support@alpenos.io</a> of any unauthorized use of your account.
+        </p>
+        <p>
+          Alpen/OS reserves the right to suspend or terminate accounts that are found to be in violation of these Terms.
+        </p>
+      </div>
+
+      <div class="doc-section" id="tos-payment">
+        <p class="section-tag">Terms of Service · §04</p>
+        <h3>4. Payment & Billing</h3>
+        <p>
+          All subscription fees are billed in advance on a monthly or annual basis, depending on your selected plan. Payment is processed through Stripe, Inc., our third-party payment processor. By providing payment information, you authorize Alpen/OS to charge your designated payment method for all applicable fees.
+        </p>
+        <p>
+          Subscription fees are non-refundable except where required by applicable law or as expressly stated in a signed order form. In the event of billing disputes, you must notify us within thirty (30) days of the disputed charge at <a href="mailto:billing@alpenos.io">billing@alpenos.io</a>.
+        </p>
+        <p>
+          Alpen/OS may update its pricing with thirty (30) days' written notice. Continued use of the Platform following a price change constitutes acceptance of the updated pricing. Annual subscriptions are not subject to mid-term price increases.
+        </p>
+        <p>
+          Failed payments may result in temporary suspension of access. Accounts that remain past due for more than fifteen (15) days may be subject to termination.
+        </p>
+      </div>
+
+      <div class="doc-section" id="tos-acceptable-use">
+        <p class="section-tag">Terms of Service · §05</p>
+        <h3>5. Acceptable Use</h3>
+        <p>You agree not to:</p>
+        <ul>
+          <li>Use the Platform in any manner that violates applicable law or regulation;</li>
+          <li>Upload or transmit malicious code, viruses, or any software intended to harm or disrupt the Platform;</li>
+          <li>Attempt to gain unauthorized access to any portion of the Platform or its infrastructure;</li>
+          <li>Reverse engineer, decompile, or disassemble any part of the Platform;</li>
+          <li>Resell, sublicense, or make the Platform available to third parties outside your organization without express written permission;</li>
+          <li>Use the Platform to store or transmit content that is unlawful, defamatory, or infringes upon the rights of any third party.</li>
+        </ul>
+        <p>
+          Alpen/OS reserves the right to investigate suspected violations and to take appropriate action, including suspension or termination of access, without liability.
+        </p>
+      </div>
+
+      <div class="doc-section" id="tos-ip">
+        <p class="section-tag">Terms of Service · §06</p>
+        <h3>6. Intellectual Property</h3>
+        <p>
+          Alpen/OS and its licensors retain all right, title, and interest in and to the Platform, including all software, designs, workflows, documentation, and underlying technology. These Terms do not grant you any rights to Alpen/OS's intellectual property except the limited license to access and use the Platform as described herein.
+        </p>
+        <p>
+          You retain all ownership rights in the data and content you upload to the Platform ("Customer Data"). By using the Platform, you grant Alpen/OS a limited, non-exclusive, royalty-free license to process and store your Customer Data solely for the purpose of providing the services described in these Terms.
+        </p>
+      </div>
+
+      <div class="doc-section" id="tos-data">
+        <p class="section-tag">Terms of Service · §07</p>
+        <h3>7. Customer Data & Organizational Responsibility</h3>
+        <p>
+          You are solely responsible for the accuracy, quality, and legality of all Customer Data you input into the Platform, including operational data, staff records, participant rosters, and any personally identifiable information ("PII") belonging to your participants, staff, or clients.
+        </p>
+        <p>
+          Where your use of the Platform involves the collection or storage of sensitive participant data — including but not limited to health information, medical conditions, or emergency contact data — you represent that you have obtained all necessary consents and have the legal authority to store such data on a third-party platform. Alpen/OS processes this data on your behalf as a data processor; you remain the data controller responsible for compliance with applicable privacy laws, including FERPA, HIPAA (where applicable), and any applicable state privacy statutes.
+        </p>
+        <p>
+          Alpen/OS will not access, use, or disclose your participants' personal data except as required to provide the Platform services or as required by law.
+        </p>
+      </div>
+
+      <div class="doc-section" id="tos-confidentiality">
+        <p class="section-tag">Terms of Service · §08</p>
+        <h3>8. Confidentiality</h3>
+        <p>
+          Each party may have access to confidential information of the other party in connection with these Terms. Each party agrees to protect the other's confidential information with the same degree of care it uses to protect its own confidential information, but in no event less than reasonable care.
+        </p>
+        <p>
+          Confidential information does not include information that: (a) is or becomes publicly known through no fault of the receiving party; (b) was already known to the receiving party before disclosure; (c) is independently developed without reference to the confidential information; or (d) is required to be disclosed by law or court order, provided the disclosing party is given reasonable advance notice.
+        </p>
+      </div>
+
+      <div class="doc-section" id="tos-warranty">
+        <p class="section-tag">Terms of Service · §09</p>
+        <h3>9. Warranty Disclaimer</h3>
+        <p>
+          THE PLATFORM IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT.
+        </p>
+        <p>
+          Alpen/OS does not warrant that the Platform will be uninterrupted, error-free, or free from security vulnerabilities. Alpen/OS does not warrant that the Platform will meet your specific compliance or regulatory requirements. You are responsible for independently verifying that your use of the Platform satisfies any applicable legal or regulatory obligations.
+        </p>
+      </div>
+
+      <div class="doc-section" id="tos-liability">
+        <p class="section-tag">Terms of Service · §10</p>
+        <h3>10. Limitation of Liability</h3>
+        <p>
+          TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, ALPENOS, INC. AND ITS OFFICERS, DIRECTORS, EMPLOYEES, AND AGENTS SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO LOSS OF PROFITS, DATA, OR GOODWILL, ARISING OUT OF OR IN CONNECTION WITH THESE TERMS OR YOUR USE OF THE PLATFORM, EVEN IF ALPENOS HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+        </p>
+        <p>
+          IN NO EVENT SHALL ALPENOS'S TOTAL CUMULATIVE LIABILITY TO YOU EXCEED THE GREATER OF (A) THE FEES PAID BY YOU TO ALPENOS IN THE TWELVE (12) MONTHS PRECEDING THE CLAIM, OR (B) ONE HUNDRED U.S. DOLLARS ($100).
+        </p>
+        <p>
+          NOTHING IN THESE TERMS SHALL LIMIT OR EXCLUDE LIABILITY FOR FRAUD, WILLFUL MISCONDUCT, OR DEATH OR PERSONAL INJURY CAUSED BY NEGLIGENCE.
+        </p>
+      </div>
+
+      <div class="doc-section" id="tos-termination">
+        <p class="section-tag">Terms of Service · §11</p>
+        <h3>11. Termination</h3>
+        <p>
+          Either party may terminate these Terms by providing thirty (30) days' written notice. Alpen/OS may terminate or suspend your access immediately for material breach of these Terms, including non-payment, violation of the Acceptable Use policy, or conduct that poses a risk to the Platform or other customers.
+        </p>
+        <p>
+          Upon termination, your right to access the Platform ceases immediately. Alpen/OS will retain your Customer Data for a period of sixty (60) days following termination, during which you may request a data export. After sixty (60) days, your data will be deleted from active systems. Data retained in backup systems will be purged in the ordinary course of backup rotation.
+        </p>
+      </div>
+
+      <div class="doc-section" id="tos-governing-law">
+        <p class="section-tag">Terms of Service · §12</p>
+        <h3>12. Governing Law & Dispute Resolution</h3>
+        <p>
+          These Terms shall be governed by and construed in accordance with the laws of the State of Delaware, without regard to its conflict of law provisions. Any disputes arising under these Terms shall be subject to the exclusive jurisdiction of the state and federal courts located in Delaware.
+        </p>
+        <p>
+          Before initiating formal legal proceedings, each party agrees to attempt in good faith to resolve any dispute informally by notifying the other party in writing with a description of the dispute and the relief sought. The parties shall have thirty (30) days from the date of notice to attempt resolution.
+        </p>
+      </div>
+
+      <div class="doc-section" id="tos-changes">
+        <p class="section-tag">Terms of Service · §13</p>
+        <h3>13. Changes to These Terms</h3>
+        <p>
+          Alpen/OS may update these Terms from time to time. When material changes are made, we will notify you via the email address on file at least fourteen (14) days before the changes take effect. Your continued use of the Platform after the effective date of updated Terms constitutes acceptance of those changes.
+        </p>
+        <p>
+          The most current version of these Terms is always available at <a href="https://alpenos.io/legal">alpenos.io/legal</a>.
+        </p>
+
+        <div class="contact-block">
+          <p class="contact-label">Terms — Contact</p>
+          <p>Questions regarding these Terms: <a href="mailto:legal@alpenos.io">legal@alpenos.io</a><br />
+          AlpenOS, Inc. · Registered in Delaware, United States</p>
+        </div>
+      </div>
+
+      <!-- DIVIDER -->
+      <hr class="doc-divider" />
+
+      <!-- ═══════════════════════════════════════════ -->
+      <!--   PRIVACY POLICY                            -->
+      <!-- ═══════════════════════════════════════════ -->
+
+      <div class="doc-section" id="pp-overview">
+        <p class="section-tag">Privacy Policy · §01</p>
+        <h2>Privacy Policy</h2>
+        <h3>1. Overview</h3>
+        <p>
+          AlpenOS, Inc. ("Alpen/OS," "we," "us," or "our") is committed to protecting the privacy of the organizations and individuals who use our platform. This Privacy Policy describes how we collect, use, store, and protect information in connection with the Alpen/OS platform and website at <a href="https://alpenos.io">alpenos.io</a>.
+        </p>
+        <p>
+          This policy applies to all users of the Platform, including organization administrators ("Admins") and field staff ("Guides") who access the Platform on behalf of a subscribing organization.
+        </p>
+      </div>
+
+      <div class="doc-section" id="pp-data-collected">
+        <p class="section-tag">Privacy Policy · §02</p>
+        <h3>2. Information We Collect</h3>
+        <p><strong style="color: var(--snowblind); font-weight: 500;">Account & Contact Information</strong></p>
+        <ul>
+          <li>Name and email address of administrators and staff who register for or are added to an Alpen/OS account;</li>
+          <li>Organization name, type, and contact information provided during onboarding.</li>
+        </ul>
+        <p><strong style="color: var(--snowblind); font-weight: 500;">Operational Data</strong></p>
+        <ul>
+          <li>Trip and operation records, including locations, dates, staff assignments, and operation type;</li>
+          <li>Compliance documentation, including accreditation information, insurance provider details, and certifications uploaded by your organization;</li>
+          <li>Field logs, incident records, and readiness documentation created within the Platform by your staff.</li>
+        </ul>
+        <p><strong style="color: var(--snowblind); font-weight: 500;">Usage Data</strong></p>
+        <ul>
+          <li>Browser or device type, IP address, and general geographic region when accessing the Platform;</li>
+          <li>Feature usage patterns and session data used to improve Platform performance and reliability.</li>
+        </ul>
+        <p>
+          Alpen/OS does not use tracking cookies for advertising purposes and does not sell personal information to third parties.
+        </p>
+      </div>
+
+      <div class="doc-section" id="pp-use">
+        <p class="section-tag">Privacy Policy · §03</p>
+        <h3>3. How We Use Information</h3>
+        <p>We use the information we collect to:</p>
+        <ul>
+          <li>Provide, operate, and maintain the Alpen/OS Platform;</li>
+          <li>Process subscription payments and manage billing;</li>
+          <li>Send transactional communications, including account setup, billing confirmations, and service notifications;</li>
+          <li>Respond to support requests and account inquiries;</li>
+          <li>Monitor Platform performance, diagnose technical issues, and improve the service;</li>
+          <li>Comply with applicable legal obligations.</li>
+        </ul>
+        <p>
+          We do not use Customer Data — including operational records, participant data, or compliance documentation — for product development, marketing, or any purpose beyond providing the services described in these Terms.
+        </p>
+      </div>
+
+      <div class="doc-section" id="pp-processor">
+        <p class="section-tag">Privacy Policy · §04</p>
+        <h3>4. Our Role as a Data Processor</h3>
+        <p>
+          For personal data belonging to your participants, clients, or program attendees — including health information, emergency contacts, and field incident records — Alpen/OS acts solely as a <strong style="color: var(--snowblind); font-weight: 500;">data processor</strong>. Your organization is the data controller and retains full responsibility for:
+        </p>
+        <ul>
+          <li>Obtaining appropriate consent from participants before entering their data into the Platform;</li>
+          <li>Ensuring your data collection and storage practices comply with applicable privacy laws, including FERPA (for educational institutions), HIPAA (where applicable), and any relevant state statutes;</li>
+          <li>Responding to participant data access, correction, or deletion requests directed to your organization.</li>
+        </ul>
+        <p>
+          Alpen/OS will process participant personal data only as instructed by your organization and as required to deliver the Platform services. We will not share, sell, or use participant data for any independent purpose.
+        </p>
+      </div>
+
+      <div class="doc-section" id="pp-sharing">
+        <p class="section-tag">Privacy Policy · §05</p>
+        <h3>5. Data Sharing & Disclosure</h3>
+        <p>We do not sell, rent, or trade personal information. We may share information only in the following limited circumstances:</p>
+        <ul>
+          <li><strong style="color: var(--snowblind); font-weight: 500;">Service Providers:</strong> We share data with trusted third-party vendors necessary to operate the Platform, including our payment processor (Stripe), cloud infrastructure providers, and email delivery services. Each is bound by confidentiality obligations and may only use data to provide services to Alpen/OS.</li>
+          <li><strong style="color: var(--snowblind); font-weight: 500;">Legal Requirements:</strong> We may disclose information if required to do so by law, court order, or governmental authority, or if we believe in good faith that disclosure is necessary to protect the rights, property, or safety of Alpen/OS, our customers, or the public.</li>
+          <li><strong style="color: var(--snowblind); font-weight: 500;">Business Transfers:</strong> In the event of a merger, acquisition, or sale of substantially all assets, Customer Data may be transferred to the acquiring entity, subject to equivalent privacy protections. We will provide notice before such a transfer occurs.</li>
+        </ul>
+      </div>
+
+      <div class="doc-section" id="pp-stripe">
+        <p class="section-tag">Privacy Policy · §06</p>
+        <h3>6. Stripe & Payment Processing</h3>
+        <p>
+          Alpen/OS uses Stripe, Inc. to process all subscription payments. When you enter payment information, it is transmitted directly to Stripe and is not stored on Alpen/OS servers. Alpen/OS retains only a Stripe customer token and the last four digits of your payment method for billing reference purposes.
+        </p>
+        <p>
+          Stripe's collection and use of your payment data is governed by the <a href="https://stripe.com/privacy" target="_blank" rel="noopener">Stripe Privacy Policy</a>. By providing payment information through the Platform, you authorize Stripe to process payments on behalf of Alpen/OS.
+        </p>
+      </div>
+
+      <div class="doc-section" id="pp-retention">
+        <p class="section-tag">Privacy Policy · §07</p>
+        <h3>7. Data Retention</h3>
+        <p>
+          We retain account and operational data for as long as your subscription is active and for a period of sixty (60) days following termination or expiration of your account. After this period, Customer Data is deleted from active systems. Residual copies in encrypted backup systems are purged in the ordinary course of backup rotation, typically within ninety (90) days.
+        </p>
+        <p>
+          We may retain certain account-level records (such as billing history) for longer periods as required by applicable tax and financial regulations.
+        </p>
+      </div>
+
+      <div class="doc-section" id="pp-security">
+        <p class="section-tag">Privacy Policy · §08</p>
+        <h3>8. Security</h3>
+        <p>
+          Alpen/OS implements reasonable technical and organizational safeguards designed to protect Customer Data against unauthorized access, disclosure, alteration, or destruction. These include role-based access controls, data encryption in transit (TLS), and access logging.
+        </p>
+        <p>
+          No method of transmission over the internet or method of electronic storage is 100% secure. While we strive to protect your data, we cannot guarantee absolute security. In the event of a data breach that affects your organization's Customer Data, we will notify you without undue delay and in accordance with applicable law.
+        </p>
+      </div>
+
+      <div class="doc-section" id="pp-rights">
+        <p class="section-tag">Privacy Policy · §09</p>
+        <h3>9. Your Rights</h3>
+        <p>
+          Depending on your jurisdiction, you may have certain rights regarding your personal data, including the right to access, correct, or request deletion of your account information. To exercise any of these rights, contact us at <a href="mailto:privacy@alpenos.io">privacy@alpenos.io</a>.
+        </p>
+        <p>
+          For requests relating to participant data stored on your organization's behalf, please direct your participants to contact your organization directly, as Alpen/OS processes that data under your instruction as data controller.
+        </p>
+        <p>
+          We will respond to verifiable data requests within thirty (30) days. In some cases, we may be unable to fulfill a deletion request where retention is required by law or to resolve a billing dispute.
+        </p>
+      </div>
+
+      <div class="doc-section" id="pp-contact">
+        <p class="section-tag">Privacy Policy · §10</p>
+        <h3>10. Updates to This Policy</h3>
+        <p>
+          Alpen/OS may revise this Privacy Policy from time to time. When we make material changes, we will notify you via the email address on file. The updated policy will be effective upon posting to <a href="https://alpenos.io/legal">alpenos.io/legal</a>. Your continued use of the Platform after the effective date constitutes acceptance of the revised policy.
+        </p>
+
+        <div class="contact-block">
+          <p class="contact-label">Privacy — Contact</p>
+          <p>
+            Privacy inquiries: <a href="mailto:jalen@alpenos.io">jalen@alpenos.io</a><br />
+            General: <a href="mailto:jalen@alpenos.io">hello@alpenos.io</a><br />
+            AlpenOS, Inc. · Registered in Delaware, United States
+          </p>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-copy">© 2025 AlpenOS, Inc. · All rights reserved.</span>
+    <div class="footer-links">
+      <a href="https://alpenos.io">alpenos.io</a>
+      <a href="#tos-acceptance">Terms</a>
+      <a href="#pp-overview">Privacy</a>
+      <a href="mailto:hello@alpenos.io">Contact</a>
+    </div>
+  </footer>
+
+</body>
+</html>
