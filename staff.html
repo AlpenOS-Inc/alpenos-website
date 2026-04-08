@@ -152,8 +152,8 @@
       <div class="block-label">// Access Required</div>
       <div class="field">
         <div class="label">Invite Code <span class="req">*</span></div>
-        <div class="sublabel">Your invite code is specific to your organization. It determines which program you are being onboarded into.</div>
-        <input type="text" id="access-code" placeholder="ALPEN-WW-2026" autocomplete="off" />
+        <div class="sublabel">Your invite code is specific to your organization. It determines which organization you are being onboarded into.</div>
+        <input type="text" id="access-code" placeholder="enter code" autocomplete="off" />
         <div class="errmsg" id="access-err">Invite code is required.</div>
       </div>
     </div>
@@ -168,13 +168,13 @@
     <div class="section-label">// Step 01 — USERS</div>
     <h1>Your Profile</h1>
     <p class="subtitle">This record is private to you and your program admin. It powers your field credentials and emergency reference.</p>
-    <div class="notice">Your admin has pre-created your team directory record. This form completes the private layer — emergency contacts, certifications, and medical context.</div>
+    <div class="notice">Your admin has set up your team directory record. This form completes the private layer — emergency contacts, certifications, and medical context.</div>
 
     <div class="block">
       <div class="block-label">// Login Identity</div>
       <div class="field">
         <div class="label">Email Address <span class="req">*</span></div>
-        <div class="sublabel">Use the email your admin invited you with. This becomes your Glide login key — it must match exactly.</div>
+        <div class="sublabel">Use the email your admin invited you with. This becomes your Alpen/OS login — it must match exactly.</div>
         <input type="email" id="email" placeholder="you@yourorg.com" oninput="checkEmailMatch()" autocomplete="email" />
         <div class="errmsg" id="email-err">A valid email address is required.</div>
       </div>
@@ -207,7 +207,7 @@
       </div>
       <div class="field">
         <div class="label">Direct Phone <span class="req">*</span></div>
-        <div class="sublabel">Must be reachable in the field. Used for emergency comms chain.</div>
+        <div class="sublabel">Main line. Used for emergency comms chain.</div>
         <input type="tel" id="phone" placeholder="303-000-0000" autocomplete="tel" />
         <div class="errmsg" id="phone-err">Required.</div>
       </div>
@@ -217,7 +217,7 @@
       <div class="block-label">// Logistics</div>
       <div class="field">
         <div class="label">Dietary Restrictions</div>
-        <div class="sublabel">Used for expedition meal planning. Leave blank if none.</div>
+        <div class="sublabel">Used for meal planning. Leave blank if none.</div>
         <input type="text" id="dietary" placeholder="e.g. vegetarian, nut allergy, gluten-free" />
       </div>
       <div class="field">
@@ -258,7 +258,7 @@
           <select id="ec-rel">
             <option value="">— Select —</option>
             <option>Spouse / Partner</option>
-            <option>Parent</option>
+            <option>Parent/Guardian</option>
             <option>Sibling</option>
             <option>Friend</option>
             <option>Other</option>
@@ -285,7 +285,7 @@
       </div>
       <div class="field">
         <div class="label">Current Medications <span class="req">*</span></div>
-        <div class="sublabel">Include dosage and frequency if relevant to field response. Enter "None" if none.</div>
+        <div class="sublabel">Include dosage and frequency if relevant to field use. Enter "None" if none.</div>
         <textarea id="meds" placeholder="e.g. Metformin 500mg 2x daily. Or: None."></textarea>
         <div class="errmsg" id="meds-err">Required — enter None if not applicable.</div>
       </div>
@@ -310,7 +310,7 @@
   <div class="tab" id="tab-3">
     <div class="section-label">// Step 03 — USERS</div>
     <h1>Certifications</h1>
-    <p class="subtitle">Powers the ReadyState compliance check on every op. Your admin verifies documents before your first deployment. Upload cert documents in the app after your profile is confirmed.</p>
+    <p class="subtitle">Your certifications are verified by your admin before your first op. You'll upload cert documents directly in the app once your profile is confirmed.</p>
 
     <div class="block">
       <div class="block-label">// Medical Certification</div>
@@ -477,7 +477,7 @@
     <div class="success-wrap">
       <div class="success-hex">⬡</div>
       <h1 class="success-title">Profile Received.</h1>
-      <p class="success-sub">Your record is in the AlpenOS staging queue.<br />Your admin will verify your certifications and confirm your profile within 24 hours.<br /><br />Questions? Contact your program administrator.</p>
+      <p class="success-sub">Your record is in the Alpen/OS staging queue.<br />Your admin will verify your certifications and confirm your profile.<br /><br />Questions? Contact your program administrator.</p>
     </div>
   </div>
 
