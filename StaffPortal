@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Alpen/OS · Staff Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+  body { font-family: 'DM Sans', sans-serif; background: #16181C; color: #F8F9FA; min-height: 100vh; }
+
+  /* HEADER */
+  .header { border-bottom: 1px solid #333740; padding: 18px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: #16181C; z-index: 100; }
+  .logo { font-family: 'IBM Plex Mono', monospace; font-size: 15px; color: #F8F9FA; text-decoration: none; }
+  .logo span { color: #DEB0C6; }
+  .eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #8B92A5; }
+
+  /* PROGRESS */
+  .progress { background: #22252B; border-bottom: 1px solid #333740; padding: 0 32px; display: flex; overflow-x: auto; position: sticky; top: 57px; z-index: 99; }
+  .progress::-webkit-scrollbar { display: none; }
+  .prog-step { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 14px 18px; color: #8B92A5; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.2s; }
+  .prog-step.active { color: #DEB0C6; border-bottom-color: #DEB0C6; }
+  .prog-step.done { color: #F8F9FA; }
+
+  /* BODY */
+  .body { max-width: 680px; margin: 0 auto; padding: 48px 32px 80px; }
+
+  /* TYPOGRAPHY */
+  .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #DEB0C6; margin-bottom: 8px; }
+  h1 { font-size: 26px; font-weight: 300; color: #F8F9FA; margin-bottom: 6px; letter-spacing: -0.02em; }
+  .subtitle { font-size: 14px; color: #8B92A5; margin-bottom: 32px; line-height: 1.6; }
+
+  /* BLOCKS */
+  .block { margin-bottom: 28px; }
+  .block-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #8B92A5; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid #333740; }
+
+  /* FIELDS */
+  .field { margin-bottom: 18px; }
+  .label { font-size: 13px; font-weight: 500; color: #F8F9FA; margin-bottom: 5px; display: flex; align-items: center; gap: 5px; }
+  .req { color: #DEB0C6; font-size: 11px; }
+  .sublabel { font-size: 12px; color: #8B92A5; margin-bottom: 7px; line-height: 1.5; }
+  input[type="text"], input[type="email"], input[type="tel"], input[type="date"], input[type="password"] {
+    width: 100%; background: #22252B; border: 1px solid #333740; border-radius: 6px;
+    color: #F8F9FA; font-family: 'DM Sans', sans-serif; font-size: 14px;
+    padding: 10px 14px; outline: none; transition: border-color 0.2s;
+  }
+  input:focus { border-color: #DEB0C6; }
+  input::placeholder { color: #8B92A5; }
+  input.err { border-color: #8C4633 !important; }
+  select {
+    width: 100%; background: #22252B; border: 1px solid #333740; border-radius: 6px;
+    color: #F8F9FA; font-family: 'DM Sans', sans-serif; font-size: 14px;
+    padding: 10px 14px; outline: none; appearance: none;
+  }
+  select.err { border-color: #8C4633 !important; }
+  textarea {
+    width: 100%; background: #22252B; border: 1px solid #333740; border-radius: 6px;
+    color: #F8F9FA; font-family: 'DM Sans', sans-serif; font-size: 14px;
+    padding: 10px 14px; outline: none; resize: vertical; min-height: 72px;
+    transition: border-color 0.2s;
+  }
+  textarea:focus { border-color: #DEB0C6; }
+  textarea.err { border-color: #8C4633 !important; }
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 480px) { .row-2 { grid-template-columns: 1fr; } }
+
+  /* CHIPS */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { font-size: 11px; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.04em; padding: 6px 12px; border-radius: 4px; border: 1px solid #333740; color: #8B92A5; cursor: pointer; transition: all 0.15s; background: #22252B; user-select: none; }
+  .chip:hover { border-color: #DEB0C6; color: #DEB0C6; }
+  .chip.selected { border-color: #DEB0C6; color: #DEB0C6; background: rgba(222,176,198,0.08); }
+
+  /* NOTICES */
+  .notice { font-size: 12px; color: #8B92A5; background: #22252B; border-left: 2px solid #DEB0C6; padding: 10px 14px; border-radius: 0 4px 4px 0; line-height: 1.6; margin-bottom: 24px; }
+  .notice.warn { border-left-color: #8C4633; }
+
+  /* ERRORS */
+  .errmsg { font-size: 11px; color: #8C4633; margin-top: 4px; display: none; }
+  .errmsg.visible { display: block; }
+  .email-match { font-size: 11px; margin-top: 4px; display: none; }
+  .email-match.ok { display: block; color: #5DCAA5; }
+  .email-match.no { display: block; color: #8C4633; }
+
+  /* CERT CARD */
+  .cert-card { background: #22252B; border: 1px solid #333740; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+  .cert-title { font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #DEB0C6; margin-bottom: 14px; }
+  .cert-optional { color: #8B92A5; font-size: 10px; font-family: 'DM Sans', sans-serif; font-weight: 400; letter-spacing: 0; text-transform: none; margin-left: 6px; }
+  .other-input { display: none; margin-top: 10px; }
+  .other-input.visible { display: block; }
+
+  /* DIVIDER */
+  hr { border: none; border-top: 1px solid #333740; margin: 24px 0; }
+
+  /* CTA */
+  .cta { margin-top: 36px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #333740; padding-top: 22px; }
+  .cta-right { display: flex; align-items: center; gap: 16px; }
+  .step-count { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #8B92A5; }
+  button { font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; padding: 11px 22px; border-radius: 4px; border: 1px solid #DEB0C6; color: #DEB0C6; background: transparent; cursor: pointer; transition: all 0.2s; }
+  button:hover { background: rgba(222,176,198,0.1); }
+  button.secondary { border-color: #333740; color: #8B92A5; }
+  button.secondary:hover { border-color: #8B92A5; color: #F8F9FA; background: transparent; }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* TABS */
+  .tab { display: none; }
+  .tab.active { display: block; }
+
+  /* SUMMARY */
+  .summary-card { background: #22252B; border: 1px solid #333740; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+  .summary-row { display: flex; justify-content: space-between; font-size: 13px; color: #8B92A5; padding: 7px 0; border-bottom: 1px solid #333740; }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-val { color: #F8F9FA; text-align: right; max-width: 65%; word-break: break-word; }
+  .summary-cert { color: #DEB0C6; text-align: right; }
+
+  /* SUCCESS */
+  .success-wrap { text-align: center; padding: 60px 0; }
+  .success-hex { font-size: 40px; margin-bottom: 24px; color: #DEB0C6; font-family: 'IBM Plex Mono', monospace; }
+  .success-title { font-size: 22px; font-weight: 300; margin-bottom: 12px; }
+  .success-sub { font-size: 14px; color: #8B92A5; line-height: 1.7; }
+
+  /* SPINNER */
+  .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(222,176,198,0.3); border-top-color: #DEB0C6; border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 8px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a class="logo" href="https://alpenos.io">Alpen<span>/</span>OS</a>
+  <div class="eyebrow">Staff Portal · Private</div>
+</header>
+
+<nav class="progress">
+  <div class="prog-step done"   id="prog-0">00 · Access</div>
+  <div class="prog-step active" id="prog-1">01 · Identity</div>
+  <div class="prog-step"        id="prog-2">02 · Emergency</div>
+  <div class="prog-step"        id="prog-3">03 · Certifications</div>
+  <div class="prog-step"        id="prog-4">04 · Review</div>
+</nav>
+
+<main class="body">
+
+  <!-- TAB 0: ACCESS -->
+  <div class="tab" id="tab-0">
+    <div class="section-label">// Access Gate</div>
+    <h1>Staff Configuration</h1>
+    <p class="subtitle">Enter the invite code sent by your program admin to begin your profile setup.</p>
+    <div class="block">
+      <div class="block-label">// Access Required</div>
+      <div class="field">
+        <div class="label">Invite Code <span class="req">*</span></div>
+        <div class="sublabel">Your invite code is specific to your organization. It determines which program you are being onboarded into.</div>
+        <input type="text" id="access-code" placeholder="ALPEN-WW-2026" autocomplete="off" />
+        <div class="errmsg" id="access-err">Invite code is required.</div>
+      </div>
+    </div>
+    <div class="cta">
+      <div></div>
+      <button onclick="validateAccess()">Unlock →</button>
+    </div>
+  </div>
+
+  <!-- TAB 1: IDENTITY -->
+  <div class="tab active" id="tab-1">
+    <div class="section-label">// Step 01 — USERS</div>
+    <h1>Your Profile</h1>
+    <p class="subtitle">This record is private to you and your program admin. It powers your field credentials and emergency reference.</p>
+    <div class="notice">Your admin has pre-created your team directory record. This form completes the private layer — emergency contacts, certifications, and medical context.</div>
+
+    <div class="block">
+      <div class="block-label">// Login Identity</div>
+      <div class="field">
+        <div class="label">Email Address <span class="req">*</span></div>
+        <div class="sublabel">Use the email your admin invited you with. This becomes your Glide login key — it must match exactly.</div>
+        <input type="email" id="email" placeholder="you@yourorg.com" oninput="checkEmailMatch()" autocomplete="email" />
+        <div class="errmsg" id="email-err">A valid email address is required.</div>
+      </div>
+      <div class="field">
+        <div class="label">Confirm Email <span class="req">*</span></div>
+        <div class="sublabel">Re-enter to confirm. A typo here means you will not be able to log in.</div>
+        <input type="email" id="email-confirm" placeholder="you@yourorg.com" oninput="checkEmailMatch()" autocomplete="email" />
+        <div class="email-match" id="email-match"></div>
+        <div class="errmsg" id="email-confirm-err">Emails must match.</div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">// Personal Details</div>
+      <div class="row-2">
+        <div class="field">
+          <div class="label">First Name <span class="req">*</span></div>
+          <input type="text" id="fname" placeholder="First name" autocomplete="given-name" />
+          <div class="errmsg" id="fname-err">Required.</div>
+        </div>
+        <div class="field">
+          <div class="label">Last Name <span class="req">*</span></div>
+          <input type="text" id="lname" placeholder="Last name" autocomplete="family-name" />
+          <div class="errmsg" id="lname-err">Required.</div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="label">Preferred Pronouns</div>
+        <input type="text" id="pronouns" placeholder="e.g. he/him, she/her, they/them" />
+      </div>
+      <div class="field">
+        <div class="label">Direct Phone <span class="req">*</span></div>
+        <div class="sublabel">Must be reachable in the field. Used for emergency comms chain.</div>
+        <input type="tel" id="phone" placeholder="303-000-0000" autocomplete="tel" />
+        <div class="errmsg" id="phone-err">Required.</div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">// Logistics</div>
+      <div class="field">
+        <div class="label">Dietary Restrictions</div>
+        <div class="sublabel">Used for expedition meal planning. Leave blank if none.</div>
+        <input type="text" id="dietary" placeholder="e.g. vegetarian, nut allergy, gluten-free" />
+      </div>
+      <div class="field">
+        <div class="label">T-Shirt Size <span class="req">*</span></div>
+        <select id="tshirt">
+          <option value="">— Select —</option>
+          <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+        </select>
+        <div class="errmsg" id="tshirt-err">Required.</div>
+      </div>
+    </div>
+
+    <div class="cta">
+      <button class="secondary" onclick="showTab(0)">← Back</button>
+      <div class="cta-right">
+        <div class="step-count">01 / 03</div>
+        <button onclick="validateIdentity()">Next: Emergency →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: EMERGENCY -->
+  <div class="tab" id="tab-2">
+    <div class="section-label">// Step 02 — USERS</div>
+    <h1>Emergency & Medical</h1>
+    <p class="subtitle">Only accessible to your program admin. Referenced if an incident involves you in the field.</p>
+
+    <div class="block">
+      <div class="block-label">// Emergency Contact</div>
+      <div class="row-2">
+        <div class="field">
+          <div class="label">Contact Name <span class="req">*</span></div>
+          <input type="text" id="ec-name" placeholder="Full name" />
+          <div class="errmsg" id="ec-name-err">Required.</div>
+        </div>
+        <div class="field">
+          <div class="label">Relationship <span class="req">*</span></div>
+          <select id="ec-rel">
+            <option value="">— Select —</option>
+            <option>Spouse / Partner</option>
+            <option>Parent</option>
+            <option>Sibling</option>
+            <option>Friend</option>
+            <option>Other</option>
+          </select>
+          <div class="errmsg" id="ec-rel-err">Required.</div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="label">Contact Phone <span class="req">*</span></div>
+        <input type="tel" id="ec-phone" placeholder="303-000-0000" />
+        <div class="errmsg" id="ec-phone-err">Required.</div>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="block">
+      <div class="block-label">// Medical Context</div>
+      <div class="field">
+        <div class="label">Known Medical Conditions <span class="req">*</span></div>
+        <div class="sublabel">Cardiac, respiratory, neurological, musculoskeletal, etc. Enter "None" if none.</div>
+        <textarea id="medical" placeholder="e.g. Type 1 diabetic, carries insulin. Or: None."></textarea>
+        <div class="errmsg" id="medical-err">Required — enter None if not applicable.</div>
+      </div>
+      <div class="field">
+        <div class="label">Current Medications <span class="req">*</span></div>
+        <div class="sublabel">Include dosage and frequency if relevant to field response. Enter "None" if none.</div>
+        <textarea id="meds" placeholder="e.g. Metformin 500mg 2x daily. Or: None."></textarea>
+        <div class="errmsg" id="meds-err">Required — enter None if not applicable.</div>
+      </div>
+      <div class="field">
+        <div class="label">Allergies <span class="req">*</span></div>
+        <div class="sublabel">Include severity — especially bee stings, medications, food. Enter "None" if none.</div>
+        <input type="text" id="allergies" placeholder="e.g. Severe bee sting — EpiPen carried. Or: None." />
+        <div class="errmsg" id="allergies-err">Required — enter None if not applicable.</div>
+      </div>
+    </div>
+
+    <div class="cta">
+      <button class="secondary" onclick="showTab(1)">← Back</button>
+      <div class="cta-right">
+        <div class="step-count">02 / 03</div>
+        <button onclick="validateEmergency()">Next: Certifications →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: CERTIFICATIONS -->
+  <div class="tab" id="tab-3">
+    <div class="section-label">// Step 03 — USERS</div>
+    <h1>Certifications</h1>
+    <p class="subtitle">Powers the ReadyState compliance check on every op. Your admin verifies documents before your first deployment. Upload cert documents in the app after your profile is confirmed.</p>
+
+    <div class="block">
+      <div class="block-label">// Medical Certification</div>
+      <div class="cert-card">
+        <div class="cert-title">Med Cert</div>
+        <div class="field">
+          <div class="label">Certification Level <span class="req">*</span></div>
+          <div class="chips" id="med-chips">
+            <div class="chip" onclick="selectSingle(this,'med-chips')">WFA</div>
+            <div class="chip" onclick="selectSingle(this,'med-chips')">WFR</div>
+            <div class="chip" onclick="selectSingle(this,'med-chips')">WEMT</div>
+            <div class="chip" onclick="selectSingle(this,'med-chips')">EMT</div>
+            <div class="chip" onclick="selectSingle(this,'med-chips')">Paramedic</div>
+            <div class="chip" onclick="selectSingle(this,'med-chips')">CPR Only</div>
+            <div class="chip" onclick="selectSingle(this,'med-chips')">None</div>
+          </div>
+          <div class="errmsg" id="med-chip-err">Select a certification level.</div>
+        </div>
+        <div class="field">
+          <div class="label">Issuing Organization <span class="req">*</span></div>
+          <input type="text" id="med-org" placeholder="e.g. NOLS, Wilderness Medical Associates, SOLO" />
+          <div class="errmsg" id="med-org-err">Required.</div>
+        </div>
+        <div class="row-2">
+          <div class="field">
+            <div class="label">Issue Date <span class="req">*</span></div>
+            <input type="date" id="med-start" />
+            <div class="errmsg" id="med-start-err">Required.</div>
+          </div>
+          <div class="field">
+            <div class="label">Expiry Date <span class="req">*</span></div>
+            <input type="date" id="med-expire" />
+            <div class="errmsg" id="med-expire-err">Required.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">// Technical Certifications — up to two</div>
+
+      <div class="cert-card">
+        <div class="cert-title">Tech Cert 1</div>
+        <div class="field">
+          <div class="label">Certification <span class="req">*</span></div>
+          <div class="chips" id="tech1-chips">
+            <div class="chip" onclick="selectSingle(this,'tech1-chips');hideOther('tech1-other')">AMGA SPI</div>
+            <div class="chip" onclick="selectSingle(this,'tech1-chips');hideOther('tech1-other')">AMGA Rock</div>
+            <div class="chip" onclick="selectSingle(this,'tech1-chips');hideOther('tech1-other')">AMGA Alpine</div>
+            <div class="chip" onclick="selectSingle(this,'tech1-chips');hideOther('tech1-other')">ACA Paddling</div>
+            <div class="chip" onclick="selectSingle(this,'tech1-chips');hideOther('tech1-other')">Swift Water Rescue</div>
+            <div class="chip" onclick="selectSingle(this,'tech1-chips');hideOther('tech1-other')">Avalanche Pro 1</div>
+            <div class="chip" onclick="selectSingle(this,'tech1-chips');hideOther('tech1-other')">Avalanche Pro 2</div>
+            <div class="chip" onclick="selectSingle(this,'tech1-chips');hideOther('tech1-other')">Leave No Trace</div>
+            <div class="chip" onclick="selectSingle(this,'tech1-chips');hideOther('tech1-other')">None</div>
+            <div class="chip" onclick="selectSingle(this,'tech1-chips');showOther('tech1-other')">Other</div>
+          </div>
+          <div class="errmsg" id="tech1-chip-err">Select a certification.</div>
+          <div class="other-input" id="tech1-other">
+            <input type="text" id="tech1-other-val" placeholder="Specify certification name" />
+          </div>
+        </div>
+        <div class="field">
+          <div class="label">Issuing Organization <span class="req">*</span></div>
+          <input type="text" id="tech1-org" placeholder="e.g. American Mountain Guides Association" />
+          <div class="errmsg" id="tech1-org-err">Required.</div>
+        </div>
+        <div class="row-2">
+          <div class="field">
+            <div class="label">Issue Date <span class="req">*</span></div>
+            <input type="date" id="tech1-start" />
+            <div class="errmsg" id="tech1-start-err">Required.</div>
+          </div>
+          <div class="field">
+            <div class="label">Expiry Date</div>
+            <div class="sublabel" style="font-size:11px;">Leave blank if no expiry.</div>
+            <input type="date" id="tech1-expire" />
+          </div>
+        </div>
+      </div>
+
+      <div class="cert-card">
+        <div class="cert-title">Tech Cert 2 <span class="cert-optional">optional</span></div>
+        <div class="field">
+          <div class="label">Certification</div>
+          <div class="chips" id="tech2-chips">
+            <div class="chip" onclick="selectSingle(this,'tech2-chips');hideOther('tech2-other')">AMGA SPI</div>
+            <div class="chip" onclick="selectSingle(this,'tech2-chips');hideOther('tech2-other')">AMGA Rock</div>
+            <div class="chip" onclick="selectSingle(this,'tech2-chips');hideOther('tech2-other')">AMGA Alpine</div>
+            <div class="chip" onclick="selectSingle(this,'tech2-chips');hideOther('tech2-other')">ACA Paddling</div>
+            <div class="chip" onclick="selectSingle(this,'tech2-chips');hideOther('tech2-other')">Swift Water Rescue</div>
+            <div class="chip" onclick="selectSingle(this,'tech2-chips');hideOther('tech2-other')">Avalanche Pro 1</div>
+            <div class="chip" onclick="selectSingle(this,'tech2-chips');hideOther('tech2-other')">Avalanche Pro 2</div>
+            <div class="chip" onclick="selectSingle(this,'tech2-chips');hideOther('tech2-other')">Leave No Trace</div>
+            <div class="chip" onclick="selectSingle(this,'tech2-chips');showOther('tech2-other')">Other</div>
+          </div>
+          <div class="other-input" id="tech2-other">
+            <input type="text" id="tech2-other-val" placeholder="Specify certification name" />
+          </div>
+        </div>
+        <div class="field">
+          <div class="label">Issuing Organization</div>
+          <input type="text" id="tech2-org" placeholder="e.g. American Canoe Association" />
+        </div>
+        <div class="row-2">
+          <div class="field">
+            <div class="label">Issue Date</div>
+            <input type="date" id="tech2-start" />
+          </div>
+          <div class="field">
+            <div class="label">Expiry Date</div>
+            <input type="date" id="tech2-expire" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label">// Notes for Your Admin</div>
+      <div class="field">
+        <div class="label">Additional context</div>
+        <div class="sublabel">Upcoming renewals, language skills, op-type restrictions, anything relevant to your deployment.</div>
+        <textarea id="notes" placeholder="e.g. WFR renewal booked July 2026. Spanish fluent. Not available for water-based ops."></textarea>
+      </div>
+    </div>
+
+    <div class="cta">
+      <button class="secondary" onclick="showTab(2)">← Back</button>
+      <div class="cta-right">
+        <div class="step-count">03 / 03</div>
+        <button onclick="validateCerts()">Review & Submit →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4: REVIEW -->
+  <div class="tab" id="tab-4">
+    <div class="section-label">// Step 04 — Review</div>
+    <h1>Review & Submit</h1>
+    <p class="subtitle">Your admin receives this within minutes and verifies your cert documents before your first op.</p>
+    <div class="summary-card">
+      <div class="block-label" style="border-bottom-color:#333740;">// Profile Summary</div>
+      <div class="summary-row"><span>Org</span><span class="summary-cert" id="sum-org">—</span></div>
+      <div class="summary-row"><span>Email</span><span class="summary-cert" id="sum-email">—</span></div>
+      <div class="summary-row"><span>Name</span><span class="summary-val" id="sum-name">—</span></div>
+      <div class="summary-row"><span>Phone</span><span class="summary-val" id="sum-phone">—</span></div>
+      <div class="summary-row"><span>Emergency Contact</span><span class="summary-val" id="sum-ec">—</span></div>
+      <div class="summary-row"><span>Medical Conditions</span><span class="summary-val" id="sum-medical">—</span></div>
+      <div class="summary-row"><span>Allergies</span><span class="summary-val" id="sum-allergies">—</span></div>
+      <div class="summary-row"><span>Med Cert</span><span class="summary-cert" id="sum-med">—</span></div>
+      <div class="summary-row"><span>Tech Cert 1</span><span class="summary-cert" id="sum-tech1">—</span></div>
+      <div class="summary-row"><span>Tech Cert 2</span><span class="summary-cert" id="sum-tech2">—</span></div>
+      <div class="summary-row"><span>Cert documents</span><span class="summary-val">Upload in app after confirmation</span></div>
+    </div>
+    <div class="notice">Your status shows as Invited until your admin verifies your cert documents. You will receive a confirmation email once your profile is Active.</div>
+    <div class="cta">
+      <button class="secondary" onclick="showTab(3)">← Back</button>
+      <button id="submit-btn" onclick="submitForm()">Submit Profile →</button>
+    </div>
+  </div>
+
+  <!-- TAB 5: SUCCESS -->
+  <div class="tab" id="tab-5">
+    <div class="success-wrap">
+      <div class="success-hex">⬡</div>
+      <h1 class="success-title">Profile Received.</h1>
+      <p class="success-sub">Your record is in the AlpenOS staging queue.<br />Your admin will verify your certifications and confirm your profile within 24 hours.<br /><br />Questions? Contact <a href="mailto:jalen@alpenos.io" style="color:#DEB0C6;">jalen@alpenos.io</a></p>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  // ── INVITE CODE → ORG LOOKUP ─────────────────────────────
+  // Add new orgs here as you onboard them
+  const INVITE_CODES = {
+    'ALPEN-WW-2026':  { orgId: 'ORG-CO-WW-001',  orgName: "Women's Wilderness" },
+    'ALPEN-RBA-2026': { orgId: 'ORG-CO-RBA-002', orgName: 'Rockbound Adventures' },
+  };
+
+  // ── MAKE.COM WEBHOOK URL ──────────────────────────────────
+  // Replace with your actual Make.com webhook URL after setup
+  const WEBHOOK_URL = 'YOUR_MAKE_WEBHOOK_URL_HERE';
+
+  // ── STATE ─────────────────────────────────────────────────
+  let resolvedOrg = { orgId: '', orgName: '' };
+
+  // ── TAB NAVIGATION ────────────────────────────────────────
+  function showTab(n) {
+    document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === n));
+    document.querySelectorAll('.prog-step').forEach((s, i) => {
+      s.classList.toggle('active', i === n);
+      s.classList.toggle('done', i < n);
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── HELPERS ───────────────────────────────────────────────
+  function v(id) { const e = document.getElementById(id); return e ? e.value.trim() : ''; }
+  function err(id, show) { const e = document.getElementById(id); if (e) e.classList.toggle('visible', show); }
+  function markErr(id, show) {
+    const el = document.getElementById(id);
+    if (el) { el.classList.toggle('err', show); }
+  }
+  function selectSingle(el, groupId) {
+    document.querySelectorAll('#' + groupId + ' .chip').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+  function showOther(id) { document.getElementById(id).classList.add('visible'); }
+  function hideOther(id) { document.getElementById(id).classList.remove('visible'); }
+
+  function checkEmailMatch() {
+    const e = v('email'), c = v('email-confirm');
+    const m = document.getElementById('email-match');
+    if (!c) { m.className = 'email-match'; return; }
+    if (e === c) { m.className = 'email-match ok'; m.textContent = 'Emails match.'; }
+    else { m.className = 'email-match no'; m.textContent = 'Emails do not match.'; }
+  }
+
+  // ── VALIDATION ────────────────────────────────────────────
+  function validateAccess() {
+    const code = v('access-code').toUpperCase();
+    if (!code) { err('access-err', true); return; }
+    const org = INVITE_CODES[code];
+    if (!org) {
+      document.getElementById('access-err').textContent = 'Invalid code. Contact your AlpenOS advisor.';
+      err('access-err', true);
+      return;
+    }
+    err('access-err', false);
+    resolvedOrg = org;
+    showTab(1);
+  }
+
+  function validateIdentity() {
+    let ok = true;
+    const email = v('email');
+    const emailOk = email && /\S+@\S+\.\S+/.test(email);
+    err('email-err', !emailOk); if (!emailOk) ok = false;
+    const confirm = v('email-confirm');
+    const confirmOk = confirm && confirm === email;
+    err('email-confirm-err', !confirmOk); if (!confirmOk) ok = false;
+    ['fname', 'lname', 'phone'].forEach(id => {
+      const has = !!v(id); err(id + '-err', !has); if (!has) ok = false;
+    });
+    const ts = document.getElementById('tshirt').value;
+    err('tshirt-err', !ts); if (!ts) ok = false;
+    if (ok) showTab(2);
+  }
+
+  function validateEmergency() {
+    let ok = true;
+    ['ec-name', 'ec-phone', 'medical', 'meds', 'allergies'].forEach(id => {
+      const has = !!v(id); err(id + '-err', !has); if (!has) ok = false;
+    });
+    const rel = document.getElementById('ec-rel').value;
+    err('ec-rel-err', !rel); if (!rel) ok = false;
+    if (ok) showTab(3);
+  }
+
+  function validateCerts() {
+    let ok = true;
+    const medSel = document.querySelector('#med-chips .chip.selected');
+    err('med-chip-err', !medSel); if (!medSel) ok = false;
+    const medOrg = v('med-org'); err('med-org-err', !medOrg); if (!medOrg) ok = false;
+    const medStart = v('med-start'); err('med-start-err', !medStart); if (!medStart) ok = false;
+    const medExp = v('med-expire'); err('med-expire-err', !medExp); if (!medExp) ok = false;
+    const t1sel = document.querySelector('#tech1-chips .chip.selected');
+    err('tech1-chip-err', !t1sel); if (!t1sel) ok = false;
+    const t1org = v('tech1-org'); err('tech1-org-err', !t1org); if (!t1org) ok = false;
+    const t1start = v('tech1-start'); err('tech1-start-err', !t1start); if (!t1start) ok = false;
+    if (ok) buildSummary();
+  }
+
+  function buildSummary() {
+    const t1sel = document.querySelector('#tech1-chips .chip.selected');
+    const t1name = t1sel ? (t1sel.textContent === 'Other' ? (v('tech1-other-val') || 'Other') : t1sel.textContent) : '—';
+    const t2sel = document.querySelector('#tech2-chips .chip.selected');
+    const t2name = t2sel ? (t2sel.textContent === 'Other' ? (v('tech2-other-val') || 'Other') : t2sel.textContent) : 'Not provided';
+    const medSel = document.querySelector('#med-chips .chip.selected');
+    document.getElementById('sum-org').textContent = resolvedOrg.orgName || '—';
+    document.getElementById('sum-email').textContent = v('email');
+    document.getElementById('sum-name').textContent = v('fname') + ' ' + v('lname');
+    document.getElementById('sum-phone').textContent = v('phone');
+    document.getElementById('sum-ec').textContent = (v('ec-name') || '—') + ' · ' + (document.getElementById('ec-rel').value || '—');
+    const med = v('medical'); document.getElementById('sum-medical').textContent = med.length > 50 ? med.substring(0, 50) + '…' : med;
+    document.getElementById('sum-allergies').textContent = v('allergies').substring(0, 50);
+    document.getElementById('sum-med').textContent = (medSel ? medSel.textContent : '—') + (v('med-expire') ? ' · exp ' + v('med-expire') : '');
+    document.getElementById('sum-tech1').textContent = t1name + (v('tech1-expire') ? ' · exp ' + v('tech1-expire') : '');
+    document.getElementById('sum-tech2').textContent = t2name + (v('tech2-expire') ? ' · exp ' + v('tech2-expire') : '');
+    showTab(4);
+  }
+
+  // ── SUBMIT ────────────────────────────────────────────────
+  async function submitForm() {
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Submitting…';
+
+    const t1sel = document.querySelector('#tech1-chips .chip.selected');
+    const t2sel = document.querySelector('#tech2-chips .chip.selected');
+    const medSel = document.querySelector('#med-chips .chip.selected');
+
+    const payload = {
+      submitted_at:     new Date().toISOString(),
+      invite_code:      v('access-code').toUpperCase(),
+      org_id:           resolvedOrg.orgId,
+      org_name:         resolvedOrg.orgName,
+      email:            v('email'),
+      first_name:       v('fname'),
+      last_name:        v('lname'),
+      full_name:        v('fname') + ' ' + v('lname'),
+      pronouns:         v('pronouns'),
+      phone:            v('phone'),
+      dietary:          v('dietary'),
+      tshirt_size:      document.getElementById('tshirt').value,
+      ec_name:          v('ec-name'),
+      ec_relationship:  document.getElementById('ec-rel').value,
+      ec_phone:         v('ec-phone'),
+      medical_notes:    v('medical'),
+      medications:      v('meds'),
+      allergies:        v('allergies'),
+      med_cert:         medSel ? medSel.textContent : '',
+      med_cert_org:     v('med-org'),
+      med_cert_start:   v('med-start'),
+      med_cert_expire:  v('med-expire'),
+      tech_cert_1:      t1sel ? (t1sel.textContent === 'Other' ? v('tech1-other-val') : t1sel.textContent) : '',
+      tech_cert_1_org:  v('tech1-org'),
+      tech_cert_1_start:v('tech1-start'),
+      tech_cert_1_expire:v('tech1-expire'),
+      tech_cert_2:      t2sel ? (t2sel.textContent === 'Other' ? v('tech2-other-val') : t2sel.textContent) : '',
+      tech_cert_2_org:  v('tech2-org'),
+      tech_cert_2_start:v('tech2-start'),
+      tech_cert_2_expire:v('tech2-expire'),
+      notes:            v('notes'),
+      status:           'Invited',
+    };
+
+    try {
+      await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      showTab(5);
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = 'Submit Profile →';
+      alert('Submission failed. Please try again or contact jalen@alpenos.io');
+    }
+  }
+</script>
+</body>
+</html>
