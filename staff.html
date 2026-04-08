@@ -26,7 +26,7 @@
   .prog-step.done { color: #F8F9FA; }
 
   /* BODY */
-  .body { max-width: 680px; margin: 0 auto; padding: 48px 32px 80px; }
+  .body { max-width: 960px; margin: 0 auto; padding: 48px 64px 80px; }
 
   /* TYPOGRAPHY */
   .section-label { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #DEB0C6; margin-bottom: 8px; }
@@ -65,7 +65,7 @@
   textarea:focus { border-color: #DEB0C6; }
   textarea.err { border-color: #8C4633 !important; }
   .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media (max-width: 480px) { .row-2 { grid-template-columns: 1fr; } }
+  @media (max-width: 600px) { .row-2 { grid-template-columns: 1fr; } }
 
   /* CHIPS */
   .chips { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -152,7 +152,7 @@
       <div class="block-label">// Access Required</div>
       <div class="field">
         <div class="label">Invite Code <span class="req">*</span></div>
-        <div class="sublabel">Your invite code is specific to your organization. It determines which program you are being onboarded into.</div>
+        <div class="sublabel">Your invite code is specific to your organization. It determines which organization you are being onboarded into.</div>
         <input type="text" id="access-code" placeholder="ALPEN-WW-2026" autocomplete="off" />
         <div class="errmsg" id="access-err">Invite code is required.</div>
       </div>
@@ -168,13 +168,13 @@
     <div class="section-label">// Step 01 — USERS</div>
     <h1>Your Profile</h1>
     <p class="subtitle">This record is private to you and your program admin. It powers your field credentials and emergency reference.</p>
-    <div class="notice">Your admin has pre-created your team directory record. This form completes the private layer — emergency contacts, certifications, and medical context.</div>
+    <div class="notice">Your admin has set up your team directory record. This form completes the private layer — emergency contacts, certifications, and medical context.</div>
 
     <div class="block">
       <div class="block-label">// Login Identity</div>
       <div class="field">
         <div class="label">Email Address <span class="req">*</span></div>
-        <div class="sublabel">Use the email your admin invited you with. This becomes your Glide login key — it must match exactly.</div>
+        <div class="sublabel">Use the email your admin invited you with. This becomes your Alpen/OS login key — it must match exactly.</div>
         <input type="email" id="email" placeholder="you@yourorg.com" oninput="checkEmailMatch()" autocomplete="email" />
         <div class="errmsg" id="email-err">A valid email address is required.</div>
       </div>
@@ -207,7 +207,7 @@
       </div>
       <div class="field">
         <div class="label">Direct Phone <span class="req">*</span></div>
-        <div class="sublabel">Must be reachable in the field. Used for emergency comms chain.</div>
+        <div class="sublabel">Primary line. Used for emergency comms chain.</div>
         <input type="tel" id="phone" placeholder="303-000-0000" autocomplete="tel" />
         <div class="errmsg" id="phone-err">Required.</div>
       </div>
@@ -217,7 +217,7 @@
       <div class="block-label">// Logistics</div>
       <div class="field">
         <div class="label">Dietary Restrictions</div>
-        <div class="sublabel">Used for expedition meal planning. Leave blank if none.</div>
+        <div class="sublabel">Used for meal planning. Leave blank if none.</div>
         <input type="text" id="dietary" placeholder="e.g. vegetarian, nut allergy, gluten-free" />
       </div>
       <div class="field">
@@ -258,7 +258,7 @@
           <select id="ec-rel">
             <option value="">— Select —</option>
             <option>Spouse / Partner</option>
-            <option>Parent</option>
+            <option>Parent/Guardian</option>
             <option>Sibling</option>
             <option>Friend</option>
             <option>Other</option>
@@ -310,7 +310,7 @@
   <div class="tab" id="tab-3">
     <div class="section-label">// Step 03 — USERS</div>
     <h1>Certifications</h1>
-    <p class="subtitle">Powers the ReadyState compliance check on every op. Your admin verifies documents before your first deployment. Upload cert documents in the app after your profile is confirmed.</p>
+    <p class="subtitle">Your certifications are verified by your admin before your first op. You'll upload cert documents directly in the app once your profile is confirmed.</p>
 
     <div class="block">
       <div class="block-label">// Medical Certification</div>
@@ -324,7 +324,7 @@
             <div class="chip" onclick="selectSingle(this,'med-chips')">WEMT</div>
             <div class="chip" onclick="selectSingle(this,'med-chips')">EMT</div>
             <div class="chip" onclick="selectSingle(this,'med-chips')">Paramedic</div>
-            <div class="chip" onclick="selectSingle(this,'med-chips')">CPR Only</div>
+            <div class="chip" onclick="selectSingle(this,'med-chips')">CPR/FA Only</div>
             <div class="chip" onclick="selectSingle(this,'med-chips')">None</div>
           </div>
           <div class="errmsg" id="med-chip-err">Select a certification level.</div>
@@ -477,13 +477,13 @@
     <div class="success-wrap">
       <div class="success-hex">⬡</div>
       <h1 class="success-title">Profile Received.</h1>
-      <p class="success-sub">Your record is in the AlpenOS staging queue.<br />Your admin will verify your certifications and confirm your profile within 24 hours.<br /><br />Questions? Contact <a href="mailto:jalen@alpenos.io" style="color:#DEB0C6;">jalen@alpenos.io</a></p>
+      <p class="success-sub">Your record is in the Alpen/OS staging queue.<br />Your admin will verify your certifications and confirm your profile.<br /><br />Questions? Contact <a href="/cdn-cgi/l/email-protection#f19b909d949fb1909d81949f9e82df989e" style="color:#DEB0C6;"><span class="__cf_email__" data-cfemail="294348454c47694845594c47465a074046">[email&#160;protected]</span></a></p>
     </div>
   </div>
 
 </main>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // ── INVITE CODE → ORG LOOKUP ─────────────────────────────
   // Add new orgs here as you onboard them
   const INVITE_CODES = {
@@ -654,14 +654,3 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
-      });
-      showTab(5);
-    } catch (e) {
-      btn.disabled = false;
-      btn.textContent = 'Submit Profile →';
-      alert('Submission failed. Please try again or contact jalen@alpenos.io');
-    }
-  }
-</script>
-</body>
-</html>
