@@ -153,7 +153,7 @@
       <div class="field">
         <div class="label">Invite Code <span class="req">*</span></div>
         <div class="sublabel">Your invite code is specific to your organization. It determines which program you are being onboarded into.</div>
-        <input type="text" id="access-code" placeholder="enter code" autocomplete="off" />
+        <input type="text" id="access-code" placeholder="ALPEN-WW-2026" autocomplete="off" />
         <div class="errmsg" id="access-err">Invite code is required.</div>
       </div>
     </div>
@@ -658,3 +658,14 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
+      });
+      showTab(5);
+    } catch (e) {
+      btn.disabled = false;
+      btn.textContent = 'Submit Profile →';
+      alert('Submission failed. Please try again or contact your program administrator.');
+    }
+  }
+</script>
+</body>
+</html>
