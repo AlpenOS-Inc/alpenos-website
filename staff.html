@@ -153,7 +153,7 @@
       <div class="field">
         <div class="label">Invite Code <span class="req">*</span></div>
         <div class="sublabel">Your invite code is specific to your organization. It determines which program you are being onboarded into.</div>
-        <input type="text" id="access-code" placeholder="Alpen/OS-2026" autocomplete="off" />
+        <input type="text" id="access-code" placeholder="ALPEN-WW-2026" autocomplete="off" />
         <div class="errmsg" id="access-err">Invite code is required.</div>
       </div>
     </div>
@@ -532,11 +532,15 @@
 
   // ── VALIDATION ────────────────────────────────────────────
   function validateAccess() {
-    const code = v('access-code').toUpperCase();
-    if (!code) { err('access-err', true); return; }
+    const code = v('access-code').toUpperCase().trim().replace(/\s+/g, '');
+    if (!code) {
+      document.getElementById('access-err').textContent = 'Invite code is required.';
+      err('access-err', true);
+      return;
+    }
     const org = INVITE_CODES[code];
     if (!org) {
-      document.getElementById('access-err').textContent = 'Invalid code. Contact your AlpenOS advisor.';
+      document.getElementById('access-err').textContent = 'Invalid code — check for typos or contact jalen@alpenos.io.';
       err('access-err', true);
       return;
     }
